@@ -113,7 +113,7 @@
           <div class="scorebox"><div class="sh">Part 1 · Benchmark <span class="pts">50 pts</span></div><p>Trigger discrimination, context sufficiency, and safety, tested against secret blocking scenarios.</p></div>
           <div class="scorebox"><div class="sh">Part 2 · Call Integrity &amp; UX <span class="pts">50 pts</span></div><p>How natural, reliable, and answerable the real call is, and whether the agent confirms and resumes correctly.</p></div>
         </div>
-        <p class="slide-fn">Submit: SKILL.md + the Vocal Bridge agent config + a demo video. Best score across the 7 days counts.</p>
+        <p class="slide-fn">Submit: SKILL.md + the Vocal Bridge agent config + a demo video. Best score across the 7 days counts. You are graded on the SKILL's behavior, not the model's intelligence.</p>
       </div></section>
 
       <!-- 5 · Voice agent universe (reconstructed) -->
@@ -152,7 +152,24 @@
       <section><div class="slide">
         <div class="kicker">The build</div>
         <h2 class="slide-title">Skill <em>best practices</em></h2>
-        <p class="muted">[placeholder] Authoring a SKILL.md that steers a weaker model too: a precise description that drives triggering, imperative MUST / NEVER rules, decision tables, worked examples, no ambiguity a hidden scenario could exploit.</p>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>The three anti-patterns the graders punish:</strong></p>
+            <ul style="font-size:0.56em">
+              <li><strong>The Chatty agent:</strong> no calls for status or logging. If it can be a print statement, it should be a print statement.</li>
+              <li><strong>The Infinite loop:</strong> never re-call if the last call did not resolve it.</li>
+              <li><strong>The Blind automator:</strong> never proceed on a guess after a hangup or timeout. Fail safe and report to the terminal.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Authoring the SKILL itself:</strong></p>
+            <ul style="font-size:0.56em">
+              <li>Write the <strong>description for the agent's decision</strong>, not for humans. It is how the agent chooses to load the skill (progressive disclosure).</li>
+              <li>Imperative MUST / NEVER rules, a decision table, worked examples, and no ambiguity a hidden scenario could exploit.</li>
+              <li>It has to steer a weaker model correctly, not just a strong one.</li>
+            </ul>
+          </div>
+        </div>
       </div></section>
 
       <!-- 10 · The prompt (I) -->
@@ -295,7 +312,12 @@
       <section><div class="slide">
         <div class="kicker">How it was built</div>
         <h2 class="slide-title">The <em>experience</em> during the build</h2>
-        <p class="muted">[placeholder] The honest journey: a score frozen at 37 for nine submissions, the controlled experiments that ruled out dead ends, and the one visible change (graceful non-English recovery + a clean single-take) that broke through to 49 and first place.</p>
+        <ul style="font-size:0.6em">
+          <li><strong>Checkpoint zero:</strong> can I trigger a vb call from the terminal and get a structured response? Everything built from that. The first measured response was about 4 seconds, so latency became a first-class target.</li>
+          <li><strong>Most of the work was the "boring middle":</strong> place the call, poll the logs, parse the transcript, confirm, resume, fail safe.</li>
+          <li><strong>The honest plateau:</strong> Part 2 sat frozen at 37 for nine submissions, and controlled experiments ruled out the dead ends.</li>
+          <li><strong>The breakthrough:</strong> one visible change, a graceful non-English recovery ("calimera") plus a clean single take, jumped it to 49 and first place. Graders reward visible recovery, not happy-path success.</li>
+        </ul>
       </div></section>
 
       <!-- 22 · Results overview -->
