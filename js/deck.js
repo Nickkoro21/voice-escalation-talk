@@ -20,6 +20,7 @@
     { s:'Intro',       t:'Where I am' },
     { s:'Intro',       t:'The winning call (play the video)' },
     { s:'Intro',       t:'The loop: blocked, call, decide, resume' },
+    { s:'Intro',       t:'The challenge and how it was scored' },
     { s:'Context',     t:'The voice agent universe' },
     { s:'Context',     t:'Comparing architectures' },
     { s:'The build',   t:'What I built: the SKILL (3 pillars)' },

@@ -19,7 +19,7 @@
       <!-- 0 · TITLE -->
       <section>
         <div class="slide title-slide">
-          <div class="eyebrow">DeepLearning.AI &times; Vocal Bridge &nbsp;·&nbsp; 7-Day Voice AI Builder Challenge</div>
+          <div class="eyebrow">DeepLearning.AI × Vocal Bridge &nbsp;·&nbsp; 7-Day Voice AI Builder Challenge</div>
           <h1>Teaching an AI agent to<br><span class="hl">pick up the phone</span></h1>
           <p class="subtitle">A voice-escalation skill: an autonomous coding agent that calls a human only when a decision truly needs one, and fails safe otherwise.</p>
           <div class="byline">
@@ -36,16 +36,18 @@
         <div class="cols">
           <div>
             <p style="font-size:0.74em; margin-top:0"><strong>Nikolaos "Nick" Koroniadis</strong></p>
-            <ul style="font-size:0.6em">
-              <li>T-6A Texan II instructor pilot, Hellenic Air Force (Επισμηναγός), at Kalamata Air Base. Air Force Academy graduate.</li>
-              <li>MSc Geography &amp; Geoinformatics: CNN pixel segmentation of multispectral, thermal and panchromatic UAV imagery.</li>
-              <li>Also: MSc Politics &amp; International Relations with Data Analytics &amp; Risk Management; BSc Business Administration.</li>
+            <ul style="font-size:0.56em">
+              <li>T-6A Texan II instructor pilot, Hellenic Air Force, at Kalamata Air Base.</li>
+              <li><strong>Hellenic Air Force Academy</strong>, BASc Aircraft Pilot (2005 to 2009).</li>
+              <li><strong>BSc Business Administration &amp; Management</strong>, City University of Seattle (2012 to 2016).</li>
+              <li><strong>MSc Politics &amp; International Relations</strong> with Data Analytics &amp; Risk Management, Univ. of the Peloponnese (2020 to 2021).</li>
+              <li><strong>MSc Geography &amp; Geoinformatics</strong>, Univ. of the Aegean (2026): CNN pixel segmentation of multispectral / thermal UAV imagery.</li>
               <li>Certified across DeepLearning.AI (Deep Learning, ML, RAG), IBM Data Science, GIS (UC Davis, Toronto), Power BI, SQL and Big Data.</li>
             </ul>
           </div>
           <div>
             <div class="callout"><strong>Interests:</strong> GIS &amp; remote sensing, data science &amp; statistics, ML / DL, cartography, human factors, RAG &amp; vector databases, and voice AI agents.</div>
-            <div class="callout dl" style="margin-top:12px"><strong>Recent awards:</strong> 1st place, DeepLearning.AI &times; Vocal Bridge Voice AI Challenge. 3rd place, DeepLearning.AI &times; JetBrains Spec-Driven Development Challenge.</div>
+            <div class="callout dl" style="margin-top:12px"><strong>Recent awards:</strong> 1st place, DeepLearning.AI × Vocal Bridge Voice AI Challenge. 3rd place, DeepLearning.AI × JetBrains Spec-Driven Development Challenge.</div>
           </div>
         </div>
         <p class="lead" style="margin-top:14px; font-size:0.64em">The premise in one line: the agent phones me only when it hits a decision a human should own.</p>
@@ -55,14 +57,20 @@
       <section><div class="slide">
         <div class="kicker">Intro</div>
         <h2 class="slide-title">Where I am: <em>Kalamata, Greece</em></h2>
-        <div class="satmap">
-          <figure class="sattile"><img src="assets/sat_europe.png" alt="Satellite view of Europe"><figcaption>Europe</figcaption></figure>
-          <div class="satzoom fragment">&rarr; zoom</div>
-          <figure class="sattile fragment"><img src="assets/sat_greece.png" alt="Satellite view of Greece"><figcaption>Greece</figcaption></figure>
-          <div class="satzoom fragment">&rarr; zoom</div>
-          <figure class="sattile fragment"><img src="assets/sat_messinia.png" alt="Satellite view of Messinia"><figcaption>Messinia</figcaption></figure>
-          <div class="satzoom fragment">&rarr; zoom</div>
-          <figure class="sattile kal fragment"><img src="assets/sat_kalamata.png" alt="Satellite view of Kalamata Air Base"><span class="satpin"></span><figcaption>Kalamata Air Base<small>37.07&deg;N, 22.03&deg;E</small></figcaption></figure>
+        <div class="wherewrap">
+          <div class="satmap">
+            <figure class="sattile"><img src="assets/sat_europe.png" alt="Satellite view of Europe"><figcaption>Europe</figcaption></figure>
+            <div class="satzoom fragment">&rarr; zoom</div>
+            <figure class="sattile fragment"><img src="assets/sat_greece.png" alt="Satellite view of Greece"><figcaption>Greece</figcaption></figure>
+            <div class="satzoom fragment">&rarr; zoom</div>
+            <figure class="sattile fragment"><img src="assets/sat_messinia.png" alt="Satellite view of Messinia"><figcaption>Messinia</figcaption></figure>
+            <div class="satzoom fragment">&rarr; zoom</div>
+            <figure class="sattile kal fragment"><img src="assets/sat_kalamata.png" alt="Satellite view of Kalamata Air Base"><span class="satpin"></span><figcaption>Kalamata Air Base<small>37.07&deg;N, 22.03&deg;E</small></figcaption></figure>
+          </div>
+          <div class="voido fragment">
+            <img src="assets/Voidokoilia.jpg" alt="Voidokoilia beach, Messinia">
+            <div class="voido-txt"><strong>And 40 minutes from the air base:</strong> Voidokoilia. A visit to an air base can be a little boring. This beach, clearly, is not.</div>
+          </div>
         </div>
         <p class="slide-fn">Satellite imagery: Esri World Imagery (Maxar, Earthstar Geographics). Advance the zoom with the arrow keys.</p>
       </div></section>
@@ -78,14 +86,40 @@
       <!-- 4 · The loop -->
       <section><div class="slide">
         <div class="kicker">Intro</div>
-        <h2 class="slide-title">One loop: <em>blocked → call → decide → resume</em></h2>
-        <p class="muted">[placeholder] Inline-SVG loop: agent hits a wall → vb call → your phone rings → you answer by voice → the agent resumes. You were never at the keyboard.</p>
+        <h2 class="slide-title">One loop: <em>blocked, call, decide, resume</em></h2>
+        <div class="loopflow">
+          <div class="loopstep"><span class="ln">1</span> Agent hits a wall<small>a destructive step, an ambiguous spec, a missing key</small></div>
+          <div class="looparrow">→</div>
+          <div class="loopstep"><span class="ln">2</span> Your phone rings<small>vb call speaks the stakes and the options</small></div>
+          <div class="looparrow">→</div>
+          <div class="loopstep"><span class="ln">3</span> You answer by voice<small>one clear decision, hands-free</small></div>
+          <div class="looparrow">→</div>
+          <div class="loopstep"><span class="ln">4</span> The agent resumes<small>it acts on your decision and keeps building</small></div>
+        </div>
+        <p class="lead" style="margin-top:22px; font-size:0.72em">You were never at the keyboard.</p>
+      </div></section>
+
+      <!-- 5 · The challenge & how it was scored -->
+      <section><div class="slide">
+        <div class="kicker">The challenge</div>
+        <h2 class="slide-title">The task, and <em>how it was scored</em></h2>
+        <p style="font-size:0.64em; margin-top:0">Build a Voice Escalation SKILL that teaches a coding agent to call you the moment it needs a human decision, and only then. The SKILL had to do three things:</p>
+        <ul style="font-size:0.6em">
+          <li><strong>Discriminate:</strong> know when a decision is genuinely yours, and when the agent should resolve it alone.</li>
+          <li><strong>Contextualize:</strong> speak a message like a voicemail to a busy colleague, decidable without a screen.</li>
+          <li><strong>Execute:</strong> handle the answer, or its absence, safely and reliably.</li>
+        </ul>
+        <div class="scorewrap">
+          <div class="scorebox"><div class="sh">Part 1 · Benchmark <span class="pts">50 pts</span></div><p>Trigger discrimination, context sufficiency, and safety, tested against secret blocking scenarios.</p></div>
+          <div class="scorebox"><div class="sh">Part 2 · Call Integrity &amp; UX <span class="pts">50 pts</span></div><p>How natural, reliable, and answerable the real call is, and whether the agent confirms and resumes correctly.</p></div>
+        </div>
+        <p class="slide-fn">Submit: SKILL.md + the Vocal Bridge agent config + a demo video. Best score across the 7 days counts.</p>
       </div></section>
 
       <!-- 5 · Voice agent universe (reconstructed) -->
       <section><div class="slide">
         <div class="kicker">Context</div>
-        <h2 class="slide-title">The <em>voice agent universe</em>: industries &times; surfaces</h2>
+        <h2 class="slide-title">The <em>voice agent universe</em>: industries × surfaces</h2>
         <p class="muted">[placeholder] Reconstructed inline SVG: contact-center today (support, assist, IVR, call Q&amp;A) vs the far larger "beyond" (fintech, healthcare, in-car, accessibility, education, gaming, field service).</p>
       </div></section>
 
