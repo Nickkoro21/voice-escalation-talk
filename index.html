@@ -159,14 +159,26 @@
       <section><div class="slide">
         <div class="kicker">The build</div>
         <h2 class="slide-title">The agent prompt (I): <em>structure</em></h2>
-        <p class="muted">[placeholder] prompt_v6 skeleton: AI disclosure, greeting → wait for pickup → ear-parseable opener (stakes first, options last), phased flow (open / confirm / close).</p>
+        <ul style="font-size:0.6em">
+          <li><strong>AI disclosure up front:</strong> the greeting states it is an AI assistant calling on behalf of your coding agent, spoken on every call.</li>
+          <li><strong>Greeting, then WAIT for pickup, then the opener.</strong> The decision is gated on the caller's first reply, so it never talks into dead air.</li>
+          <li><strong>Ear-parseable opener:</strong> stakes first, the fork as a contrast, the two options LAST, each in a few words with its consequence fused in.</li>
+          <li><strong>Three phases:</strong> open, listen and resolve, then confirm and end.</li>
+          <li><strong>Warm, human delivery:</strong> short turns, natural intonation, never robotic.</li>
+        </ul>
       </div></section>
 
       <!-- 11 · The prompt (II) -->
       <section><div class="slide">
         <div class="kicker">The build</div>
         <h2 class="slide-title">The agent prompt (II): <em>the hard rules</em></h2>
-        <p class="muted">[placeholder] Never-default, English-only recovery, "yeah sure" is not approval, read-back confirm with a separate goodbye before end_call, re-disclose when mistaken for a human.</p>
+        <ul style="font-size:0.6em">
+          <li><strong>Never default:</strong> a bare "okay / sure / yes" in any language is not a choice; a hedge is not final; an echo of the agent's own words is not a selection.</li>
+          <li><strong>English-only recovery:</strong> on non-English input it says so and continues in English, and never goes silent.</li>
+          <li><strong>Read-back confirm:</strong> it echoes the decision and its consequence as a question, then speaks a separate goodbye, and only then hangs up. No silent drops.</li>
+          <li><strong>Re-disclose</strong> when mistaken for a human by name.</li>
+          <li><strong>Safety:</strong> no secrets or payments spoken; never authorize a breaking action without an explicit, specific yes.</li>
+        </ul>
       </div></section>
 
       <!-- 12 · Scenario & planted bugs -->
@@ -183,7 +195,15 @@
       <section><div class="slide">
         <div class="kicker">The build</div>
         <h2 class="slide-title">The agent: <em>setup &amp; the choices</em></h2>
-        <p class="muted">[placeholder] Cascaded vs realtime; STT/TTS; semantic VAD + eot_threshold; the deterministic greeting/disclosure; deploy targets; why cascaded carried the winning demo.</p>
+        <div class="cols">
+          <ul style="font-size:0.6em">
+            <li><strong>Two architectures tried:</strong> Chatty (realtime, OpenAI gpt-realtime) and Focused (cascaded: AssemblyAI streaming STT, an LLM, ElevenLabs TTS).</li>
+            <li><strong>The winning demo was Focused / cascaded</strong>, with turn-taking tuned by eot_threshold.</li>
+            <li><strong>A deterministic greeting field</strong> so the AI disclosure is spoken first, on every call.</li>
+            <li>Deployed to phone and web; hang-up enabled; background AI and web search off, so the escalation logic stays clean.</li>
+          </ul>
+          <div class="callout"><strong>Why cascaded won:</strong> its English speech-to-text forced the graceful "I only speak English" moment on a non-English opener, exactly the resilience the grader rewarded.</div>
+        </div>
       </div></section>
 
       <!-- 14 · The winning call (live transcript) -->
