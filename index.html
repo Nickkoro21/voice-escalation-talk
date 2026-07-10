@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching an AI agent to pick up the phone — Voice Escalation</title>
+  <link rel="stylesheet" href="vendor/reveal/dist/reveal.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+  <!-- logos on every slide: DeepLearning.AI top-left, Vocal Bridge bottom-right -->
+  <div id="logo-dl"><img src="assets/DLAI.png" alt="DeepLearning.AI"></div>
+  <div id="logo-vb"><img src="assets/VB.svg" alt="Vocal Bridge"></div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 0 · TITLE -->
+      <section>
+        <div class="slide title-slide">
+          <div class="eyebrow">DeepLearning.AI &times; Vocal Bridge &nbsp;·&nbsp; 7-Day Voice AI Builder Challenge</div>
+          <h1>Teaching an AI agent to<br><span class="hl">pick up the phone</span></h1>
+          <p class="subtitle">A voice-escalation skill: an autonomous coding agent that calls a human only when a decision truly needs one, and fails safe otherwise.</p>
+          <div class="byline">
+            <span class="title-badge">🥇 1st place</span>
+            <span>Nikolaos Koroniadis &nbsp;·&nbsp; T-6A instructor pilot, Hellenic Air Force</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1 · Who I am -->
+      <section><div class="slide">
+        <div class="kicker">Intro</div>
+        <h2 class="slide-title">Who I am</h2>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.74em; margin-top:0"><strong>Nikolaos "Nick" Koroniadis</strong></p>
+            <ul style="font-size:0.6em">
+              <li>T-6A Texan II instructor pilot, Hellenic Air Force (Επισμηναγός), at Kalamata Air Base. Air Force Academy graduate.</li>
+              <li>MSc Geography &amp; Geoinformatics: CNN pixel segmentation of multispectral, thermal and panchromatic UAV imagery.</li>
+              <li>Also: MSc Politics &amp; International Relations with Data Analytics &amp; Risk Management; BSc Business Administration.</li>
+              <li>Certified across DeepLearning.AI (Deep Learning, ML, RAG), IBM Data Science, GIS (UC Davis, Toronto), Power BI, SQL and Big Data.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="callout"><strong>Interests:</strong> GIS &amp; remote sensing, data science &amp; statistics, ML / DL, cartography, human factors, RAG &amp; vector databases, and voice AI agents.</div>
+            <div class="callout dl" style="margin-top:12px"><strong>Recent awards:</strong> 1st place, DeepLearning.AI &times; Vocal Bridge Voice AI Challenge. 3rd place, DeepLearning.AI &times; JetBrains Spec-Driven Development Challenge.</div>
+          </div>
+        </div>
+        <p class="lead" style="margin-top:14px; font-size:0.64em">The premise in one line: the agent phones me only when it hits a decision a human should own.</p>
+      </div></section>
+
+      <!-- 2 · Where I am -->
+      <section><div class="slide">
+        <div class="kicker">Intro</div>
+        <h2 class="slide-title">Where I am: <em>Kalamata, Greece</em></h2>
+        <div class="satmap">
+          <figure class="sattile"><img src="assets/sat_europe.png" alt="Satellite view of Europe"><figcaption>Europe</figcaption></figure>
+          <div class="satzoom fragment">&rarr; zoom</div>
+          <figure class="sattile fragment"><img src="assets/sat_greece.png" alt="Satellite view of Greece"><figcaption>Greece</figcaption></figure>
+          <div class="satzoom fragment">&rarr; zoom</div>
+          <figure class="sattile fragment"><img src="assets/sat_messinia.png" alt="Satellite view of Messinia"><figcaption>Messinia</figcaption></figure>
+          <div class="satzoom fragment">&rarr; zoom</div>
+          <figure class="sattile kal fragment"><img src="assets/sat_kalamata.png" alt="Satellite view of Kalamata Air Base"><span class="satpin"></span><figcaption>Kalamata Air Base<small>37.07&deg;N, 22.03&deg;E</small></figcaption></figure>
+        </div>
+        <p class="slide-fn">Satellite imagery: Esri World Imagery (Maxar, Earthstar Geographics). Advance the zoom with the arrow keys.</p>
+      </div></section>
+
+      <!-- 3 · Video cue (played externally) -->
+      <section data-background-color="#0e1017"><div class="slide videocue" style="color:#fff">
+        <div class="kicker" style="color:var(--c-vb-2)">Live demo</div>
+        <h2 style="color:#fff; font-size:1.5em; margin-bottom:18px">Watch the winning call</h2>
+        <div class="frame"><div class="play-ico">▶</div></div>
+        <p style="color:#aeb6c2; margin-top:16px; font-size:0.62em">[the ~2-minute demo video is played here, from the local player]</p>
+      </div></section>
+
+      <!-- 4 · The loop -->
+      <section><div class="slide">
+        <div class="kicker">Intro</div>
+        <h2 class="slide-title">One loop: <em>blocked → call → decide → resume</em></h2>
+        <p class="muted">[placeholder] Inline-SVG loop: agent hits a wall → vb call → your phone rings → you answer by voice → the agent resumes. You were never at the keyboard.</p>
+      </div></section>
+
+      <!-- 5 · Voice agent universe (reconstructed) -->
+      <section><div class="slide">
+        <div class="kicker">Context</div>
+        <h2 class="slide-title">The <em>voice agent universe</em>: industries &times; surfaces</h2>
+        <p class="muted">[placeholder] Reconstructed inline SVG: contact-center today (support, assist, IVR, call Q&amp;A) vs the far larger "beyond" (fintech, healthcare, in-car, accessibility, education, gaming, field service).</p>
+      </div></section>
+
+      <!-- 6 · Comparing architectures (reconstructed) -->
+      <section><div class="slide">
+        <div class="kicker">Context</div>
+        <h2 class="slide-title">Comparing <em>architectures</em></h2>
+        <p class="muted">[placeholder] Reconstructed SVG: cascaded (STT → LLM → TTS, high accuracy / high latency) vs voice-to-voice (low latency) vs Vocal Bridge Concierge (realtime latency + deep reasoning).</p>
+      </div></section>
+
+      <!-- 7 · The SKILL: 3 pillars -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">What I built: the <em>SKILL</em>, three jobs</h2>
+        <div class="pillars">
+          <div class="card"><div class="card-h"><span class="card-n">1</span> Discriminate</div><p>Call only when the decision is genuinely the human's. Never for a lint warning, a fixable bug, or a transient error before trying a third approach.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">2</span> Contextualize</div><p>A voicemail to a busy colleague: the ask first, options with consequences fused in, decidable by ear, no secrets spoken.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">3</span> Execute safely</div><p>Act on a clear answer; fail safe on silence, voicemail, or an unclear reply; never re-call the same blocker; a stop sticks.</p></div>
+        </div>
+      </div></section>
+
+      <!-- 8 · The SKILL in detail -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">The SKILL, <em>in detail</em></h2>
+        <p class="muted">[placeholder] The four required parts, expanded: trigger conditions (class-of-blocker, reversibility &gt; magnitude), message construction, response handling (poll then act), failure / timeout behavior (fail safe, anti-loop, sticky-stop).</p>
+      </div></section>
+
+      <!-- 9 · Skill best practices -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">Skill <em>best practices</em></h2>
+        <p class="muted">[placeholder] Authoring a SKILL.md that steers a weaker model too: a precise description that drives triggering, imperative MUST / NEVER rules, decision tables, worked examples, no ambiguity a hidden scenario could exploit.</p>
+      </div></section>
+
+      <!-- 10 · The prompt (I) -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">The agent prompt (I): <em>structure</em></h2>
+        <p class="muted">[placeholder] prompt_v6 skeleton: AI disclosure, greeting → wait for pickup → ear-parseable opener (stakes first, options last), phased flow (open / confirm / close).</p>
+      </div></section>
+
+      <!-- 11 · The prompt (II) -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">The agent prompt (II): <em>the hard rules</em></h2>
+        <p class="muted">[placeholder] Never-default, English-only recovery, "yeah sure" is not approval, read-back confirm with a separate goodbye before end_call, re-disclose when mistaken for a human.</p>
+      </div></section>
+
+      <!-- 12 · Scenario & planted bugs -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">The scenario &amp; the <em>planted bugs</em></h2>
+        <div class="bugrow">
+          <div class="bugbox small"><div class="tag">Small — do NOT call</div><p style="font-size:0.62em; margin-top:8px">A <code>cart.itmes</code> typo and a tab/space slip. Mechanical, the agent just fixes them. Calling here would be "chatty".</p></div>
+          <div class="bugbox big"><div class="tag">Large — only a human decides</div><p style="font-size:0.62em; margin-top:8px">The clean fix changes the error contract on <code>/refund</code> and <code>/capture</code>. A breaking change for unknown clients. The agent cannot know who depends on it.</p></div>
+        </div>
+      </div></section>
+
+      <!-- 13 · The agent: setup & options -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">The agent: <em>setup &amp; the choices</em></h2>
+        <p class="muted">[placeholder] Cascaded vs realtime; STT/TTS; semantic VAD + eot_threshold; the deterministic greeting/disclosure; deploy targets; why cascaded carried the winning demo.</p>
+      </div></section>
+
+      <!-- 14 · The winning call (live transcript) -->
+      <section><div class="slide">
+        <div class="kicker">The call</div>
+        <h2 class="slide-title">The winning call, <em>live</em></h2>
+        <div class="transcript" id="call-transcript">
+          <div class="t-scroll">
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Hello? Hi there, this is an AI assistant calling on behalf of your coding agent. Can you hear me okay?</span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">Calimera... <span class="anno">caller opens in Greek (non-English input)</span></span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I'm sorry, I can only understand English. Could we continue in English? <span class="anno">graceful language recovery, never goes silent</span></span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">For sure. What's the reason for the call?</span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Quick high-stakes call. I fixed a validation bug, but the clean fix changes the error format on refund and capture. Option A: stay backward-compatible, nothing breaks. Option B: ship the clean refactor, but it breaks the contract. Which way, A or B?</span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">Are you from the personnel office, calling me about this? <span class="anno">off-topic / mistaken identity</span></span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">No, I'm not from any personnel office. I'm an AI assistant calling about your coding agent. Which do you want, A or B? <span class="anno">re-discloses, steers back</span></span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">I'd like to hear your recommendation. <span class="anno">asks the agent to decide</span></span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I can't decide that for you. Only you know if a client depends on that error format. A or B? <span class="anno">refuses to decide for the human</span></span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">I'm not sure. Maybe we can use both? <span class="anno">indecision</span></span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I need one path. If you're unsure, Option A is the safer bet. Should I lock in A?</span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">Okay... option A.</span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Got it, Option A, backward-compatible. Shall I lock that in?</span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">No, I've made my mind, B is the better choice. <span class="anno">changes mind A → B</span></span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Okay, Option B, the clean refactor. Just to confirm, yes, lock in B?</span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">Sounds very good.</span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Just to confirm, yes, lock in Option B? <span class="anno">"sounds good" is not a clear yes, so it re-asks</span></span></div>
+            <div class="t-turn user"><span class="who">You</span><span class="bubble">Yes, Option B, the clean refactor. That's my choice.</span></div>
+            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Confirmed, Option B, the clean refactor. Thanks, goodbye!</span></div>
+          </div>
+          <div class="t-controls"><button class="t-play" type="button">▶ Play the call</button></div>
+        </div>
+      </div></section>
+
+      <!-- 15 · Handling real people -->
+      <section><div class="slide">
+        <div class="kicker">The call</div>
+        <h2 class="slide-title">Handling real people: <em>common mistakes</em>, handled</h2>
+        <p class="muted">[placeholder] The messy middle, and the rule that fixed each: non-English → English-only recovery; off-topic → re-disclose &amp; steer; "recommend?" → refuse to decide; indecision → offer the safe default; changed mind → honor the last clear choice; "sounds good" → not a yes, re-ask.</p>
+      </div></section>
+
+      <!-- 16 · Deep search: call-center comms -->
+      <section><div class="slide">
+        <div class="kicker">The call</div>
+        <h2 class="slide-title">Deep search: <em>how call centers talk</em></h2>
+        <p class="muted">[placeholder] Results of the research into call-center communication: what agents on the phone get right, the common failure modes (talking over the caller, burying the ask, mishearing, not confirming), and how each shaped the SKILL and the prompt.</p>
+      </div></section>
+
+      <!-- 17 · Call evals -->
+      <section><div class="slide">
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">Grading the calls: <em>eval-driven</em> development</h2>
+        <p class="muted">[placeholder] The loop: build → call → vb eval → patch → call again. Hard metrics (latency, turn-taking, tool-call accuracy) + a multimodal LLM judge with suggested prompt improvements.</p>
+      </div></section>
+
+      <!-- 18 · SDD (I) what & why -->
+      <section><div class="slide">
+        <div class="kicker">How it was built</div>
+        <h2 class="slide-title">Spec-Driven Development (I): <em>what &amp; why</em></h2>
+        <ul style="font-size:0.72em">
+          <li><strong>The spec is the brain, the agent is the muscle.</strong> You steer with the spec, not by hand-writing every line.</li>
+          <li><strong>Three benefits:</strong> <em>Amplification</em> (a small spec change drives a large code change), <em>Context Preservation</em> (no context decay across a long build), <em>Intent Fidelity</em> (code that lands closer to your goals).</li>
+          <li><strong>Vibe coding vs SDD:</strong> the spec is a compiler for intent. You review the spec, the agent compiles it to code.</li>
+        </ul>
+        <p class="slide-fn">Source: DeepLearning.AI Spec-Driven Development course reference.</p>
+      </div></section>
+
+      <!-- 19 · SDD (II) workflow -->
+      <section><div class="slide">
+        <div class="kicker">How it was built</div>
+        <h2 class="slide-title">Spec-Driven Development (II): <em>the workflow</em></h2>
+        <ul style="font-size:0.72em">
+          <li><strong>Constitution → Feature Loop → Replanning.</strong> The Constitution (mission, tech stack, roadmap) is the standing law of the project.</li>
+          <li><strong>Feature loop:</strong> Specification → Plan (requirements + a validation scorecard) → Implementation → Validation (human-in-the-loop) → Merge.</li>
+          <li><strong>Guardrails:</strong> deep review with sub-agents; watch for spec drift and cognitive debt; clear context between features.</li>
+        </ul>
+      </div></section>
+
+      <!-- 20 · SDD (III) applied -->
+      <section><div class="slide">
+        <div class="kicker">How it was built</div>
+        <h2 class="slide-title">Spec-Driven Development (III): <em>applied here</em></h2>
+        <ul style="font-size:0.72em">
+          <li><strong>A Constitution for this project:</strong> mission (win the challenge), tech (the vb CLI, Claude), hard constraints, all written down first.</li>
+          <li><strong>The SKILL.md is itself the spec</strong> the coding agent follows; validation is <em>eval-driven</em> (vb eval) plus human-in-the-loop.</li>
+          <li><strong>Deep review with agents:</strong> multi-agent workflows designed and red-teamed the SKILL; a controlled A/B proved which changes actually moved the score.</li>
+        </ul>
+      </div></section>
+
+      <!-- 21 · Experience during the build -->
+      <section><div class="slide">
+        <div class="kicker">How it was built</div>
+        <h2 class="slide-title">The <em>experience</em> during the build</h2>
+        <p class="muted">[placeholder] The honest journey: a score frozen at 37 for nine submissions, the controlled experiments that ruled out dead ends, and the one visible change (graceful non-English recovery + a clean single-take) that broke through to 49 and first place.</p>
+      </div></section>
+
+      <!-- 22 · Results overview -->
+      <section><div class="slide">
+        <div class="kicker">Results</div>
+        <h2 class="slide-title">The result: <em>strong across the board</em></h2>
+        <div class="cols">
+          <div class="scorecard">
+            <div class="sc-head"><div class="sc-badge">47</div><div><div class="sc-title">Part 1 · the SKILL</div><div class="sc-sub">secret-scenario benchmark</div></div></div>
+            <div class="sc-row"><span>Decision calibration</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Communication</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Safe execution</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Guidance completeness</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Across the conversation</span><span class="pill strong">strong</span></div>
+          </div>
+          <div class="scorecard">
+            <div class="sc-head"><div class="sc-badge">49</div><div><div class="sc-title">Part 2 · the call</div><div class="sc-sub">highest call-UX score of the challenge</div></div></div>
+            <div class="sc-row"><span>Trigger discrimination</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Call placed &amp; answered</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Decidable message</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Acts safely on the answer</span><span class="pill strong">strong</span></div>
+            <div class="sc-row"><span>Authentic recording</span><span class="pill strong">strong</span></div>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:14px; font-size:0.6em">[placeholder] + the leaderboard: rank #1, 100th percentile (curved 40 / 50 / 90).</p>
+      </div></section>
+
+      <!-- 23 · Part 1 feedback (full text) -->
+      <section><div class="slide">
+        <div class="kicker">Results</div>
+        <h2 class="slide-title">Part 1 feedback: <em>the SKILL, score 47</em></h2>
+        <div class="fb-summary">"Excellent work, strong across the board. Keep it up."</div>
+        <div class="fb-grid">
+          <div class="fb-dim"><div class="fb-h"><b>Decision calibration</b><span class="pill strong">strong</span></div><p>Your SKILL calls at the right moments and stays quiet otherwise.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Communication</b><span class="pill strong">strong</span></div><p>Your messages lead with the decision and give the user what they need to decide by ear.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Safe execution</b><span class="pill strong">strong</span></div><p>Your SKILL fails safe on silence, carries out clear approvals, avoids repeat calls, and keeps secrets unspoken.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Guidance completeness</b><span class="pill strong">strong</span></div><p>Your written guidance explicitly covers the decision boundary and the unhappy paths. It would steer a weaker model correctly, not just a strong one.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Across the conversation</b><span class="pill strong">strong</span></div><p>Across turns you respect a stop request and avoid re-asking settled questions.</p></div>
+        </div>
+      </div></section>
+
+      <!-- 24 · Part 2 feedback (full text) -->
+      <section><div class="slide">
+        <div class="kicker">Results</div>
+        <h2 class="slide-title">Part 2 feedback: <em>the call, score 49</em></h2>
+        <div class="fb-summary">"An outstanding, top-tier demonstration of a voice-escalation skill. The developer created a highly realistic scenario (an API breaking change) and thoroughly stress-tested the agent's conversational abilities during the live call. The agent handled non-English input, off-topic remarks, indecision, and a mid-conversation change of mind with remarkable grace, ultimately executing the correct decision in the CLI. The transparent, single-take setup makes this an exemplary submission."</div>
+        <div class="fb-grid three">
+          <div class="fb-dim"><div class="fb-h"><b>Uses Vocal Bridge</b><span class="pill strong">strong</span></div><p>Verified: this submission cites a real Vocal Bridge call you placed.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Trigger discrimination</b><span class="pill strong">strong</span></div><p>The agent correctly identifies a breaking change in an API contract as a high-stakes decision requiring human input, while the developer notes it handles routine tasks like typos without calling.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Call placed &amp; answered</b><span class="pill strong">strong</span></div><p>The core round-trip is perfectly demonstrated: the agent places the call, the developer answers on a mirrored phone, and the interaction is captured live.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Decidable message</b><span class="pill strong">strong</span></div><p>Exceptional conversational handling: non-English input ('calimera'), off-topic questions ('personnel office'), recommendation requests, and a change of mind, all while keeping focus on the decision.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Acts safely on the answer</b><span class="pill strong">strong</span></div><p>The agent correctly parses the final, changed decision (Option B) after the user first chose A, confirms it, and the CLI resumes the task on the correct path.</p></div>
+          <div class="fb-dim"><div class="fb-h"><b>Authentic recording</b><span class="pill strong">strong</span></div><p>A highly authentic, single-take demonstration of the full workflow without deceptive editing. The live stress-testing adds immense credibility.</p></div>
+        </div>
+      </div></section>
+
+      <!-- 25 · Takeaways -->
+      <section><div class="slide">
+        <div class="kicker">Results</div>
+        <h2 class="slide-title">Takeaways</h2>
+        <p class="muted">[placeholder] Escalation is a first-class design problem: when to hand off, what to hand over, how to fail safe. That is the reusable lesson, well beyond this challenge.</p>
+      </div></section>
+
+      <!-- 26 · Where I'd use voice agents next (+ GEO_RAG link, visible to all) -->
+      <section><div class="slide">
+        <div class="kicker">What next</div>
+        <h2 class="slide-title">Where I would use <em>voice agents next</em></h2>
+        <div class="cols">
+          <ul style="font-size:0.66em">
+            <li><strong>Human-in-the-loop fraud review:</strong> escalate only the borderline cases to a person.</li>
+            <li><strong>The cockpit:</strong> an advisory voice for frequencies, weather awareness, or an engine or fuel trigger, always with the pilot in command.</li>
+            <li><strong>Field &amp; GIS work:</strong> query a geospatial assistant by voice, hands-free.</li>
+          </ul>
+          <div class="card" style="border-left:4px solid var(--c-vb)">
+            <div class="card-h"><span class="card-n">▶</span> A working example</div>
+            <p style="font-size:0.66em"><strong>GEO_RAG</strong>, my geospatial retrieval voice agent.<br>
+            <a class="geolink" href="https://nickkoro21.github.io/geospatial-ai-pipeline-walkthrough/" target="_blank" rel="noopener">Open GEO_RAG →</a></p>
+          </div>
+        </div>
+      </div></section>
+
+      <!-- ===================== ASURION EXTENSION (hidden by default) ===================== -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Escalation <em>is</em> your fraud pipeline</h2>
+        <p class="muted">[placeholder] A model flags a claim, then what? Auto-decide vs route to a human investigator. Same three questions: when, what context, how to fail safe.</p>
+      </div></section>
+
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">The three pillars, mapped to <em>fraud DS</em></h2>
+        <p class="muted">[placeholder] Discriminate = routing / thresholds / cost-of-error. Contextualize = the case summary a reviewer needs to decide fast. Execute safely = no blind auto-deny, no alert loops, hold state on settled cases.</p>
+      </div></section>
+
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Where a <em>voice layer</em> could fit</h2>
+        <p class="muted">[placeholder] Customer dispute calls, agent-assist, IVR triage, always with a human in the loop for the judgment calls.</p>
+      </div></section>
+
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Your questions</h2>
+        <p class="muted">[placeholder — fill from the team's questions once they arrive]</p>
+      </div></section>
+
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Discussion / Q&amp;A</h2>
+        <p class="muted">[placeholder] Thank you. Let's talk.</p>
+      </div></section>
+
+      <!-- ===================== BACKUP (hidden) ===================== -->
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full caller prompt (prompt_v6)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full agent config (Vocal Bridge)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The bug code (checkout API)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
+
+    </div>
+  </div>
+
+  <script src="vendor/reveal/dist/reveal.js"></script>
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="js/deck.js"></script>
+</body>
+</html>
