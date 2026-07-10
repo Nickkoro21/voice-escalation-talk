@@ -117,18 +117,129 @@
       </div></section>
 
       <!-- 5 · Voice agent universe (reconstructed) -->
-      <section><div class="slide">
-        <div class="kicker">Context</div>
-        <h2 class="slide-title">The <em>voice agent universe</em>: industries × surfaces</h2>
-        <p class="muted">[placeholder] Reconstructed inline SVG: contact-center today (support, assist, IVR, call Q&amp;A) vs the far larger "beyond" (fintech, healthcare, in-car, accessibility, education, gaming, field service).</p>
-      </div></section>
+      <section id="universe"><div class="slide">
+  <div class="kicker">Context</div>
+  <h2 class="slide-title">The voice agent <em>universe</em>: beyond the call center</h2>
+
+  <div class="uni-wrap">
+    <div class="uni-field">
+      <svg class="uni-bg" viewBox="0 0 1160 404" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="uniFrontier" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#BC6D1A"/><stop offset="1" stop-color="#5A4FE0"/>
+          </linearGradient>
+        </defs>
+        <g class="uni-frontier fragment" data-fragment-index="1">
+          <path d="M356 22 C 398 132 398 272 356 382"
+                fill="none" stroke="url(#uniFrontier)" stroke-width="2"
+                stroke-linecap="round" stroke-dasharray="2 9" opacity=".6"/>
+          <g fill="#5A4FE0" opacity=".5">
+            <path d="M392 150 l 11 6 l -11 6 z"/>
+            <path d="M398 202 l 11 6 l -11 6 z"/>
+            <path d="M392 254 l 11 6 l -11 6 z"/>
+          </g>
+        </g>
+      </svg>
+
+      <div class="uni-core"></div>
+      <span class="uni-tag uni-tag--today">Today</span>
+      <span class="uni-tag uni-tag--beyond fragment" data-fragment-index="1">Beyond</span>
+
+      <span class="bub bub--warm bub--md" style="left:108px;top:150px">Support</span>
+      <span class="bub bub--warm bub--md" style="left:222px;top:138px">Assist</span>
+      <span class="bub bub--warm bub--sm" style="left:100px;top:264px">Phone menus</span>
+      <span class="bub bub--warm bub--md" style="left:234px;top:278px">Call Q&A</span>
+
+      <span class="bub bub--cool bub--lg fragment" data-fragment-index="2" style="left:472px;top:104px">Healthcare</span>
+      <span class="bub bub--cool bub--md fragment" data-fragment-index="2" style="left:628px;top:156px">Devtools</span>
+      <span class="bub bub--cool bub--sm fragment" data-fragment-index="2" style="left:548px;top:216px">In-car</span>
+      <span class="bub bub--cool bub--lg fragment" data-fragment-index="2" style="left:452px;top:306px">Fintech</span>
+      <span class="bub bub--cool bub--md fragment" data-fragment-index="2" style="left:636px;top:300px">Accessibility</span>
+
+      <span class="bub bub--cool bub--md fragment" data-fragment-index="3" style="left:800px;top:110px">Productivity</span>
+      <span class="bub bub--cool bub--md fragment" data-fragment-index="3" style="left:992px;top:172px">Field service</span>
+      <span class="bub bub--cool bub--sm fragment" data-fragment-index="3" style="left:864px;top:250px">Gaming</span>
+      <span class="bub bub--cool bub--md fragment" data-fragment-index="3" style="left:1000px;top:316px">Education</span>
+    </div>
+
+    <div class="uni-legend">
+      <span class="lg-item"><i class="sw sw--warm"></i> Today: the call center</span>
+      <span class="lg-item fragment" data-fragment-index="1"><i class="sw sw--cool"></i> Beyond: apps and agents across industries</span>
+      <span class="uni-punch fragment" data-fragment-index="4">The call center was just the <b>beginning</b>.</span>
+    </div>
+  </div>
+</div></section>
 
       <!-- 6 · Comparing architectures (reconstructed) -->
-      <section><div class="slide">
-        <div class="kicker">Context</div>
-        <h2 class="slide-title">Comparing <em>architectures</em></h2>
-        <p class="muted">[placeholder] Reconstructed SVG: cascaded (STT → LLM → TTS, high accuracy / high latency) vs voice-to-voice (low latency) vs Vocal Bridge Concierge (realtime latency + deep reasoning).</p>
-      </div></section>
+      <section id="architectures"><div class="slide">
+  <div class="kicker">Context</div>
+  <h2 class="slide-title">Comparing <em>architectures</em></h2>
+  <p class="arch-lead">Three ways to run a voice agent, scored on the same two axes: latency and reasoning depth.</p>
+
+  <div class="arch-list">
+
+    <!-- 1 - Cascaded -->
+    <div class="arch-row r-casc fragment">
+      <div class="arch-name"><b>Cascaded</b><span>Chained models</span></div>
+      <div class="arch-pipe">
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-proc"><span>STT</span><span class="n-sub">speech to text</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-llm">Your LLM</span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-proc"><span>TTS</span><span class="n-sub">text to speech</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+      </div>
+      <div class="arch-tag">
+        <span class="arch-chip c-bad"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>High latency</span>
+        <span class="arch-chip c-ok"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deep reasoning</span>
+      </div>
+    </div>
+
+    <!-- 2 - Voice-to-voice -->
+    <div class="arch-row r-v2v fragment">
+      <div class="arch-name"><b>Voice-to-voice</b><span>One realtime model</span></div>
+      <div class="arch-pipe">
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-model">Realtime voice model</span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+      </div>
+      <div class="arch-tag">
+        <span class="arch-chip c-ok"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Low latency</span>
+        <span class="arch-chip c-bad"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Shallow reasoning</span>
+      </div>
+    </div>
+
+    <!-- 3 - Vocal Bridge Concierge -->
+    <div class="arch-row r-vb fragment">
+      <div class="arch-name"><b>Vocal Bridge Concierge</b><span class="arch-badge">Best of both</span></div>
+      <div class="arch-pipe">
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-bridge"><span>Vocal Bridge</span><span class="n-sub">fused STT + TTS</span></span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-llm">Your LLM</span>
+        <span class="arch-arrow" aria-hidden="true">→</span>
+        <span class="arch-node n-io"><svg class="arch-wave" width="20" height="12" viewBox="0 0 26 16" aria-hidden="true"><g fill="currentColor"><rect x="1" y="6" width="2.4" height="4" rx="1.2"/><rect x="6" y="3" width="2.4" height="10" rx="1.2"/><rect x="11" y="1" width="2.4" height="14" rx="1.2"/><rect x="16" y="4" width="2.4" height="8" rx="1.2"/><rect x="21" y="6" width="2.4" height="4" rx="1.2"/></g></svg><span>Speech</span></span>
+      </div>
+      <div class="arch-tag">
+        <span class="arch-chip c-ok"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Low latency</span>
+        <span class="arch-chip c-ok"><svg class="arch-ic" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deep reasoning</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="arch-take fragment">
+    <p class="arch-note"><span>Only the <b>Vocal Bridge Concierge</b> pairs <b>low latency</b> with your own LLM's <b>deep reasoning</b>.</span></p>
+    <p class="arch-foot">Voice-to-voice also captures <b>paralinguistics</b> (it hears tone and emotion). The Concierge can layer that in too.</p>
+  </div>
+
+</div></section>
 
       <!-- 7 · The SKILL: 3 pillars -->
       <section><div class="slide">
@@ -225,33 +336,58 @@
 
       <!-- 14 · The winning call (live transcript) -->
       <section><div class="slide">
-        <div class="kicker">The call</div>
-        <h2 class="slide-title">The winning call, <em>live</em></h2>
-        <div class="transcript" id="call-transcript">
-          <div class="t-scroll">
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Hello? Hi there, this is an AI assistant calling on behalf of your coding agent. Can you hear me okay?</span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">Calimera... <span class="anno">caller opens in Greek (non-English input)</span></span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I'm sorry, I can only understand English. Could we continue in English? <span class="anno">graceful language recovery, never goes silent</span></span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">For sure. What's the reason for the call?</span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Quick high-stakes call. I fixed a validation bug, but the clean fix changes the error format on refund and capture. Option A: stay backward-compatible, nothing breaks. Option B: ship the clean refactor, but it breaks the contract. Which way, A or B?</span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">Are you from the personnel office, calling me about this? <span class="anno">off-topic / mistaken identity</span></span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">No, I'm not from any personnel office. I'm an AI assistant calling about your coding agent. Which do you want, A or B? <span class="anno">re-discloses, steers back</span></span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">I'd like to hear your recommendation. <span class="anno">asks the agent to decide</span></span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I can't decide that for you. Only you know if a client depends on that error format. A or B? <span class="anno">refuses to decide for the human</span></span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">I'm not sure. Maybe we can use both? <span class="anno">indecision</span></span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I need one path. If you're unsure, Option A is the safer bet. Should I lock in A?</span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">Okay... option A.</span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Got it, Option A, backward-compatible. Shall I lock that in?</span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">No, I've made my mind, B is the better choice. <span class="anno">changes mind A → B</span></span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Okay, Option B, the clean refactor. Just to confirm, yes, lock in B?</span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">Sounds very good.</span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Just to confirm, yes, lock in Option B? <span class="anno">"sounds good" is not a clear yes, so it re-asks</span></span></div>
-            <div class="t-turn user"><span class="who">You</span><span class="bubble">Yes, Option B, the clean refactor. That's my choice.</span></div>
-            <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Confirmed, Option B, the clean refactor. Thanks, goodbye!</span></div>
-          </div>
-          <div class="t-controls"><button class="t-play" type="button">▶ Play the call</button></div>
-        </div>
-      </div></section>
+  <div class="kicker">The call</div>
+  <h2 class="slide-title cs-title">The winning call, <em>live</em></h2>
+
+  <div class="transcript t-live" id="call-transcript">
+
+    <!-- call-status header: live badge + status + waveform + play control -->
+    <div class="t-head">
+      <span class="t-live-badge"><span class="t-live-dot"></span>Live</span>
+      <span class="t-head-label">Ready to play</span>
+      <span class="t-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+      <button class="t-play" type="button">▶ Play the call</button>
+    </div>
+
+    <!-- persistent win banner: states the outcome even if the call is never played -->
+    <div class="t-outcome">
+      <div class="t-outcome-txt">
+        <div class="t-outcome-h"><span class="t-check">✓</span>Six curveballs, one confirmed decision, and a safe resume.</div>
+        <div class="t-outcome-sub">The win came from visible recovery, not a clean happy path.</div>
+      </div>
+      <div class="t-score">
+        <div class="t-score-n">49<span>/50</span></div>
+        <div class="t-score-l">Part 2 · 1st place</div>
+      </div>
+    </div>
+
+    <!-- teleprompter: fills from the top, then glides so the newest line pins to the bottom -->
+    <div class="t-window">
+      <div class="t-stack">
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Hello? Hi there, this is an AI assistant calling on behalf of your coding agent. Can you hear me okay?</span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">Calimera... <span class="anno">non-English opener</span></span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I'm sorry, I can only understand English. Could we continue in English? <span class="anno">graceful English-only recovery</span></span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">For sure. What's the reason for the call?</span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Quick high-stakes call. I fixed a validation bug, but the clean fix changes the error format on refund and capture. Option A: stay backward-compatible, nothing breaks. Option B: ship the clean refactor, but it breaks the contract. Which way, A or B?</span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">Are you from the personnel office, calling me about this? <span class="anno">off-topic, mistaken identity</span></span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">No, I'm not from any personnel office. I'm an AI assistant calling about your coding agent. Which do you want, A or B? <span class="anno">re-discloses, steers back</span></span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">I'd like to hear your recommendation. <span class="anno">asks the agent to decide</span></span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I can't decide that for you. Only you know if a client depends on that error format. A or B? <span class="anno">refuses to decide for the human</span></span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">I'm not sure. Maybe we can use both? <span class="anno">indecision</span></span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I need one path. If you're unsure, Option A is the safer bet. Should I lock in A?</span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">Okay... option A.</span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Got it, Option A, backward-compatible. Shall I lock that in?</span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">No, I've made my mind, B is the better choice. <span class="anno">changes mind, A to B</span></span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Okay, Option B, the clean refactor. Just to confirm, yes, lock in B?</span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">Sounds very good.</span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Just to confirm, yes, lock in Option B? <span class="anno">"sounds good" is not a yes, re-asks</span></span></div>
+        <div class="t-turn user"><span class="who">You</span><span class="bubble">Yes, Option B, the clean refactor. That's my choice.</span></div>
+        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Confirmed, Option B, the clean refactor. Thanks, goodbye!</span></div>
+      </div>
+    </div>
+
+  </div>
+</div></section>
 
       <!-- 15 · Handling real people -->
       <section><div class="slide">
@@ -268,11 +404,76 @@
       </div></section>
 
       <!-- 17 · Call evals -->
-      <section><div class="slide">
-        <div class="kicker">The build</div>
-        <h2 class="slide-title">Grading the calls: <em>eval-driven</em> development</h2>
-        <p class="muted">[placeholder] The loop: build → call → vb eval → patch → call again. Hard metrics (latency, turn-taking, tool-call accuracy) + a multimodal LLM judge with suggested prompt improvements.</p>
-      </div></section>
+      <section id="evals"><div class="slide">
+  <div class="kicker">The build</div>
+  <h2 class="slide-title">Grading the calls: <em>eval-driven</em> development</h2>
+  <div class="ev-lead">Every call is graded like a model output: two evaluation layers and a 0-10 score. Then we patch and re-run until the number climbs.</div>
+  <div class="evgrid">
+    <div class="evcycle">
+      <svg class="evsvg" viewBox="0 0 440 380" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title>The eval-driven loop: build, place a fresh call, run the Vocal Bridge eval, patch, and repeat.</title>
+        <defs>
+          <marker id="evarrow" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path class="arrowhead" d="M0 0 L10 5 L0 10 z"/>
+          </marker>
+        </defs>
+        <circle class="ring-track" cx="220" cy="190" r="150"/>
+        <path class="ring-arc" d="M299.5 62.8 A150 150 0 0 1 347.2 110.5" marker-end="url(#evarrow)"/>
+        <path class="ring-arc" d="M347.2 269.5 A150 150 0 0 1 299.5 317.2" marker-end="url(#evarrow)"/>
+        <path class="ring-arc" d="M140.5 317.2 A150 150 0 0 1 92.8 269.5" marker-end="url(#evarrow)"/>
+        <path class="ring-arc" d="M92.8 110.5 A150 150 0 0 1 140.5 62.8" marker-end="url(#evarrow)"/>
+        <circle class="med" cx="220" cy="190" r="54"/>
+        <path class="med-chev" d="M206 178 L220 166 L234 178"/>
+        <path class="med-chev" d="M206 188 L220 176 L234 188"/>
+        <text class="med-t1" x="220" y="206" text-anchor="middle">MUST RISE</text>
+        <text class="med-t2" x="220" y="219" text-anchor="middle">vs the last run</text>
+        <g>
+          <rect class="n-rect" x="151" y="11" width="138" height="58" rx="13"/>
+          <text class="n-title" x="220" y="37" text-anchor="middle"><tspan class="n-num">1 · </tspan>Build</text>
+          <text class="n-sub" x="220" y="54" text-anchor="middle">prompt + config</text>
+        </g>
+        <g>
+          <rect class="n-rect" x="301" y="161" width="138" height="58" rx="13"/>
+          <text class="n-title" x="370" y="187" text-anchor="middle"><tspan class="n-num">2 · </tspan>Place a call</text>
+          <text class="n-sub" x="370" y="204" text-anchor="middle">fresh, every time</text>
+        </g>
+        <g>
+          <rect class="n-rect" x="151" y="311" width="138" height="58" rx="13"/>
+          <text class="n-title" x="220" y="337" text-anchor="middle"><tspan class="n-num">3 · </tspan>Vocal Bridge</text>
+          <text class="n-sub" x="220" y="354" text-anchor="middle">eval: 0-10 + verdict</text>
+        </g>
+        <g>
+          <rect class="n-rect" x="1" y="161" width="138" height="58" rx="13"/>
+          <text class="n-title" x="70" y="187" text-anchor="middle"><tspan class="n-num">4 · </tspan>Patch</text>
+          <text class="n-sub" x="70" y="204" text-anchor="middle">apply the fixes</text>
+        </g>
+      </svg>
+      <div class="evcap">A fix counts only when a <b>fresh call scores higher</b>, not when the patch just looks right. Best runs reached 10/10.</div>
+    </div>
+    <div class="evlayers">
+      <div class="evlayer l1 fragment">
+        <div class="evl-head"><span class="evl-badge b1">L1</span><b>Hard metrics</b><span class="evl-tag">deterministic, objective</span></div>
+        <div class="evchips">
+          <div class="evchip"><b>WER</b><span>transcript fidelity</span></div>
+          <div class="evchip"><b>Latency</b><span>first response ~4s, lower is better</span></div>
+          <div class="evchip"><b>Turn duration</b><span>each turn stays short</span></div>
+          <div class="evchip"><b>Tool-call accuracy</b><span>end_call only after confirm</span></div>
+          <div class="evchip wide"><b>Completion</b><span>a decision reached, or a clean fail-safe exit</span></div>
+        </div>
+      </div>
+      <div class="evlayer l2 fragment">
+        <div class="evl-head"><span class="evl-badge b2">L2</span><b>Multimodal LLM-as-judge</b><span class="evl-tag">hears the call, scores 0-10</span></div>
+        <div class="evchips">
+          <div class="evchip"><b>Tone</b><span>calm, urgent, professional</span></div>
+          <div class="evchip"><b>Turn-taking</b><span>no overlap, no dead air</span></div>
+          <div class="evchip"><b>Objective met</b><span>a confirmed decision</span></div>
+          <div class="evchip"><b>Recovery</b><span>non-English, mishears, a changed mind</span></div>
+        </div>
+      </div>
+      <div class="evfeed fragment"><span class="evfeed-arrow" aria-hidden="true">←</span> The judge's <b>suggested prompt fixes</b> feed the next patch, closing the loop.</div>
+    </div>
+  </div>
+</div></section>
 
       <!-- 18 · SDD (I) what & why -->
       <section><div class="slide">

@@ -242,3 +242,265 @@
 @media (prefers-reduced-motion: reduce) {
   .t-turn { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+/* ===== component: universe ===== */
+/* ===== id="universe" - Today (call center) vs Beyond (industries) ===== */
+/* All rules scoped under #universe; new class names only; no existing class redefined. */
+#universe{
+  /* One added ramp: an AMBER/OCHRE warm tone for the "Today" story (the deck palette
+     has no warm colour). Pushed toward ochre so it cannot be mistaken for --c-dl red.
+     Cool side reuses --c-vb. */
+  --warm:#BC6D1A; --warm-soft:#FAF0E2; --warm-line:#E0AE76; --warm-ink:#7C4A14;
+  --cool:var(--c-vb); --cool-soft:#ECEBFC; --cool-line:#A9A2EF; --cool-ink:#3A31A8;
+}
+#universe .uni-wrap{ margin-top:8px; }
+#universe .uni-field{
+  position:relative; width:100%; height:404px; border-radius:var(--radius); overflow:hidden;
+  background:linear-gradient(100deg,
+      rgba(188,109,26,.07) 0%, rgba(188,109,26,.018) 26%,
+      rgba(90,79,224,.02) 60%, rgba(90,79,224,.06) 100%);
+}
+#universe .uni-bg{ position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+
+/* the contained "Today" core (the call center): one shape, soft solid outline */
+#universe .uni-core{
+  position:absolute; left:14px; top:58px; width:300px; height:300px; z-index:1; border-radius:34px;
+  background:radial-gradient(120% 110% at 42% 46%, rgba(188,109,26,.12), rgba(188,109,26,.02) 72%);
+  border:1.5px solid var(--warm-line);
+}
+#universe .uni-tag{
+  position:absolute; z-index:3; font-size:.56em; font-weight:800;
+  letter-spacing:.14em; text-transform:uppercase; line-height:1;
+}
+#universe .uni-tag--today{ left:34px; top:32px; color:var(--warm); }
+#universe .uni-tag--beyond{ left:392px; top:26px; color:var(--cool); }
+
+/* bubbles positioned by CENTRE (left/top = centre, translate re-centres) */
+#universe .bub{
+  position:absolute; z-index:2; transform:translate(-50%,-50%);
+  display:inline-flex; align-items:center; white-space:nowrap; line-height:1;
+  border-radius:999px; border:1.6px solid;
+  box-shadow:0 1px 2px rgba(20,24,31,.05), 0 6px 15px rgba(20,24,31,.05);
+}
+#universe .bub--sm{ font-size:.54em; padding:.4em .74em; font-weight:600; }
+#universe .bub--md{ font-size:.58em; padding:.46em .88em; font-weight:600; }
+#universe .bub--lg{ font-size:.64em; padding:.52em 1.02em; font-weight:700; }
+#universe .bub--warm{ background:var(--warm-soft); border-color:var(--warm-line); color:var(--warm-ink); }
+#universe .bub--cool{ background:var(--cool-soft); border-color:var(--cool-line); color:var(--cool-ink); }
+
+/* legend + takeaway */
+#universe .uni-legend{
+  display:flex; align-items:center; gap:1.35em; margin-top:12px;
+  font-size:.5em; color:var(--ink-soft); line-height:1.2;
+}
+#universe .lg-item{ display:inline-flex; align-items:center; gap:.5em; white-space:nowrap; }
+#universe .sw{ width:.85em; height:.85em; border-radius:50%; border:1.6px solid; display:inline-block; flex:0 0 auto; }
+#universe .sw--warm{ background:var(--warm-soft); border-color:var(--warm); }
+#universe .sw--cool{ background:var(--cool-soft); border-color:var(--cool); }
+#universe .uni-punch{ margin-left:auto; color:var(--ink); font-weight:600; white-space:nowrap; }
+#universe .uni-punch b{ color:var(--cool); font-weight:800; }
+
+/* ===== component: architectures ===== */
+/* ===== Slide - Comparing architectures ===== */
+.arch-lead{ margin:0; font-size:0.58em; color:var(--ink-soft); }
+.arch-list{ display:flex; flex-direction:column; gap:15px; margin-top:18px; }
+
+.arch-row{
+  --acc:var(--ink-faint);
+  display:grid;
+  grid-template-columns:206px 1fr 200px;
+  align-items:center;
+  column-gap:18px;
+  padding:14px 18px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-left:4px solid var(--acc);
+  border-radius:12px;
+  box-shadow:var(--shadow-soft);
+}
+.arch-row.r-casc{ --acc:var(--ink-faint); }
+.arch-row.r-v2v{  --acc:var(--ok); }
+.arch-row.r-vb{
+  --acc:var(--c-vb);
+  background:var(--c-vb-soft);
+  border-color:var(--c-vb-2);
+  box-shadow:0 8px 22px rgba(90,79,224,0.16);
+}
+
+/* name column */
+.arch-name b{ display:block; font-size:0.58em; font-weight:800; color:var(--ink); line-height:1.1; }
+.arch-name span{ display:block; margin-top:4px; font-size:0.46em; font-weight:600; color:var(--ink-faint); line-height:1.25; }
+.arch-name .arch-badge{
+  display:inline-block; margin-top:7px; padding:3px 11px;
+  font-size:0.42em; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
+  color:#fff; background:var(--c-vb); border-radius:999px; line-height:1.1;
+}
+
+/* pipeline */
+.arch-pipe{ display:flex; align-items:stretch; gap:8px; min-width:0; }
+.arch-arrow{ flex:0 0 auto; align-self:center; color:var(--ink-faint); font-size:0.66em; font-weight:800; }
+.arch-node{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  min-height:56px; padding:7px 8px;
+  font-size:0.56em; font-weight:700; line-height:1.08; text-align:center; color:var(--ink-soft);
+  background:var(--paper); border:1px solid var(--line); border-radius:10px;
+}
+.arch-node.n-io{ flex:0 0 80px; background:var(--paper-3); border-color:transparent; border-radius:999px; }
+.arch-node.n-io .arch-wave{ color:var(--ink-faint); }
+.arch-node.n-proc{ flex:1 1 0; }
+.arch-node.n-llm{ flex:1 1 0; background:var(--paper); border:1.5px solid var(--c-vb); color:var(--c-vb); font-weight:800; }
+.arch-node.n-model{ flex:1 1 0; background:var(--ok-soft); border-color:var(--ok); color:var(--ink); }
+.arch-node.n-bridge{ flex:1 1 0; background:var(--c-vb); border-color:var(--c-vb); color:#fff; font-weight:800; }
+.arch-node .n-sub{ font-size:0.72em; font-weight:600; opacity:0.72; letter-spacing:0.005em; }
+.arch-node.n-bridge .n-sub{ opacity:0.9; }
+.arch-wave{ display:block; }
+
+/* right-aligned two-axis scorecard (latency, then reasoning) */
+.arch-tag{
+  display:flex; flex-direction:column; align-items:stretch; gap:6px;
+  padding-left:16px; border-left:1px solid var(--line);
+}
+.arch-row.r-vb .arch-tag{ border-left-color:var(--c-vb-2); }
+.arch-chip{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 11px; font-size:0.48em; font-weight:700; color:var(--ink);
+  border-radius:999px; white-space:nowrap;
+}
+.arch-chip.c-ok{ background:var(--ok-soft); }
+.arch-chip.c-ok .arch-ic{ color:var(--ok); }
+.arch-chip.c-bad{ background:var(--c-dl-soft); }
+.arch-chip.c-bad .arch-ic{ color:var(--c-dl); }
+.arch-ic{ flex:0 0 auto; display:block; }
+
+/* takeaway + footnote */
+.arch-take{ margin-top:15px; }
+.arch-note{
+  display:flex; align-items:baseline; gap:9px;
+  margin:0; font-size:0.58em; color:var(--ink-soft);
+}
+.arch-note::before{ content:""; align-self:center; flex:0 0 auto; width:18px; height:3px; border-radius:2px; background:var(--c-vb); }
+.arch-note b{ color:var(--c-vb); font-weight:800; }
+.arch-foot{
+  margin:7px 0 0; padding-left:27px;
+  font-size:0.46em; color:var(--ink-faint); line-height:1.35;
+}
+.arch-foot b{ color:var(--ink-soft); font-weight:700; }
+
+/* ===== component: evals ===== */
+/* ===== id="evals" : eval-driven loop (visual hero) + two evaluation layers =====
+   Full replacement for this component's prior ev* rules (same selectors, tightened
+   values + review fixes). Do not keep the old block alongside this one. */
+.ev-lead{ font-size:0.56em; color:var(--ink-soft); margin:0 0 10px; line-height:1.4; }
+.evgrid{ display:grid; grid-template-columns:420px 1fr; gap:30px; align-items:start; }
+
+/* --- (A) the cycle : hero, shown on the base beat --- */
+.evcycle{ display:flex; flex-direction:column; align-self:center; }
+.evsvg{ width:100%; height:auto; display:block; }
+.evsvg .ring-track{ fill:none; stroke:var(--paper-3); stroke-width:2; }
+.evsvg .ring-arc{ fill:none; stroke:var(--c-vb); stroke-width:2.6; }
+.evsvg .arrowhead{ fill:var(--c-vb); }
+.evsvg .n-rect{ fill:var(--paper); stroke:var(--line); stroke-width:1.5; }
+.evsvg .n-title{ font:700 15px var(--r-main-font,"Segoe UI",sans-serif); fill:var(--ink); }
+.evsvg .n-num{ fill:var(--c-vb); }
+.evsvg .n-sub{ font:600 12px var(--r-main-font,"Segoe UI",sans-serif); fill:var(--ink-faint); }
+.evsvg .med{ fill:var(--ok-soft); stroke:var(--ok); stroke-width:1.5; }
+.evsvg .med-chev{ fill:none; stroke:var(--ok); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.evsvg .med-t1{ font:800 13px var(--r-main-font,"Segoe UI",sans-serif); fill:var(--ok); letter-spacing:0.03em; }
+.evsvg .med-t2{ font:600 11px var(--r-main-font,"Segoe UI",sans-serif); fill:var(--ink-faint); }
+.evcap{ font-size:0.46em; color:var(--ink-soft); line-height:1.42; margin:8px 4px 0; text-align:center; }
+.evcap b{ color:var(--ok); }
+
+/* --- (B) the two layers : supporting detail, revealed after the loop --- */
+.evlayers{ display:flex; flex-direction:column; gap:10px; }
+.evlayer{ background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--c-vb); border-radius:var(--radius); padding:9px 14px; box-shadow:var(--shadow-soft); }
+.evlayer.l2{ border-left-color:var(--c-dl); }
+.evl-head{ display:flex; align-items:center; gap:9px; margin-bottom:7px; }
+.evl-head b{ font-size:0.62em; }
+.evl-badge{ display:inline-grid; place-items:center; width:30px; height:24px; border-radius:7px; font-size:0.5em; font-weight:800; color:var(--paper); letter-spacing:0.04em; }
+.evl-badge.b1{ background:var(--c-vb); }
+.evl-badge.b2{ background:var(--c-dl); }
+.evl-tag{ margin-left:auto; font-size:0.44em; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); }
+.evchips{ display:grid; gap:6px; grid-template-columns:1fr 1fr; }
+.evchip{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:5px 11px; }
+.evchip.wide{ grid-column:1 / -1; }
+.evchip b{ display:block; font-size:0.5em; color:var(--ink); line-height:1.15; }
+.evchip span{ display:block; font-size:0.43em; color:var(--ink-faint); margin-top:2px; line-height:1.25; }
+.evfeed{ background:var(--c-vb-soft); border:1px solid rgba(90,79,224,0.22); border-radius:var(--radius-sm); padding:7px 12px; font-size:0.48em; color:var(--ink-soft); line-height:1.34; }
+.evfeed b{ color:var(--c-vb); }
+.evfeed-arrow{ color:var(--c-vb); font-weight:800; font-size:1.15em; margin-right:4px; }
+
+/* ===== component: callslide ===== */
+/* ============================================================================
+   Live-call slide (callslide): call-status header + persistent win banner +
+   fixed teleprompter window with an animated audio waveform. Additive only;
+   reuses base .transcript/.t-turn/.who/.bubble/.anno/.t-play from theme.css and
+   never redefines them (all overrides scoped via .transcript.t-live / new names).
+   ============================================================================ */
+
+/* this slide's title sits a touch tighter so the taller panel clears the box */
+.cs-title { margin-bottom: 14px; }
+
+/* panel becomes a vertical stack (header, banner, window) and is raised to show more */
+.transcript.t-live { display: flex; flex-direction: column; height: 480px; }
+
+/* ---- call-status header ---- */
+.t-head { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; margin-bottom: 10px; }
+.t-live-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 0.44em; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-vb); flex: 0 0 auto; }
+.t-live-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c-vb); flex: 0 0 auto; }
+.transcript.is-playing .t-live-dot { animation: tLivePulse 1.15s ease-out infinite; }
+@keyframes tLivePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(90,79,224,0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(90,79,224,0); }
+  100% { box-shadow: 0 0 0 0 rgba(90,79,224,0); }
+}
+.t-head-label { font-size: 0.46em; font-weight: 600; color: var(--ink-faint); letter-spacing: 0.02em; white-space: nowrap; flex: 0 0 auto; }
+
+/* ---- animated audio waveform: flat when idle, bars dance while .playing (winner's purple) ---- */
+.t-wave { margin-left: auto; display: inline-flex; align-items: center; gap: 3px; height: 22px; flex: 0 0 auto; }
+.t-wave span { display: block; width: 3px; height: 20px; border-radius: 2px; background: var(--c-vb); transform: scaleY(0.16); transform-origin: center; transition: transform 0.22s ease; }
+.t-wave.playing span { animation-name: tWaveA; animation-duration: 0.9s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; transition: none; }
+@keyframes tWaveA { 0%,100% { transform: scaleY(0.16); } 50% { transform: scaleY(1);    } }
+@keyframes tWaveB { 0%,100% { transform: scaleY(0.16); } 50% { transform: scaleY(0.66); } }
+@keyframes tWaveC { 0%,100% { transform: scaleY(0.16); } 50% { transform: scaleY(0.40); } }
+/* staggered delays + varied peaks so it reads like a real spectrum (exactly 16 bars) */
+.t-wave.playing span:nth-child(1)  { animation-name: tWaveC; animation-delay: -0.10s; animation-duration: 0.86s; }
+.t-wave.playing span:nth-child(2)  { animation-name: tWaveB; animation-delay: -0.42s; animation-duration: 0.98s; }
+.t-wave.playing span:nth-child(3)  { animation-name: tWaveA; animation-delay: -0.20s; animation-duration: 0.80s; }
+.t-wave.playing span:nth-child(4)  { animation-name: tWaveB; animation-delay: -0.55s; animation-duration: 0.92s; }
+.t-wave.playing span:nth-child(5)  { animation-name: tWaveA; animation-delay: -0.08s; animation-duration: 0.84s; }
+.t-wave.playing span:nth-child(6)  { animation-name: tWaveC; animation-delay: -0.33s; animation-duration: 0.96s; }
+.t-wave.playing span:nth-child(7)  { animation-name: tWaveA; animation-delay: -0.48s; animation-duration: 0.78s; }
+.t-wave.playing span:nth-child(8)  { animation-name: tWaveB; animation-delay: -0.15s; animation-duration: 0.90s; }
+.t-wave.playing span:nth-child(9)  { animation-name: tWaveA; animation-delay: -0.60s; animation-duration: 0.88s; }
+.t-wave.playing span:nth-child(10) { animation-name: tWaveB; animation-delay: -0.25s; animation-duration: 0.82s; }
+.t-wave.playing span:nth-child(11) { animation-name: tWaveA; animation-delay: -0.05s; animation-duration: 0.94s; }
+.t-wave.playing span:nth-child(12) { animation-name: tWaveC; animation-delay: -0.38s; animation-duration: 0.86s; }
+.t-wave.playing span:nth-child(13) { animation-name: tWaveA; animation-delay: -0.52s; animation-duration: 0.98s; }
+.t-wave.playing span:nth-child(14) { animation-name: tWaveB; animation-delay: -0.18s; animation-duration: 0.80s; }
+.t-wave.playing span:nth-child(15) { animation-name: tWaveA; animation-delay: -0.30s; animation-duration: 0.90s; }
+.t-wave.playing span:nth-child(16) { animation-name: tWaveC; animation-delay: -0.45s; animation-duration: 0.84s; }
+
+/* play control lives in the header, so it never overlaps the newest line */
+.t-head .t-play { position: static; flex: 0 0 auto; font-size: 0.46em; padding: 6px 15px; white-space: nowrap; }
+
+/* ---- persistent win banner: the takeaway that lands even if the call is never played ---- */
+.t-outcome { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex: 0 0 auto; margin-bottom: 10px; padding: 9px 14px; background: var(--ok-soft); border: 1px solid rgba(31,169,113,0.3); border-radius: var(--radius-sm); }
+.t-outcome-txt { min-width: 0; }
+.t-outcome-h { font-size: 0.5em; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.t-check { color: var(--ok); font-weight: 800; margin-right: 5px; }
+.t-outcome-sub { font-size: 0.42em; color: var(--ink-soft); line-height: 1.25; margin-top: 3px; }
+.t-score { flex: 0 0 auto; text-align: center; padding-left: 14px; border-left: 1px solid rgba(31,169,113,0.3); }
+.t-score-n { font-size: 0.68em; font-weight: 800; color: var(--ok); line-height: 1; }
+.t-score-n span { font-size: 0.6em; font-weight: 800; color: var(--ink-faint); }
+.t-score-l { font-size: 0.34em; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; margin-top: 4px; }
+
+/* ---- fixed teleprompter viewport (clips) + the inner stack we translate ---- */
+.t-window { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.t-stack { position: relative; display: flex; flex-direction: column; gap: 10px; will-change: transform; transform: translateY(0); transition: transform 0.5s cubic-bezier(0.22,0.61,0.36,1); }
+
+/* reduced motion: settle the glide, freeze the bars, drop the pulse */
+@media (prefers-reduced-motion: reduce) {
+  .t-stack { transition: none !important; }
+  .t-wave span, .t-wave.playing span { animation: none !important; transition: none !important; transform: scaleY(0.5) !important; }
+  .transcript.is-playing .t-live-dot { animation: none !important; }
+}

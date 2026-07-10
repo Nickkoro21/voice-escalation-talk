@@ -181,48 +181,128 @@
      clicking the transcript advances one turn; leaving/returning resets. Delay per
      turn scales with text length so it feels like real speech. */
   function setupTranscript() {
-    document.querySelectorAll('.transcript').forEach(function (tr) {
-      var scroll = tr.querySelector('.t-scroll');
-      var turns = Array.prototype.slice.call(tr.querySelectorAll('.t-turn'));
-      var play = tr.querySelector('.t-play');
-      var timer = null, i = 0, running = false;
+  var PAD = 8; // px kept between the newest turn and the window's bottom edge
 
-      function reset() { if (timer) clearTimeout(timer); timer = null; running = false; i = 0; turns.forEach(function (t) { t.classList.remove('shown'); }); scroll.scrollTop = 0; if (play) play.textContent = '▶ Play the call'; }
-      function revealNext() {
-        if (i >= turns.length) { running = false; if (play) play.textContent = '↺ Replay'; return; }
-        var t = turns[i++]; t.classList.add('shown');
-        scroll.style.overflowY = 'auto';
-        scroll.scrollTop = scroll.scrollHeight;
-        return t;
-      }
-      function run() {
-        if (running) { reset(); return; }
-        if (i >= turns.length) reset();
-        running = true; if (play) play.textContent = '⏸ Pause';
-        (function step() {
-          if (!running) return;
-          var t = revealNext();
-          if (!t) { running = false; if (play) play.textContent = '↺ Replay'; return; }
-          var txt = (t.textContent || '').trim();
-          var d = Math.min(3200, 620 + txt.length * 26);
-          timer = setTimeout(step, d);
-        })();
-      }
-      function pauseToggle() { if (running) { running = false; if (timer) clearTimeout(timer); if (play) play.textContent = '▶ Resume'; } else { run(); } }
+  document.querySelectorAll('.transcript').forEach(function (tr) {
+    var stack = tr.querySelector('.t-stack');
+    var win   = tr.querySelector('.t-window');
+    var wave  = tr.querySelector('.t-wave');
+    var label = tr.querySelector('.t-head-label');
+    var play  = tr.querySelector('.t-play');
+    var turns = Array.prototype.slice.call(tr.querySelectorAll('.t-turn'));
+    if (!stack || !win || !turns.length) return;
 
-      if (play) play.addEventListener('click', function (e) { e.stopPropagation(); if (running) pauseToggle(); else run(); });
-      tr.addEventListener('click', function (e) { if (e.target.closest('.t-play')) return; if (running) { running = false; if (timer) clearTimeout(timer); } revealNext(); });
+    var timer = null, i = 0, running = false;
 
-      tr.__reset = reset;
+    function setPlaying(on) {
+      running = on;
+      if (wave) wave.classList.toggle('playing', on); // drives the waveform
+      tr.classList.toggle('is-playing', on);          // drives the 'Live' dot pulse
+    }
+    function btn(t)    { if (play)  play.textContent  = t; }
+    function status(t) { if (label) label.textContent = t; }
+
+    // Teleprompter glide. Fill from the TOP while the shown turns are shorter than
+    // the window; only once they exceed it do we translate up so the newest turn's
+    // bottom pins to the window bottom (older turns clip off the top). Clamping y to
+    // <= 0 is what keeps the opening frame top-aligned instead of pinned to the base
+    // with a blank band above. The page/slide is never scrolled: we only set a
+    // transform inside overflow:hidden, and offsetTop/offsetHeight are layout px
+    // unaffected by that transform, so measurements stay accurate.
+    function advance() {
+      var wh = win.clientHeight;
+      if (!wh || i <= 0) { stack.style.transform = 'translateY(0px)'; return; }
+      var last = turns[i - 1];
+      var bottom = last.offsetTop + last.offsetHeight;
+      var y = wh - bottom - PAD;
+      if (y > 0) y = 0; // content still fits from the top -> stay top-aligned
+      stack.style.transform = 'translateY(' + y + 'px)';
+    }
+
+    function revealNext() {
+      if (i >= turns.length) return null;
+      var t = turns[i++];
+      t.classList.add('shown');
+      advance();
+      return t;
+    }
+
+    // Reset pre-reveals the first turn so the slide is never blank on arrival. The
+    // persistent header and win banner already state the outcome independent of
+    // playback, so playing the call is an enhancement, not a prerequisite.
+    function reset() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      turns.forEach(function (t) { t.classList.remove('shown'); });
+      i = 0;
+      stack.style.transform = 'translateY(0px)';
+      setPlaying(false);
+      if (turns[0]) { turns[0].classList.add('shown'); i = 1; }
+      advance();
+      btn('▶ Play the call');
+      status('Ready to play');
+    }
+
+    function finish() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      setPlaying(false);
+      btn('↺ Replay');
+      status('Call ended');
+    }
+
+    // spoken length excludes the italic annotation, so pacing tracks the actual line
+    function spokenLen(t) {
+      var b = t.querySelector('.bubble');
+      if (!b) return (t.textContent || '').length;
+      var a = b.querySelector('.anno');
+      return Math.max(1, b.textContent.length - (a ? a.textContent.length : 0));
+    }
+
+    function tick() {
+      if (!running) return;
+      var t = revealNext();
+      if (!t) { finish(); return; }
+      var d = Math.max(700, Math.min(3400, 460 + spokenLen(t) * 30));
+      timer = setTimeout(tick, d);
+    }
+
+    function start() {
+      if (i >= turns.length) reset(); // finished -> replay from the top
+      setPlaying(true);
+      btn('⏸ Pause');
+      status('On call');
+      tick();
+    }
+
+    function pause() {
+      if (timer) { clearTimeout(timer); timer = null; }
+      setPlaying(false);
+      btn('▶ Resume');
+      status('Paused');
+    }
+
+    if (play) play.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (running) pause(); else start();
     });
 
-    // reset the transcript when its slide is (re)entered so a presenter can replay
-    deck.on('slidechanged', function () {
-      var sec = document.querySelector('section.present');
-      if (!sec) return;
-      sec.querySelectorAll('.transcript').forEach(function (tr) { if (tr.__reset) tr.__reset(); });
+    // presenter aid: click the transcript window to step one turn (pauses autoplay)
+    win.addEventListener('click', function () {
+      if (running) { if (timer) { clearTimeout(timer); timer = null; } setPlaying(false); btn('▶ Resume'); }
+      var t = revealNext();
+      if (!t) finish(); else status('On call');
     });
-  }
+
+    reset();
+    tr.__reset = reset;
+  });
+
+  // reset the transcript whenever its slide is (re)entered, so it can be replayed
+  deck.on('slidechanged', function () {
+    var sec = document.querySelector('section.present');
+    if (!sec) return;
+    sec.querySelectorAll('.transcript').forEach(function (tr) { if (tr.__reset) tr.__reset(); });
+  });
+}
 
   deck.initialize().then(function () {
     setupNav();
