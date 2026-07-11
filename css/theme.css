@@ -570,3 +570,18 @@ html, .reveal-viewport { background-color: var(--bg); }
 .pp-name{ flex:1; }
 .pp-cb{ font-size:9px; font-weight:800; color:var(--on-accent); background:var(--ink-soft); border-radius:5px;
   padding:1px 5px; letter-spacing:.04em; }
+
+
+/* ===== Live-call bottom scrubber: full-call waveform + seek + skip ===== */
+.t-scrub{ display:flex; align-items:center; gap:10px; flex:0 0 auto; margin-top:10px; }
+.t-skip{ flex:0 0 auto; cursor:pointer; border:1px solid var(--line); background:var(--paper);
+  color:var(--ink-soft); font-weight:800; font-size:0.42em; padding:6px 10px; border-radius:8px;
+  font-family:inherit; line-height:1; white-space:nowrap; box-shadow:var(--shadow-soft); }
+.t-skip:hover{ border-color:var(--c-vb); color:var(--c-vb); }
+.t-scrub-wrap{ position:relative; flex:1 1 auto; height:44px; min-width:0;
+  background:color-mix(in srgb, var(--ink) 5%, var(--paper)); border:1px solid var(--line);
+  border-radius:9px; overflow:hidden; cursor:pointer; }
+.t-scrub-wave{ display:block; width:100%; height:100%; }
+.t-scrub-time{ position:absolute; right:8px; bottom:4px; font-size:0.34em; font-weight:700;
+  color:var(--ink-faint); letter-spacing:0.02em; pointer-events:none;
+  background:color-mix(in srgb, var(--paper) 70%, transparent); padding:0 4px; border-radius:4px; }

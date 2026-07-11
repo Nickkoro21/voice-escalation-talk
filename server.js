@@ -30,7 +30,7 @@ http.createServer((req, res) => {
   fs.readFile(filePath, (err, data) => {
     if (err) { res.writeHead(404); return res.end('Not found: ' + urlPath); }
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': TYPES[ext] || 'application/octet-stream' });
+    res.writeHead(200, { 'Content-Type': TYPES[ext] || 'application/octet-stream', 'Cache-Control': 'no-store' });
     res.end(data);
   });
 }).listen(PORT, () => console.log('deck preview on http://localhost:' + PORT + '/'));

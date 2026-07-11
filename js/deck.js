@@ -242,6 +242,19 @@
       while (i < n) { turns[i++].classList.add('shown'); changed = true; }
       if (changed) advance();
     }
+    // Show exactly the turns spoken by time `ct` (turn 0, the greeting, stays visible as the
+    // opening frame). Unlike revealUpTo this is idempotent and REVERSIBLE, so seeking the
+    // scrubber backward hides later turns and forward re-reveals them, always matching the audio.
+    function syncToTime(ct) {
+      var changed = false, shownCount = 0;
+      for (var k = 0; k < turns.length; k++) {
+        var should = (k === 0) || (parseFloat(turns[k].getAttribute('data-t') || '0') <= ct);
+        if (should !== turns[k].classList.contains('shown')) { turns[k].classList.toggle('shown', should); changed = true; }
+        if (should) shownCount = k + 1;
+      }
+      i = shownCount;
+      if (changed) advance();
+    }
 
     // Reset pre-reveals the first turn so the slide is never blank on arrival. The
     // persistent header and win banner already state the outcome independent of
@@ -257,6 +270,7 @@
       advance();
       btn('▶ Play the call');
       status('Ready to play');
+      if (tr.__drawWave) tr.__drawWave();   // reset the playhead + time label to 0:00
     }
 
     function finish() {
@@ -300,18 +314,72 @@
     }
 
     if (audio) {
-      // Timestamp-driven reveal: each turn carries data-t = the real second it is
-      // spoken in the recording (from the call log, session-start anchored). A turn
-      // appears exactly as the audio reaches it, so text and voice stay in lockstep.
-      audio.addEventListener('timeupdate', function () {
-        if (!running) return;
-        var ct = audio.currentTime, changed = false;
-        while (i < turns.length && parseFloat(turns[i].getAttribute('data-t') || '0') <= ct) {
-          turns[i++].classList.add('shown'); changed = true;
+      // Bottom scrubber: the WHOLE call drawn as a real waveform (tall where there is
+      // speech, flat in the gaps) with a playhead, click-to-seek, and -3s / +3s skips.
+      // The audio is decoded once via Web Audio to get true peaks AND a reliable duration
+      // (this Ogg reports Infinity on the <audio> element until fully buffered). The
+      // transcript reveal is timestamp-driven, so any seek re-syncs the shown turns.
+      var canvas = tr.querySelector('.t-scrub-wave');
+      var timeLbl = tr.querySelector('.t-scrub-time');
+      var peaks = null, adur = 0;
+
+      function fmt(s) { s = Math.max(0, s | 0); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+      function cvar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#888'; }
+      function drawWave() {
+        if (!canvas) return;
+        var w = canvas.clientWidth, h = canvas.clientHeight;
+        if (!w || !h) return;
+        if (canvas.width !== w) canvas.width = w;
+        if (canvas.height !== h) canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, w, h);
+        var dur = adur || audio.duration || 0;
+        var played = dur > 0 ? Math.min(1, audio.currentTime / dur) : 0;
+        var mid = h / 2, cOn = cvar('--c-vb'), cOff = cvar('--ink-faint');
+        if (peaks && peaks.length) {
+          var bw = w / peaks.length;
+          for (var k = 0; k < peaks.length; k++) {
+            var bh = Math.max(2, peaks[k] * h * 0.9), on = (k / peaks.length) <= played;
+            ctx.fillStyle = on ? cOn : cOff; ctx.globalAlpha = on ? 1 : 0.42;
+            ctx.fillRect(k * bw, mid - bh / 2, Math.max(1, bw - 1), bh);
+          }
+          ctx.globalAlpha = 1;
+        } else {
+          ctx.fillStyle = cOff; ctx.globalAlpha = 0.4; ctx.fillRect(0, mid - 1, w, 2); ctx.globalAlpha = 1;
         }
-        if (changed) advance();
+        ctx.fillStyle = cOn; ctx.fillRect(Math.max(0, Math.min(w - 2, played * w)), 0, 2, h);
+        if (timeLbl) timeLbl.textContent = fmt(audio.currentTime) + ' / ' + fmt(dur);
+      }
+      (function decode() {
+        var src = (audio.querySelector('source') || {}).src || audio.currentSrc;
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!src || !window.fetch || !AC) return;
+        fetch(src).then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
+          var ac = new AC();
+          return ac.decodeAudioData(buf).then(function (ab) {
+            adur = ab.duration;
+            var ch = ab.getChannelData(0), N = 480, bs = Math.max(1, Math.floor(ch.length / N)), pk = new Array(N), mx = 1e-4;
+            for (var k = 0; k < N; k++) { var s = 0, st = k * bs, en = Math.min(ch.length, st + bs); for (var j = st; j < en; j += 64) { var v = ch[j] < 0 ? -ch[j] : ch[j]; if (v > s) s = v; } pk[k] = s; if (s > mx) mx = s; }
+            for (var m = 0; m < N; m++) pk[m] = pk[m] / mx;
+            peaks = pk; if (ac.close) ac.close(); drawWave();
+          });
+        }).catch(function () {});
+      })();
+      function seekTo(t) { var dur = adur || audio.duration || 0; if (dur > 0) { audio.currentTime = Math.max(0, Math.min(dur - 0.05, t)); syncToTime(audio.currentTime); drawWave(); } }
+
+      audio.addEventListener('timeupdate', function () { syncToTime(audio.currentTime); drawWave(); });
+      audio.addEventListener('ended', function () { syncToTime((adur || audio.duration || 1e9)); finish(); drawWave(); });
+      audio.addEventListener('loadedmetadata', drawWave);
+      window.addEventListener('deckpalette', drawWave);   // recolour with the theme
+      if (canvas) canvas.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var rect = canvas.getBoundingClientRect(), dur = adur || audio.duration || 0;
+        if (dur > 0 && rect.width) seekTo(((e.clientX - rect.left) / rect.width) * dur);
       });
-      audio.addEventListener('ended', function () { revealUpTo(turns.length); finish(); });
+      Array.prototype.slice.call(tr.querySelectorAll('.t-skip')).forEach(function (b) {
+        b.addEventListener('click', function (e) { e.stopPropagation(); seekTo((audio.currentTime || 0) + parseFloat(b.getAttribute('data-d') || '0')); });
+      });
+      tr.__drawWave = drawWave;   // let reset() repaint the playhead back to 0
     }
 
     if (play) play.addEventListener('click', function (e) {
@@ -408,6 +476,7 @@
       r.setProperty('--on-accent', onAcc);
       try { localStorage.setItem('deckPalette', t.id); } catch (e) {}
       rows.forEach(function (row) { row.classList.toggle('active', row.getAttribute('data-p') === t.id); });
+      window.dispatchEvent(new Event('deckpalette'));   // let the call waveform repaint in the new palette
     }
     var btn = document.createElement('button');
     btn.id = 'paletteToggle'; btn.type = 'button';
