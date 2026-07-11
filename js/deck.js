@@ -5,7 +5,7 @@
     width: 1280, height: 720,
     margin: 0.05, minScale: 0.2, maxScale: 1.6,
     viewDistance: 3, mobileViewDistance: 1,
-    hash: true, slideNumber: 'c/t',
+    hash: true, slideNumber: false,
     transition: 'slide', transitionSpeed: 'default', backgroundTransition: 'fade',
     controls: false, progress: true, center: false,
     plugins: [ RevealNotes ]
@@ -76,6 +76,7 @@
       // kind === 'all' => nothing excluded
     });
     syncNavUI();
+    if (deck.__updateFooter) deck.__updateFooter();   // the run-through total changed
   }
 
   var navEls = null;
@@ -509,11 +510,51 @@
     apply(THEMES.filter(function (x) { return x.id === saved; })[0] || THEMES[0]);
   }
 
+  /* Bottom-left chrome: presenter credit + a "slide X of Y" counter. The count is the
+     position within the CURRENT run-through (hidden Asurion/Backup slides are not counted),
+     so it never jumps; it refreshes when the preset changes. */
+  function setupFooter() {
+    var foot = document.createElement('div'); foot.id = 'deckFoot';
+    foot.innerHTML = '<span class="df-name">Nikolaos Koroniadis</span><span class="df-sep">&#183;</span><span class="df-num"></span>';
+    document.body.appendChild(foot);
+    var numEl = foot.querySelector('.df-num');
+    function update() {
+      var h = deck.getIndices().h, pos = 0, tot = 0;
+      for (var k = 0; k < TOC.length; k++) { if (!excluded.has(k)) { tot++; if (k <= h) pos++; } }
+      numEl.textContent = 'slide ' + Math.max(1, pos) + ' of ' + tot;
+    }
+    deck.on('slidechanged', update);
+    deck.__updateFooter = update;
+    update();
+  }
+
+  /* Cascading reveal for the feedback slides: after the green summary (fragment 1), the
+     second click reveals the rated items one after another (see [data-cascade] = ms/step). */
+  function setupCascade() {
+    function items(c) { return Array.prototype.slice.call(c.querySelectorAll('.fb-dim')); }
+    document.querySelectorAll('[data-cascade]').forEach(function (c) { items(c).forEach(function (it) { it.classList.add('casc-off'); }); });
+    function clearC(c) { if (c && c.__t) { c.__t.forEach(clearTimeout); c.__t = []; } }
+    function hide(c) { clearC(c); items(c).forEach(function (it) { it.classList.remove('casc-on'); it.classList.add('casc-off'); }); }
+    function run(f) {
+      var sec = f.closest('section'); var c = sec && sec.querySelector('[data-cascade]'); if (!c) return;
+      clearC(c); c.__t = [];
+      var step = parseInt(c.getAttribute('data-cascade') || '750', 10);
+      items(c).forEach(function (it, k) { c.__t.push(setTimeout(function () { it.classList.remove('casc-off'); it.classList.add('casc-on'); }, k * step)); });
+    }
+    deck.on('fragmentshown', function (e) { if (e.fragment.classList.contains('fb-cascade')) run(e.fragment); });
+    deck.on('fragmenthidden', function (e) { if (e.fragment.classList.contains('fb-cascade')) { var s = e.fragment.closest('section'); if (s) hide(s.querySelector('[data-cascade]')); } });
+    deck.on('slidechanged', function () {
+      document.querySelectorAll('[data-cascade]').forEach(function (c) { var s = c.closest('section'); if (s && !s.classList.contains('present')) hide(c); });
+    });
+  }
+
   deck.initialize().then(function () {
     setupNav();
     setupTranscript();
     setupMasterDetail();
     setupPalette();
+    setupFooter();
+    setupCascade();
     applyPreset('core');   // default the run-through to the VB / DeepLearning.AI audience
   });
 

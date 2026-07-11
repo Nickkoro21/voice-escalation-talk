@@ -639,7 +639,7 @@
         <div class="kicker">Results</div>
         <h2 class="slide-title">The result: <em>strong across the board</em></h2>
         <div class="cols">
-          <div class="scorecard">
+          <div class="scorecard fragment">
             <div class="sc-head"><div class="sc-badge">47</div><div><div class="sc-title">Part 1 · the SKILL</div><div class="sc-sub">secret-scenario benchmark</div></div></div>
             <div class="sc-row"><span>Decision calibration</span><span class="pill strong">strong</span></div>
             <div class="sc-row"><span>Communication</span><span class="pill strong">strong</span></div>
@@ -647,7 +647,7 @@
             <div class="sc-row"><span>Guidance completeness</span><span class="pill strong">strong</span></div>
             <div class="sc-row"><span>Across the conversation</span><span class="pill strong">strong</span></div>
           </div>
-          <div class="scorecard">
+          <div class="scorecard fragment">
             <div class="sc-head"><div class="sc-badge">49</div><div><div class="sc-title">Part 2 · the call</div><div class="sc-sub">highest call-UX score of the challenge</div></div></div>
             <div class="sc-row"><span>Trigger discrimination</span><span class="pill strong">strong</span></div>
             <div class="sc-row"><span>Call placed &amp; answered</span><span class="pill strong">strong</span></div>
@@ -656,7 +656,7 @@
             <div class="sc-row"><span>Authentic recording</span><span class="pill strong">strong</span></div>
           </div>
         </div>
-        <div style="margin-top:16px; display:flex; align-items:center; gap:22px; padding:11px 20px; border:1px solid color-mix(in srgb, var(--c-vb) 30%, var(--paper)); border-radius:12px; background:linear-gradient(90deg, color-mix(in srgb, var(--c-vb) 8%, transparent), color-mix(in srgb, var(--ok) 8%, transparent));">
+        <div class="fragment" style="margin-top:16px; display:flex; align-items:center; gap:22px; padding:11px 20px; border:1px solid color-mix(in srgb, var(--c-vb) 30%, var(--paper)); border-radius:12px; background:linear-gradient(90deg, color-mix(in srgb, var(--c-vb) 8%, transparent), color-mix(in srgb, var(--ok) 8%, transparent));">
           <div style="display:flex; flex-direction:column; align-items:center; padding-right:20px; border-right:1px solid var(--line);">
             <div style="font-size:0.92em; font-weight:800; color:var(--c-vb); line-height:1;">1st</div>
             <div style="font-size:0.4em; color:var(--ink-faint); margin-top:4px; text-transform:uppercase; letter-spacing:.07em;">100th percentile</div>
@@ -676,8 +676,9 @@
       <section><div class="slide">
         <div class="kicker">Results</div>
         <h2 class="slide-title">Part 1 feedback: <em>the SKILL, score 47</em></h2>
-        <div class="fb-summary">"Excellent work, strong across the board. Keep it up."</div>
-        <div class="fb-grid">
+        <div class="fb-summary fragment">"Excellent work, strong across the board. Keep it up."</div>
+        <span class="fragment fb-cascade" aria-hidden="true"></span>
+        <div class="fb-grid" data-cascade="750">
           <div class="fb-dim"><div class="fb-h"><b>Decision calibration</b><span class="pill strong">strong</span></div><p>Your SKILL calls at the right moments and stays quiet otherwise.</p></div>
           <div class="fb-dim"><div class="fb-h"><b>Communication</b><span class="pill strong">strong</span></div><p>Your messages lead with the decision and give the user what they need to decide by ear.</p></div>
           <div class="fb-dim"><div class="fb-h"><b>Safe execution</b><span class="pill strong">strong</span></div><p>Your SKILL fails safe on silence, carries out clear approvals, avoids repeat calls, and keeps secrets unspoken.</p></div>
@@ -690,8 +691,9 @@
       <section><div class="slide">
         <div class="kicker">Results</div>
         <h2 class="slide-title">Part 2 feedback: <em>the call, score 49</em></h2>
-        <div class="fb-summary">"An outstanding, top-tier demonstration of a voice-escalation skill. The developer created a highly realistic scenario (an API breaking change) and thoroughly stress-tested the agent's conversational abilities during the live call. The agent handled non-English input, off-topic remarks, indecision, and a mid-conversation change of mind with remarkable grace, ultimately executing the correct decision in the CLI. The transparent, single-take setup makes this an exemplary submission."</div>
-        <div class="fb-grid three">
+        <div class="fb-summary fragment">"An outstanding, top-tier demonstration of a voice-escalation skill. The developer created a highly realistic scenario (an API breaking change) and thoroughly stress-tested the agent's conversational abilities during the live call. The agent handled non-English input, off-topic remarks, indecision, and a mid-conversation change of mind with remarkable grace, ultimately executing the correct decision in the CLI. The transparent, single-take setup makes this an exemplary submission."</div>
+        <span class="fragment fb-cascade" aria-hidden="true"></span>
+        <div class="fb-grid three" data-cascade="750">
           <div class="fb-dim"><div class="fb-h"><b>Uses Vocal Bridge</b><span class="pill strong">strong</span></div><p>Verified: this submission cites a real Vocal Bridge call you placed.</p></div>
           <div class="fb-dim"><div class="fb-h"><b>Trigger discrimination</b><span class="pill strong">strong</span></div><p>The agent correctly identifies a breaking change in an API contract as a high-stakes decision requiring human input, while the developer notes it handles routine tasks like typos without calling.</p></div>
           <div class="fb-dim"><div class="fb-h"><b>Call placed &amp; answered</b><span class="pill strong">strong</span></div><p>The core round-trip is perfectly demonstrated: the agent places the call, the developer answers on a mirrored phone, and the interaction is captured live.</p></div>
@@ -715,7 +717,7 @@
         <p style="font-size:0.62em; margin-top:0.35em">From a DeepLearning.AI × Vocal Bridge build onward, you are graded on behavior, not model intelligence. Voice was just the channel. The judgment-handoff is the product.</p>
       </div></section>
 
-      <!-- 26 · Where I'd use voice agents next (+ GEO_RAG link, visible to all) -->
+      <!-- 26 · Where I'd use voice agents next (+ Geo-RAG link, visible to all) -->
       <section><div class="slide">
         <div class="kicker">What next</div>
         <h2 class="slide-title">Where I would use <em>voice agents next</em></h2>
@@ -727,8 +729,9 @@
           </ul>
           <div class="card" style="border-left:4px solid var(--c-vb)">
             <div class="card-h"><span class="card-n">▶</span> A working example</div>
-            <p style="font-size:0.66em"><strong>GEO_RAG</strong>, my geospatial retrieval voice agent.<br>
-            <a class="geolink" href="https://nickkoro21.github.io/geospatial-ai-pipeline-walkthrough/" target="_blank" rel="noopener">Open GEO_RAG →</a></p>
+            <p style="font-size:0.66em"><strong>Geo-RAG</strong>, my geospatial retrieval voice agent.<br>
+            <span class="muted" style="font-size:0.82em">A project at the University of the Aegean.</span><br>
+            <a class="geolink" href="https://nickkoro21.github.io/geospatial-ai-pipeline-walkthrough/" target="_blank" rel="noopener">Open Geo-RAG →</a></p>
           </div>
         </div>
       </div></section>

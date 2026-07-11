@@ -585,3 +585,16 @@ html, .reveal-viewport { background-color: var(--bg); }
 .t-scrub-time{ position:absolute; right:8px; bottom:4px; font-size:0.34em; font-weight:700;
   color:var(--ink-faint); letter-spacing:0.02em; pointer-events:none;
   background:color-mix(in srgb, var(--paper) 70%, transparent); padding:0 4px; border-radius:4px; }
+
+
+/* ===== bottom-left chrome: presenter credit + slide counter ===== */
+#deckFoot{ position:fixed; left:22px; bottom:14px; z-index:30; display:flex; align-items:center; gap:8px;
+  font-size:12px; color:var(--ink-faint); pointer-events:none; letter-spacing:.01em; }
+#deckFoot .df-name{ font-weight:700; color:var(--ink-soft); }
+#deckFoot .df-sep{ opacity:.55; }
+#deckFoot .df-num{ font-variant-numeric:tabular-nums; }
+
+/* ===== feedback-slide cascade: reveal one rated item at a time (after the summary) ===== */
+.fb-dim.casc-off{ opacity:0; transform:translateY(10px); }
+.fb-dim.casc-on{ opacity:1; transform:none; transition:opacity .45s ease, transform .45s ease; }
+@media (prefers-reduced-motion: reduce){ .fb-dim.casc-off{ opacity:1 !important; transform:none !important; } }
