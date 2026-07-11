@@ -241,6 +241,57 @@
 
 </div></section>
 
+      <!-- 6a · Skill design (Anthropic best practices): core principles -->
+      <section><div class="slide">
+        <div class="kicker">Anthropic's guide</div>
+        <h2 class="slide-title">How Anthropic says to write a <em>Skill</em></h2>
+        <div class="pillars">
+          <div class="card"><div class="card-h"><span class="card-n">1</span> Concise is key</div><p>The context window is a public good. Assume Claude is already smart and add only what it lacks. Challenge every line: does it justify its token cost?</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">2</span> Right degree of freedom</div><p>Match specificity to fragility. Open field, high freedom, when many paths work; narrow bridge with cliffs, low freedom and exact steps, when the operation is fragile or irreversible.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">3</span> Test every model</div><p>A Skill is an addition to a model, so it must steer Haiku, not just Opus. What reads as over-explaining for Opus can be the guidance Haiku needs.</p></div>
+        </div>
+        <p class="muted" style="font-size:0.5em; margin-top:14px">Source, Anthropic Skill authoring best practices: <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices</a></p>
+      </div></section>
+
+      <!-- 6b · Skill design: built for discovery -->
+      <section><div class="slide">
+        <div class="kicker">Anthropic's guide</div>
+        <h2 class="slide-title">Built for <em>discovery</em></h2>
+        <div class="pillars">
+          <div class="card"><div class="card-h"><span class="card-n">1</span> name</div><p>Gerund form, lowercase and hyphens, no reserved words. <code>processing-pdfs</code>, not <code>helper</code> or <code>utils</code>. It is how the Skill gets referenced and discussed.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">2</span> description</div><p>Third person, what it does and when to use it, with key terms. This one field is how Claude picks the right Skill out of a hundred, so it earns its 1024 characters.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">3</span> Progressive disclosure</div><p>SKILL.md is a table of contents: under 500 lines, references one level deep, detail loaded only when needed. Bundled files cost zero tokens until read.</p></div>
+        </div>
+        <p class="muted" style="font-size:0.5em; margin-top:14px">The metadata (name and description) is the only part pre-loaded for every Skill, so it does the discovery work.</p>
+      </div></section>
+
+      <!-- 6c · Skill design: prove it with evals + anti-patterns -->
+      <section><div class="slide">
+        <div class="kicker">Anthropic's guide</div>
+        <h2 class="slide-title">Prove it, then <em>trust it</em></h2>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Build evaluations first</strong></p>
+            <ul style="font-size:0.56em">
+              <li>Baseline the task with no Skill; note where it fails.</li>
+              <li>Write three scenarios that target those gaps.</li>
+              <li>Add the minimum instructions to pass, then iterate. Evals are the source of truth.</li>
+              <li>Develop with Claude: one instance authors, a fresh instance tests, you watch how it navigates.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Anti-patterns to avoid</strong></p>
+            <ul style="font-size:0.56em">
+              <li>Forward slashes in paths, never backslashes.</li>
+              <li>Give a default with an escape hatch, not a menu of options.</li>
+              <li>In scripts, solve, do not punt back to the model.</li>
+              <li>No voodoo constants: justify every value.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted" style="font-size:0.52em; margin-top:10px">This is the loop behind the SKILL that follows: eval-driven, patched, re-run until the score climbs. <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Full guide</a>.</p>
+      </div></section>
+
       <!-- 7 · The SKILL: 3 pillars -->
       <section><div class="slide">
         <div class="kicker">The build</div>
