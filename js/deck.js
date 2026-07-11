@@ -214,9 +214,14 @@
       var wh = win.clientHeight;
       if (!wh || i <= 0) { stack.style.transform = 'translateY(0px)'; return; }
       var last = turns[i - 1];
-      var bottom = last.offsetTop + last.offsetHeight;
-      var y = wh - bottom - PAD;
-      if (y > 0) y = 0; // content still fits from the top -> stay top-aligned
+      var y;
+      if (last.offsetHeight >= wh) {
+        y = -last.offsetTop; // turn taller than the window (the long pitch): pin its TOP so you read from the start
+      } else {
+        var bottom = last.offsetTop + last.offsetHeight;
+        y = wh - bottom - PAD; // normal: pin the newest turn's bottom to the window bottom
+        if (y > 0) y = 0;      // content still fits from the top -> stay top-aligned
+      }
       stack.style.transform = 'translateY(' + y + 'px)';
     }
 
@@ -291,10 +296,16 @@
     }
 
     if (audio) {
+      // Timestamp-driven reveal: each turn carries data-t = the real second it is
+      // spoken in the recording (from the call log, session-start anchored). A turn
+      // appears exactly as the audio reaches it, so text and voice stay in lockstep.
       audio.addEventListener('timeupdate', function () {
         if (!running) return;
-        var dur = audio.duration || 0;
-        if (dur > 0) { var target = Math.ceil((audio.currentTime / dur) * turns.length); if (target > i) revealUpTo(target); }
+        var ct = audio.currentTime, changed = false;
+        while (i < turns.length && parseFloat(turns[i].getAttribute('data-t') || '0') <= ct) {
+          turns[i++].classList.add('shown'); changed = true;
+        }
+        if (changed) advance();
       });
       audio.addEventListener('ended', function () { revealUpTo(turns.length); finish(); });
     }

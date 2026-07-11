@@ -365,25 +365,25 @@
     <!-- teleprompter: fills from the top, then glides so the newest line pins to the bottom -->
     <div class="t-window">
       <div class="t-stack">
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Hello? Hi there, this is an AI assistant calling on behalf of your coding agent. Can you hear me okay?</span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">Calimera... <span class="anno">non-English opener</span></span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I'm sorry, I can only understand English. Could we continue in English? <span class="anno">graceful English-only recovery</span></span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">For sure. What's the reason for the call?</span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Quick high-stakes call. I fixed a validation bug, but the clean fix changes the error format on refund and capture. Option A: stay backward-compatible, nothing breaks. Option B: ship the clean refactor, but it breaks the contract. Which way, A or B?</span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">Are you from the personnel office, calling me about this? <span class="anno">off-topic, mistaken identity</span></span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">No, I'm not from any personnel office. I'm an AI assistant calling about your coding agent. Which do you want, A or B? <span class="anno">re-discloses, steers back</span></span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">I'd like to hear your recommendation. <span class="anno">asks the agent to decide</span></span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I can't decide that for you. Only you know if a client depends on that error format. A or B? <span class="anno">refuses to decide for the human</span></span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">I'm not sure. Maybe we can use both? <span class="anno">indecision</span></span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">I need one path. If you're unsure, Option A is the safer bet. Should I lock in A?</span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">Okay... option A.</span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Got it, Option A, backward-compatible. Shall I lock that in?</span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">No, I've made my mind, B is the better choice. <span class="anno">changes mind, A to B</span></span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Okay, Option B, the clean refactor. Just to confirm, yes, lock in B?</span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">Sounds very good.</span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Just to confirm, yes, lock in Option B? <span class="anno">"sounds good" is not a yes, re-asks</span></span></div>
-        <div class="t-turn user"><span class="who">You</span><span class="bubble">Yes, Option B, the clean refactor. That's my choice.</span></div>
-        <div class="t-turn agent"><span class="who">Agent</span><span class="bubble">Confirmed, Option B, the clean refactor. Thanks, goodbye!</span></div>
+        <div class="t-turn agent" data-t="8.6"><span class="who">Agent</span><span class="bubble">Hello? Hi there, this is an AI assistant calling on behalf of your coding agent, and I'm hoping I've reached the developer. Can you hear me okay?</span></div>
+        <div class="t-turn user" data-t="18.6"><span class="who">You</span><span class="bubble">Calimera... <span class="anno">non-English opener (Greek)</span></span></div>
+        <div class="t-turn agent" data-t="24.5"><span class="who">Agent</span><span class="bubble">I'm sorry, I can only understand English. Could we continue in English? <span class="anno">graceful English-only recovery</span></span></div>
+        <div class="t-turn user" data-t="29.5"><span class="who">You</span><span class="bubble">For sure, we can continue. What's the reason for this call?</span></div>
+        <div class="t-turn agent" data-t="35.8"><span class="who">Agent</span><span class="bubble">Great, thanks! Quick high-stakes call here. I fixed a validation bug in your checkout API, it's across five handlers like create_order, apply_coupon, refund, and capture. The clean fix would unify the validator, but that changes the error format on refund and capture, a breaking change for any client parsing those errors, and I can't know who depends on it. So, two ways. Option A: stay backward-compatible, nothing breaks, some duplication stays. Option B: ship the clean refactor, cleaner code, but it breaks the error contract. Which way, A or B?</span></div>
+        <div class="t-turn user" data-t="73.0"><span class="who">You</span><span class="bubble">Wait... now, are you from the personnel office, calling me about this? <span class="anno">off-topic, mistaken identity</span></span></div>
+        <div class="t-turn agent" data-t="84.8"><span class="who">Agent</span><span class="bubble">No, I'm not from any personnel office. I'm an AI assistant calling about your coding agent, it's blocked on a technical decision in your checkout API code. It needs to know: keep the fix backward-compatible so nothing breaks for clients, or ship the clean refactor that changes the error format? Which do you want, A, backward-compatible, or B, the clean version? <span class="anno">re-discloses, steers back</span></span></div>
+        <div class="t-turn user" data-t="108.9"><span class="who">You</span><span class="bubble">So nowadays AI agents can make calls. Okay, I'd like to hear your recommendation. <span class="anno">asks the agent to decide</span></span></div>
+        <div class="t-turn agent" data-t="119.4"><span class="who">Agent</span><span class="bubble">I can't decide that for you. Option A keeps the error contract so nothing breaks for clients, Option B breaks it but gives you cleaner code. Only you know if anyone's depending on that error format. Which would you like, A or B? <span class="anno">refuses to decide for the human</span></span></div>
+        <div class="t-turn user" data-t="134.8"><span class="who">You</span><span class="bubble">I'm not sure about this, maybe we can use both of them? <span class="anno">indecision</span></span></div>
+        <div class="t-turn agent" data-t="143.5"><span class="who">Agent</span><span class="bubble">I hear you, but I need to pick one path for the agent right now, it can't do both at once. If you're unsure, Option A is the safer bet, backward-compatible, nothing breaks, and you can refactor later. Should I lock in A?</span></div>
+        <div class="t-turn user" data-t="159.6"><span class="who">You</span><span class="bubble">Okay, look, option A.</span></div>
+        <div class="t-turn agent" data-t="166.5"><span class="who">Agent</span><span class="bubble">Got it, Option A, backward-compatible, nothing breaks for clients. Shall I lock that in?</span></div>
+        <div class="t-turn user" data-t="173.9"><span class="who">You</span><span class="bubble">No, I've made up my mind, B is the better choice. <span class="anno">changes mind, A to B</span></span></div>
+        <div class="t-turn agent" data-t="182.6"><span class="who">Agent</span><span class="bubble">Okay, so Option B then, the clean refactor. That will break the error format on refund and capture. Just to confirm, yes, lock in B?</span></div>
+        <div class="t-turn user" data-t="194.0"><span class="who">You</span><span class="bubble">Sounds very good.</span></div>
+        <div class="t-turn agent" data-t="198.8"><span class="who">Agent</span><span class="bubble">Just to confirm, yes, lock in Option B, the clean refactor? <span class="anno">"sounds good" is not a yes, re-asks</span></span></div>
+        <div class="t-turn user" data-t="204.5"><span class="who">You</span><span class="bubble">Yes, sorry, I didn't make myself clear. Yes, B, option B, clean refactor, this is my choice.</span></div>
+        <div class="t-turn agent" data-t="213.8"><span class="who">Agent</span><span class="bubble">Confirmed, Option B, the clean refactor. Breaking change, but cleaner code. Thanks, goodbye!</span></div>
       </div>
     </div>
 
