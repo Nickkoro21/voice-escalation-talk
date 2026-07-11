@@ -355,45 +355,81 @@
     });
   }
 
-  /* Colour palette switcher, including colour-blind-safe options. Overrides the theme's
-     accent CSS variables live and remembers the choice in localStorage. */
+  /* Colour palette switcher. Each theme is a FULL palette (background, surfaces, text tiers,
+     borders, and brand accents) drawn from popular modern schemes, plus colour-blind-safe and
+     high-contrast sets. Applying a theme overrides the whole variable layer live (so the entire
+     deck, background included, reskins) and remembers the choice in localStorage. Soft tints and
+     hover shades are derived with color-mix so they adapt to each theme's surface. WCAG-verified. */
   function setupPalette() {
-    var PALETTES = [
-      { id:'indigo',   name:'Indigo (default)', cb:false, vb:'#5A4FE0', dl:'#E4405F', ok:'#1FA971' },
-      { id:'okabe',    name:'Colour-safe',      cb:true,  vb:'#0072B2', dl:'#D55E00', ok:'#009E73' },
-      { id:'tol',      name:'Tol bright',       cb:true,  vb:'#4477AA', dl:'#EE6677', ok:'#228833' },
-      { id:'contrast', name:'High contrast',    cb:false, vb:'#003A8C', dl:'#B00020', ok:'#1B5E20' },
-      { id:'teal',     name:'Teal',             cb:false, vb:'#0E7C86', dl:'#E76F51', ok:'#2A9D8F' }
+    // keys: id,name,group,cb, bg,surface,surface2,code_fg, text,text_soft,text_faint,border, primary,accent,success
+    var THEMES = [
+      { id:'default', name:'Indigo (default)', group:'Light', cb:false, bg:'#FFFFFF', surface:'#FFFFFF', surface2:'#0F1117', code_fg:'#D7DCE5', text:'#14181F', text_soft:'#48505B', text_faint:'#8A929E', border:'#E3E7EE', primary:'#5A4FE0', accent:'#E4405F', success:'#1FA971' },
+      { id:'catppuccin-latte', name:'Catppuccin Latte', group:'Light', cb:false, bg:'#eff1f5', surface:'#ffffff', surface2:'#1e1e2e', code_fg:'#cdd6f4', text:'#4c4f69', text_soft:'#5c5f77', text_faint:'#8c8fa1', border:'#ccd0da', primary:'#1d63ee', accent:'#d20f39', success:'#357a1f' },
+      { id:'solarized-light', name:'Solarized Light', group:'Light', cb:false, bg:'#fdf6e3', surface:'#fffbef', surface2:'#073642', code_fg:'#eee8d5', text:'#586e75', text_soft:'#5f747c', text_faint:'#93a1a1', border:'#e5ddc5', primary:'#2075b1', accent:'#d4302d', success:'#5f7a00' },
+      { id:'rose-pine-dawn', name:'Rose Pine Dawn', group:'Light', cb:false, bg:'#faf4ed', surface:'#fffaf3', surface2:'#26233a', code_fg:'#e0def4', text:'#575279', text_soft:'#6e6a86', text_faint:'#9893a5', border:'#e4dfd6', primary:'#7a5c99', accent:'#a3596e', success:'#286983' },
+      { id:'github-light', name:'GitHub Light', group:'Light', cb:false, bg:'#ffffff', surface:'#f6f8fa', surface2:'#24292f', code_fg:'#e6edf3', text:'#1f2328', text_soft:'#57606a', text_faint:'#8c959f', border:'#d0d7de', primary:'#0969da', accent:'#cf222e', success:'#1a7f37' },
+      { id:'nord-snow-storm', name:'Nord Snow Storm', group:'Light', cb:false, bg:'#eceff4', surface:'#ffffff', surface2:'#2e3440', code_fg:'#d8dee9', text:'#2e3440', text_soft:'#434c5e', text_faint:'#7b8494', border:'#d8dee9', primary:'#4b6e9a', accent:'#a8515a', success:'#4a7a52' },
+      { id:'tokyo-night', name:'Tokyo Night', group:'Dark', cb:false, bg:'#1a1b26', surface:'#24283b', surface2:'#1f2335', code_fg:'#9aa5ce', text:'#c0caf5', text_soft:'#a9b1d6', text_faint:'#565f89', border:'#2a2e42', primary:'#7aa2f7', accent:'#f7768e', success:'#9ece6a' },
+      { id:'dracula', name:'Dracula', group:'Dark', cb:false, bg:'#282a36', surface:'#343746', surface2:'#21222c', code_fg:'#f8f8f2', text:'#f8f8f2', text_soft:'#c8c9d6', text_faint:'#6272a4', border:'#44475a', primary:'#bd93f9', accent:'#ff5555', success:'#50fa7b' },
+      { id:'catppuccin-mocha', name:'Catppuccin Mocha', group:'Dark', cb:false, bg:'#1e1e2e', surface:'#313244', surface2:'#181825', code_fg:'#cdd6f4', text:'#cdd6f4', text_soft:'#bac2de', text_faint:'#7f849c', border:'#45475a', primary:'#89b4fa', accent:'#f38ba8', success:'#a6e3a1' },
+      { id:'nord-dark', name:'Nord', group:'Dark', cb:false, bg:'#2e3440', surface:'#3b4252', surface2:'#252a34', code_fg:'#d8dee9', text:'#eceff4', text_soft:'#d8dee9', text_faint:'#8b98b0', border:'#434c5e', primary:'#88c0d0', accent:'#cf8a90', success:'#a3be8c' },
+      { id:'one-dark', name:'One Dark', group:'Dark', cb:false, bg:'#282c34', surface:'#333842', surface2:'#21252b', code_fg:'#abb2bf', text:'#c8ccd4', text_soft:'#abb2bf', text_faint:'#5c6370', border:'#3b4048', primary:'#61afef', accent:'#e17179', success:'#98c379' },
+      { id:'okabe-ito-light', name:'Okabe-Ito Light', group:'Accessible', cb:true, bg:'#FFFFFF', surface:'#F4F5F7', surface2:'#1B1E24', code_fg:'#E8E8E8', text:'#1A1A1A', text_soft:'#454545', text_faint:'#666666', border:'#CBCBCB', primary:'#0072B2', accent:'#c25500', success:'#007A5C' },
+      { id:'okabe-ito-dark', name:'Okabe-Ito Dark', group:'Accessible', cb:true, bg:'#14161A', surface:'#22262E', surface2:'#0E0F12', code_fg:'#E8E8E8', text:'#F5F5F5', text_soft:'#C4C4C4', text_faint:'#969CA6', border:'#343A44', primary:'#56B4E9', accent:'#E69F00', success:'#33C299' },
+      { id:'tol-bright-light', name:'Paul Tol Bright', group:'Accessible', cb:true, bg:'#FFFFFF', surface:'#F4F5F7', surface2:'#1B1E24', code_fg:'#E8E8E8', text:'#1A1A1A', text_soft:'#454545', text_faint:'#666666', border:'#CBCBCB', primary:'#33628F', accent:'#9A3169', success:'#1E7A2E' },
+      { id:'max-contrast-light', name:'Max Contrast Light', group:'Accessible', cb:true, bg:'#FFFFFF', surface:'#F7F7F7', surface2:'#0A0A0A', code_fg:'#FFFFFF', text:'#000000', text_soft:'#2B2B2B', text_faint:'#595959', border:'#767676', primary:'#0B3D91', accent:'#9A1B6C', success:'#00594B' },
+      { id:'max-contrast-dark', name:'Max Contrast Dark', group:'Accessible', cb:true, bg:'#000000', surface:'#14161A', surface2:'#0A0A0A', code_fg:'#F2F2F2', text:'#FFFFFF', text_soft:'#D6D6D6', text_faint:'#A6A6A6', border:'#7A7A7A', primary:'#7AB8FF', accent:'#FF8DC7', success:'#4FD9AE' }
     ];
-    function rgba(hex, a) { var n = parseInt(hex.replace('#',''), 16); return 'rgba(' + ((n>>16)&255) + ',' + ((n>>8)&255) + ',' + (n&255) + ',' + a + ')'; }
+    function relLum(hex) { var n = parseInt(hex.replace('#',''), 16); var a = [((n>>16)&255)/255, ((n>>8)&255)/255, (n&255)/255].map(function (c) { return c <= 0.03928 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4); }); return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2]; }
+    function mix(a, pct, b) { return 'color-mix(in srgb, ' + a + ' ' + pct + '%, ' + b + ')'; }
     var rows = [];
-    function apply(p) {
+    function apply(t) {
       var r = document.documentElement.style;
-      r.setProperty('--c-vb', p.vb);   r.setProperty('--c-vb-soft', rgba(p.vb, 0.10));
-      r.setProperty('--c-dl', p.dl);   r.setProperty('--c-dl-soft', rgba(p.dl, 0.10));
-      r.setProperty('--ok', p.ok);     r.setProperty('--ok-soft', rgba(p.ok, 0.12));
-      r.setProperty('--warn', p.dl);   r.setProperty('--warn-soft', rgba(p.dl, 0.10));
-      try { localStorage.setItem('deckPalette', p.id); } catch (e) {}
-      rows.forEach(function (row) { row.classList.toggle('active', row.getAttribute('data-p') === p.id); });
+      var onAcc = relLum(t.primary) > 0.35 ? '#14161C' : '#FFFFFF'; // dark text on light fills, white on dark fills
+      r.setProperty('--bg', t.bg);
+      r.setProperty('--paper', t.surface);
+      r.setProperty('--paper-2', mix(t.surface, 93, t.text));
+      r.setProperty('--paper-3', mix(t.surface, 86, t.text));
+      r.setProperty('--ink', t.text);
+      r.setProperty('--ink-soft', t.text_soft);
+      r.setProperty('--ink-faint', t.text_faint);
+      r.setProperty('--line', t.border);
+      r.setProperty('--c-vb', t.primary);
+      r.setProperty('--c-vb-2', mix(t.primary, 72, t.text));
+      r.setProperty('--c-vb-soft', mix(t.primary, 14, t.surface));
+      r.setProperty('--c-dl', t.accent);
+      r.setProperty('--c-dl-soft', mix(t.accent, 14, t.surface));
+      r.setProperty('--ok', t.success);
+      r.setProperty('--ok-soft', mix(t.success, 16, t.surface));
+      r.setProperty('--warn', t.accent);
+      r.setProperty('--warn-soft', mix(t.accent, 14, t.surface));
+      r.setProperty('--code-bg', t.surface2);
+      r.setProperty('--code-fg', t.code_fg);
+      r.setProperty('--on-accent', onAcc);
+      try { localStorage.setItem('deckPalette', t.id); } catch (e) {}
+      rows.forEach(function (row) { row.classList.toggle('active', row.getAttribute('data-p') === t.id); });
     }
     var btn = document.createElement('button');
     btn.id = 'paletteToggle'; btn.type = 'button';
-    btn.title = 'Colour palette (accessible options)'; btn.setAttribute('aria-label', 'Colour palette');
+    btn.title = 'Colour palette (light, dark, colour-blind-safe)'; btn.setAttribute('aria-label', 'Colour palette');
     btn.innerHTML = '&#127912;';
     document.body.appendChild(btn);
     var pop = document.createElement('div'); pop.id = 'palettePop'; pop.hidden = true;
-    var h = '<div class="pp-title">Colour palette</div>';
-    PALETTES.forEach(function (p) {
-      h += '<button class="pp-row" type="button" data-p="' + p.id + '">' +
-        '<span class="pp-sw"><i style="background:' + p.vb + '"></i><i style="background:' + p.dl + '"></i><i style="background:' + p.ok + '"></i></span>' +
-        '<span class="pp-name">' + p.name + '</span>' + (p.cb ? '<span class="pp-cb">CB safe</span>' : '') + '</button>';
+    var h = '';
+    ['Light', 'Dark', 'Accessible'].forEach(function (g) {
+      h += '<div class="pp-title">' + g + '</div>';
+      THEMES.filter(function (t) { return t.group === g; }).forEach(function (t) {
+        h += '<button class="pp-row" type="button" data-p="' + t.id + '">' +
+          '<span class="pp-sw"><i style="background:' + t.primary + '"></i><i style="background:' + t.accent + '"></i><i style="background:' + t.success + '"></i></span>' +
+          '<span class="pp-name">' + t.name + '</span>' + (t.cb ? '<span class="pp-cb">CB safe</span>' : '') + '</button>';
+      });
     });
     pop.innerHTML = h; document.body.appendChild(pop);
     rows = Array.prototype.slice.call(pop.querySelectorAll('.pp-row'));
     rows.forEach(function (row) {
       row.addEventListener('click', function () {
-        var p = PALETTES.filter(function (x) { return x.id === row.getAttribute('data-p'); })[0];
-        if (p) apply(p);
+        var t = THEMES.filter(function (x) { return x.id === row.getAttribute('data-p'); })[0];
+        if (t) apply(t);
         pop.hidden = true;
       });
     });
@@ -401,7 +437,7 @@
     document.addEventListener('click', function (e) { if (!pop.hidden && e.target !== btn && !pop.contains(e.target)) pop.hidden = true; });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) pop.hidden = true; });
     var saved = null; try { saved = localStorage.getItem('deckPalette'); } catch (e) {}
-    apply(PALETTES.filter(function (x) { return x.id === saved; })[0] || PALETTES[0]);
+    apply(THEMES.filter(function (x) { return x.id === saved; })[0] || THEMES[0]);
   }
 
   deck.initialize().then(function () {

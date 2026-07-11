@@ -126,14 +126,14 @@
       <svg class="uni-bg" viewBox="0 0 1160 404" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
           <linearGradient id="uniFrontier" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#BC6D1A"/><stop offset="1" stop-color="#5A4FE0"/>
+            <stop offset="0" stop-color="#BC6D1A"/><stop offset="1" style="stop-color:var(--c-vb)"/>
           </linearGradient>
         </defs>
         <g class="uni-frontier fragment" data-fragment-index="1">
           <path d="M356 22 C 398 132 398 272 356 382"
                 fill="none" stroke="url(#uniFrontier)" stroke-width="2"
                 stroke-linecap="round" stroke-dasharray="2 9" opacity=".6"/>
-          <g fill="#5A4FE0" opacity=".5">
+          <g style="fill:var(--c-vb)" opacity=".5">
             <path d="M392 150 l 11 6 l -11 6 z"/>
             <path d="M398 202 l 11 6 l -11 6 z"/>
             <path d="M392 254 l 11 6 l -11 6 z"/>
@@ -649,7 +649,7 @@
             <div class="sc-row"><span>Authentic recording</span><span class="pill strong">strong</span></div>
           </div>
         </div>
-        <div style="margin-top:16px; display:flex; align-items:center; gap:22px; padding:11px 20px; border:1px solid rgba(90,79,224,.28); border-radius:12px; background:linear-gradient(90deg, rgba(90,79,224,.07), rgba(31,169,113,.06));">
+        <div style="margin-top:16px; display:flex; align-items:center; gap:22px; padding:11px 20px; border:1px solid color-mix(in srgb, var(--c-vb) 30%, var(--paper)); border-radius:12px; background:linear-gradient(90deg, color-mix(in srgb, var(--c-vb) 8%, transparent), color-mix(in srgb, var(--ok) 8%, transparent));">
           <div style="display:flex; flex-direction:column; align-items:center; padding-right:20px; border-right:1px solid var(--line);">
             <div style="font-size:0.92em; font-weight:800; color:var(--c-vb); line-height:1;">1st</div>
             <div style="font-size:0.4em; color:var(--ink-faint); margin-top:4px; text-transform:uppercase; letter-spacing:.07em;">100th percentile</div>
@@ -1007,7 +1007,7 @@ QUESTION: Which way — A (backward-compatible) or B (clean but breaking)?</pre>
   &quot;custom_prompt&quot;: &quot;&lt;full caller prompt, see previous backup slide&gt;&quot;,
   &quot;greeting&quot;: &quot;Hello? Hi there, this is an AI assistant calling on behalf of your coding agent, and I&#x27;m hoping I&#x27;ve reached the developer. Can you hear me okay?&quot;
 }</pre><div class="cfgflow"><div class="cfgflow-h">The cascaded pipeline</div><div class="pipe"><div class="pipe-step ps-end">Caller speaks</div><div class="pipe-arrow">&#8595;</div><div class="pipe-step"><b>AssemblyAI</b> universal-streaming STT<span>English, eot 0.6</span></div><div class="pipe-arrow">&#8595;</div><div class="pipe-step ps-brain"><b>Claude Sonnet</b> the brain<span>fallbacks on, 30-word turns</span></div><div class="pipe-arrow">&#8595;</div><div class="pipe-step"><b>ElevenLabs</b> multilingual v2 TTS<span>professional voice</span></div><div class="pipe-arrow">&#8595;</div><div class="pipe-step ps-end">Caller hears</div></div><ul class="cfgnotes"><li>Outbound, hangup enabled, no wait-for-user.</li><li>No web search, no background, five-minute cap.</li></ul></div></div></div></section>
-      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The bug code <em>(checkout API)</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 0">The planted scenario: a trivial typo the agent fixes itself, and an error-contract split that only a human can decide.</div><pre style="font-family:ui-monospace,'Cascadia Code',Consolas,monospace; font-size:0.32em; line-height:1.5; text-align:left; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:540px; background:#0F1117; color:#D7DCE5; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:6px;"># checkout_service/routes.py  (planted bugs)
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The bug code <em>(checkout API)</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 0">The planted scenario: a trivial typo the agent fixes itself, and an error-contract split that only a human can decide.</div><pre style="font-family:ui-monospace,'Cascadia Code',Consolas,monospace; font-size:0.32em; line-height:1.5; text-align:left; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:540px; background:var(--code-bg); color:var(--code-fg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:6px;"># checkout_service/routes.py  (planted bugs)
 
 def checkout(cart):
     if not cart.items:
