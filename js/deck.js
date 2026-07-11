@@ -51,7 +51,8 @@
     { s:'Asurion',     t:'Where a voice layer fits', hide:true },
     { s:'Asurion',     t:'Your questions (placeholder)', hide:true },
     { s:'Asurion',     t:'Discussion / Q&A', hide:true },
-    { s:'Backup',      t:'Full caller prompt (prompt_v6)', hide:true },
+    { s:'Backup',      t:'The full SKILL', hide:true },
+    { s:'Backup',      t:'The caller prompt', hide:true },
     { s:'Backup',      t:'Full agent config (Vocal Bridge)', hide:true },
     { s:'Backup',      t:'The bug code (checkout API)', hide:true }
   ];
