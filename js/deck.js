@@ -338,9 +338,26 @@
   });
 }
 
+  /* Backup slides: master-detail "prompt walk" — click a section to open its verbatim text on the right. */
+  function setupMasterDetail() {
+    document.querySelectorAll('.mdwalk').forEach(function (w) {
+      var items = Array.prototype.slice.call(w.querySelectorAll('.md-item'));
+      var panes = Array.prototype.slice.call(w.querySelectorAll('.md-pane'));
+      items.forEach(function (it) {
+        it.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var k = it.getAttribute('data-k');
+          items.forEach(function (x) { x.classList.toggle('active', x === it); });
+          panes.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-k') === k); });
+        });
+      });
+    });
+  }
+
   deck.initialize().then(function () {
     setupNav();
     setupTranscript();
+    setupMasterDetail();
     applyPreset('core');   // default the run-through to the VB / DeepLearning.AI audience
   });
 
