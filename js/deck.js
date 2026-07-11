@@ -189,6 +189,7 @@
     var wave  = tr.querySelector('.t-wave');
     var label = tr.querySelector('.t-head-label');
     var play  = tr.querySelector('.t-play');
+    var audio = tr.querySelector('audio');
     var turns = Array.prototype.slice.call(tr.querySelectorAll('.t-turn'));
     if (!stack || !win || !turns.length) return;
 
@@ -226,12 +227,19 @@
       advance();
       return t;
     }
+    function revealUpTo(n) {
+      if (n > turns.length) n = turns.length;
+      var changed = false;
+      while (i < n) { turns[i++].classList.add('shown'); changed = true; }
+      if (changed) advance();
+    }
 
     // Reset pre-reveals the first turn so the slide is never blank on arrival. The
     // persistent header and win banner already state the outcome independent of
     // playback, so playing the call is an enhancement, not a prerequisite.
     function reset() {
       if (timer) { clearTimeout(timer); timer = null; }
+      if (audio) { try { audio.pause(); audio.currentTime = 0; } catch (e) {} }
       turns.forEach(function (t) { t.classList.remove('shown'); });
       i = 0;
       stack.style.transform = 'translateY(0px)';
@@ -270,14 +278,25 @@
       setPlaying(true);
       btn('⏸ Pause');
       status('On call');
-      tick();
+      if (audio) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); }
+      else tick();
     }
 
     function pause() {
       if (timer) { clearTimeout(timer); timer = null; }
+      if (audio) { try { audio.pause(); } catch (e) {} }
       setPlaying(false);
       btn('▶ Resume');
       status('Paused');
+    }
+
+    if (audio) {
+      audio.addEventListener('timeupdate', function () {
+        if (!running) return;
+        var dur = audio.duration || 0;
+        if (dur > 0) { var target = Math.ceil((audio.currentTime / dur) * turns.length); if (target > i) revealUpTo(target); }
+      });
+      audio.addEventListener('ended', function () { revealUpTo(turns.length); finish(); });
     }
 
     if (play) play.addEventListener('click', function (e) {
@@ -285,8 +304,9 @@
       if (running) pause(); else start();
     });
 
-    // presenter aid: click the transcript window to step one turn (pauses autoplay)
+    // presenter aid: click the transcript window to step one turn (no-audio mode only)
     win.addEventListener('click', function () {
+      if (audio) return;
       if (running) { if (timer) { clearTimeout(timer); timer = null; } setPlaying(false); btn('▶ Resume'); }
       var t = revealNext();
       if (!t) finish(); else status('On call');
