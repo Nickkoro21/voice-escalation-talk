@@ -50,7 +50,7 @@
     { s:'Asurion',     t:'The three pillars, mapped to fraud DS', hide:true },
     { s:'Asurion',     t:'Where a voice layer fits', hide:true },
     { s:'Asurion',     t:'Your questions (placeholder)', hide:true },
-    { s:'Asurion',     t:'Discussion / Q&A', hide:true },
+    { s:'Closing',     t:'Thank you · Discussion & questions' },
     { s:'Backup',      t:'The full SKILL', hide:true },
     { s:'Backup',      t:'The caller prompt', hide:true },
     { s:'Backup',      t:'Full agent config (Vocal Bridge)', hide:true },
@@ -359,8 +359,15 @@
           var ac = new AC();
           return ac.decodeAudioData(buf).then(function (ab) {
             adur = ab.duration;
-            var ch = ab.getChannelData(0), N = 480, bs = Math.max(1, Math.floor(ch.length / N)), pk = new Array(N), mx = 1e-4;
-            for (var k = 0; k < N; k++) { var s = 0, st = k * bs, en = Math.min(ch.length, st + bs); for (var j = st; j < en; j += 64) { var v = ch[j] < 0 ? -ch[j] : ch[j]; if (v > s) s = v; } pk[k] = s; if (s > mx) mx = s; }
+            // The recording is stereo with each party on its own channel, so take the max
+            // across ALL channels: the waveform then shows the AGENT and the caller alike.
+            var chs = []; for (var c = 0; c < ab.numberOfChannels; c++) chs.push(ab.getChannelData(c));
+            var len = chs[0].length, N = 480, bs = Math.max(1, Math.floor(len / N)), pk = new Array(N), mx = 1e-4;
+            for (var k = 0; k < N; k++) {
+              var s = 0, st = k * bs, en = Math.min(len, st + bs);
+              for (var j = st; j < en; j += 64) { for (var c2 = 0; c2 < chs.length; c2++) { var v = chs[c2][j]; if (v < 0) v = -v; if (v > s) s = v; } }
+              pk[k] = s; if (s > mx) mx = s;
+            }
             for (var m = 0; m < N; m++) pk[m] = pk[m] / mx;
             peaks = pk; if (ac.close) ac.close(); drawWave();
           });

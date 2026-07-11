@@ -598,3 +598,14 @@ html, .reveal-viewport { background-color: var(--bg); }
 .fb-dim.casc-off{ opacity:0; transform:translateY(10px); }
 .fb-dim.casc-on{ opacity:1; transform:none; transition:opacity .45s ease, transform .45s ease; }
 @media (prefers-reduced-motion: reduce){ .fb-dim.casc-off{ opacity:1 !important; transform:none !important; } }
+
+
+/* ===== closing "thank you" slide ===== */
+.thanks{ display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+  min-height:470px; max-width:27em; gap:22px; }
+.thanks-lead{ font-size:1.0em; line-height:1.45; color:var(--ink); }
+.thanks-lead strong{ color:var(--c-vb); }
+.thanks-qa{ display:inline-flex; align-items:center; gap:12px; font-size:1.05em; font-weight:800; color:var(--c-dl); }
+.thanks-qa .thanks-ico{ font-size:1.05em; }
+.thanks-credit{ font-size:0.6em; color:var(--ink-faint); line-height:1.45; margin:0; }
+.thanks-credit strong{ color:var(--ink-soft); }

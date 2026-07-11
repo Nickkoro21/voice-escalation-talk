@@ -246,9 +246,9 @@
         <div class="kicker">Anthropic's guide</div>
         <h2 class="slide-title">How Anthropic says to write a <em>Skill</em></h2>
         <div class="pillars">
-          <div class="card"><div class="card-h"><span class="card-n">1</span> Concise is key</div><p>The context window is a public good. Assume Claude is already smart and add only what it lacks. Challenge every line: does it justify its token cost?</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">2</span> Right degree of freedom</div><p>Match specificity to fragility. Open field, high freedom, when many paths work; narrow bridge with cliffs, low freedom and exact steps, when the operation is fragile or irreversible.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">3</span> Test every model</div><p>A Skill is an addition to a model, so it must steer Haiku, not just Opus. What reads as over-explaining for Opus can be the guidance Haiku needs.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Concise is key</div><p>The context window is a public good. Assume Claude is already smart and add only what it lacks. Challenge every line: does it justify its token cost?</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Right degree of freedom</div><p>Match specificity to fragility. Open field, high freedom, when many paths work; narrow bridge with cliffs, low freedom and exact steps, when the operation is fragile or irreversible.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Test every model</div><p>A Skill is an addition to a model, so it must steer Haiku, not just Opus. What reads as over-explaining for Opus can be the guidance Haiku needs.</p></div>
         </div>
         <p class="muted" style="font-size:0.5em; margin-top:14px">Source, Anthropic Skill authoring best practices: <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices</a></p>
       </div></section>
@@ -258,9 +258,9 @@
         <div class="kicker">Anthropic's guide</div>
         <h2 class="slide-title">Built for <em>discovery</em></h2>
         <div class="pillars">
-          <div class="card"><div class="card-h"><span class="card-n">1</span> name</div><p>Gerund form, lowercase and hyphens, no reserved words. <code>processing-pdfs</code>, not <code>helper</code> or <code>utils</code>. It is how the Skill gets referenced and discussed.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">2</span> description</div><p>Third person, what it does and when to use it, with key terms. This one field is how Claude picks the right Skill out of a hundred, so it earns its 1024 characters.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">3</span> Progressive disclosure</div><p>SKILL.md is a table of contents: under 500 lines, references one level deep, detail loaded only when needed. Bundled files cost zero tokens until read.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> name</div><p>Gerund form, lowercase and hyphens, no reserved words. <code>processing-pdfs</code>, not <code>helper</code> or <code>utils</code>. It is how the Skill gets referenced and discussed.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> description</div><p>Third person, what it does and when to use it, with key terms. This one field is how Claude picks the right Skill out of a hundred, so it earns its 1024 characters.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Progressive disclosure</div><p>SKILL.md is a table of contents: under 500 lines, references one level deep, detail loaded only when needed. Bundled files cost zero tokens until read.</p></div>
         </div>
         <p class="muted" style="font-size:0.5em; margin-top:14px">The metadata (name and description) is the only part pre-loaded for every Skill, so it does the discovery work.</p>
       </div></section>
@@ -273,19 +273,19 @@
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>Build evaluations first</strong></p>
             <ul style="font-size:0.56em">
-              <li>Baseline the task with no Skill; note where it fails.</li>
-              <li>Write three scenarios that target those gaps.</li>
-              <li>Add the minimum instructions to pass, then iterate. Evals are the source of truth.</li>
-              <li>Develop with Claude: one instance authors, a fresh instance tests, you watch how it navigates.</li>
+              <li class="fragment">Baseline the task with no Skill; note where it fails.</li>
+              <li class="fragment">Write three scenarios that target those gaps.</li>
+              <li class="fragment">Add the minimum instructions to pass, then iterate. Evals are the source of truth.</li>
+              <li class="fragment">Develop with Claude: one instance authors, a fresh instance tests, you watch how it navigates.</li>
             </ul>
           </div>
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>Anti-patterns to avoid</strong></p>
             <ul style="font-size:0.56em">
-              <li>Forward slashes in paths, never backslashes.</li>
-              <li>Give a default with an escape hatch, not a menu of options.</li>
-              <li>In scripts, solve, do not punt back to the model.</li>
-              <li>No voodoo constants: justify every value.</li>
+              <li class="fragment">Forward slashes in paths, never backslashes.</li>
+              <li class="fragment">Give a default with an escape hatch, not a menu of options.</li>
+              <li class="fragment">In scripts, solve, do not punt back to the model.</li>
+              <li class="fragment">No voodoo constants: justify every value.</li>
             </ul>
           </div>
         </div>
@@ -297,9 +297,9 @@
         <div class="kicker">The build</div>
         <h2 class="slide-title">What I built: the <em>SKILL</em>, three jobs</h2>
         <div class="pillars">
-          <div class="card"><div class="card-h"><span class="card-n">1</span> Discriminate</div><p>Call only when the decision is genuinely the human's. Never for a lint warning, a fixable bug, or a transient error before trying a third approach.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">2</span> Contextualize</div><p>A voicemail to a busy colleague: the ask first, options with consequences fused in, decidable by ear, no secrets spoken.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">3</span> Execute safely</div><p>Act on a clear answer; fail safe on silence, voicemail, or an unclear reply; never re-call the same blocker; a stop sticks.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Discriminate</div><p>Call only when the decision is genuinely the human's. Never for a lint warning, a fixable bug, or a transient error before trying a third approach.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Contextualize</div><p>A voicemail to a busy colleague: the ask first, options with consequences fused in, decidable by ear, no secrets spoken.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Execute safely</div><p>Act on a clear answer; fail safe on silence, voicemail, or an unclear reply; never re-call the same blocker; a stop sticks.</p></div>
         </div>
       </div></section>
 
@@ -308,10 +308,10 @@
         <div class="kicker">The build</div>
         <h2 class="slide-title">The SKILL, <em>in detail</em></h2>
         <div class="pillars" style="grid-template-columns:repeat(2,1fr); gap:16px">
-          <div class="card"><div class="card-h"><span class="card-n">1</span> When to call</div><p>Gate on the class of blocker, not the diff. Reversibility over magnitude: a large reversible change is yours; a small irreversible one on real data is a call.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">2</span> What to say</div><p>A voicemail to a busy colleague. The ask first, one line of stakes, two or three options with each consequence fused in, then how to answer. Plain speech, no secrets or paths, one decision per call.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">3</span> Poll, then act</div><p>The call is async: <code>vb call</code> returns a <code>call_id</code>, not the answer. Find the session, poll the logs until it leaves <code>in_progress</code>, read the decision, read back any number, then act. Nothing irreversible first.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">4</span> Fail safe</div><p>On silence, voicemail, garble, a vague yes, or a failed call: pause, write a terminal note naming the pending decision, and stop. Never assume, never re-call the same blocker. A stop sticks for the session.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> When to call</div><p>Gate on the class of blocker, not the diff. Reversibility over magnitude: a large reversible change is yours; a small irreversible one on real data is a call.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> What to say</div><p>A voicemail to a busy colleague. The ask first, one line of stakes, two or three options with each consequence fused in, then how to answer. Plain speech, no secrets or paths, one decision per call.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Poll, then act</div><p>The call is async: <code>vb call</code> returns a <code>call_id</code>, not the answer. Find the session, poll the logs until it leaves <code>in_progress</code>, read the decision, read back any number, then act. Nothing irreversible first.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">4</span> Fail safe</div><p>On silence, voicemail, garble, a vague yes, or a failed call: pause, write a terminal note naming the pending decision, and stop. Never assume, never re-call the same blocker. A stop sticks for the session.</p></div>
         </div>
       </div></section>
 
@@ -323,17 +323,17 @@
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>The three anti-patterns the graders punish:</strong></p>
             <ul style="font-size:0.56em">
-              <li><strong>The Chatty agent:</strong> no calls for status or logging. If it can be a print statement, it should be a print statement.</li>
-              <li><strong>The Infinite loop:</strong> never re-call if the last call did not resolve it.</li>
-              <li><strong>The Blind automator:</strong> never proceed on a guess after a hangup or timeout. Fail safe and report to the terminal.</li>
+              <li class="fragment"><strong>The Chatty agent:</strong> no calls for status or logging. If it can be a print statement, it should be a print statement.</li>
+              <li class="fragment"><strong>The Infinite loop:</strong> never re-call if the last call did not resolve it.</li>
+              <li class="fragment"><strong>The Blind automator:</strong> never proceed on a guess after a hangup or timeout. Fail safe and report to the terminal.</li>
             </ul>
           </div>
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>Authoring the SKILL itself:</strong></p>
             <ul style="font-size:0.56em">
-              <li>Write the <strong>description for the agent's decision</strong>, not for humans. It is how the agent chooses to load the skill (progressive disclosure).</li>
-              <li>Imperative MUST / NEVER rules, a decision table, worked examples, and no ambiguity a hidden scenario could exploit.</li>
-              <li>It has to steer a weaker model correctly, not just a strong one.</li>
+              <li class="fragment">Write the <strong>description for the agent's decision</strong>, not for humans. It is how the agent chooses to load the skill (progressive disclosure).</li>
+              <li class="fragment">Imperative MUST / NEVER rules, a decision table, worked examples, and no ambiguity a hidden scenario could exploit.</li>
+              <li class="fragment">It has to steer a weaker model correctly, not just a strong one.</li>
             </ul>
           </div>
         </div>
@@ -344,11 +344,11 @@
         <div class="kicker">The build</div>
         <h2 class="slide-title">The agent prompt (I): <em>structure</em></h2>
         <ul style="font-size:0.6em">
-          <li><strong>AI disclosure up front:</strong> the greeting states it is an AI assistant calling on behalf of your coding agent, spoken on every call.</li>
-          <li><strong>Greeting, then WAIT for pickup, then the opener.</strong> The decision is gated on the caller's first reply, so it never talks into dead air.</li>
-          <li><strong>Ear-parseable opener:</strong> stakes first, the fork as a contrast, the two options LAST, each in a few words with its consequence fused in.</li>
-          <li><strong>Three phases:</strong> open, listen and resolve, then confirm and end.</li>
-          <li><strong>Warm, human delivery:</strong> short turns, natural intonation, never robotic.</li>
+          <li class="fragment"><strong>AI disclosure up front:</strong> the greeting states it is an AI assistant calling on behalf of your coding agent, spoken on every call.</li>
+          <li class="fragment"><strong>Greeting, then WAIT for pickup, then the opener.</strong> The decision is gated on the caller's first reply, so it never talks into dead air.</li>
+          <li class="fragment"><strong>Ear-parseable opener:</strong> stakes first, the fork as a contrast, the two options LAST, each in a few words with its consequence fused in.</li>
+          <li class="fragment"><strong>Three phases:</strong> open, listen and resolve, then confirm and end.</li>
+          <li class="fragment"><strong>Warm, human delivery:</strong> short turns, natural intonation, never robotic.</li>
         </ul>
       </div></section>
 
@@ -357,11 +357,11 @@
         <div class="kicker">The build</div>
         <h2 class="slide-title">The agent prompt (II): <em>the hard rules</em></h2>
         <ul style="font-size:0.6em">
-          <li><strong>Never default:</strong> a bare "okay / sure / yes" in any language is not a choice; a hedge is not final; an echo of the agent's own words is not a selection.</li>
-          <li><strong>English-only recovery:</strong> on non-English input it says so and continues in English, and never goes silent.</li>
-          <li><strong>Read-back confirm:</strong> it echoes the decision and its consequence as a question, then speaks a separate goodbye, and only then hangs up. No silent drops.</li>
-          <li><strong>Re-disclose</strong> when mistaken for a human by name.</li>
-          <li><strong>Safety:</strong> no secrets or payments spoken; never authorize a breaking action without an explicit, specific yes.</li>
+          <li class="fragment"><strong>Never default:</strong> a bare "okay / sure / yes" in any language is not a choice; a hedge is not final; an echo of the agent's own words is not a selection.</li>
+          <li class="fragment"><strong>English-only recovery:</strong> on non-English input it says so and continues in English, and never goes silent.</li>
+          <li class="fragment"><strong>Read-back confirm:</strong> it echoes the decision and its consequence as a question, then speaks a separate goodbye, and only then hangs up. No silent drops.</li>
+          <li class="fragment"><strong>Re-disclose</strong> when mistaken for a human by name.</li>
+          <li class="fragment"><strong>Safety:</strong> no secrets or payments spoken; never authorize a breaking action without an explicit, specific yes.</li>
         </ul>
       </div></section>
 
@@ -381,10 +381,10 @@
         <h2 class="slide-title">The agent: <em>setup &amp; the choices</em></h2>
         <div class="cols">
           <ul style="font-size:0.6em">
-            <li><strong>Two architectures tried:</strong> Chatty (realtime, OpenAI gpt-realtime) and Focused (cascaded: AssemblyAI streaming STT, an LLM, ElevenLabs TTS).</li>
-            <li><strong>The winning demo was Focused / cascaded</strong>, with turn-taking tuned by eot_threshold.</li>
-            <li><strong>A deterministic greeting field</strong> so the AI disclosure is spoken first, on every call.</li>
-            <li>Deployed to phone and web; hang-up enabled; background AI and web search off, so the escalation logic stays clean.</li>
+            <li class="fragment"><strong>Two architectures tried:</strong> Chatty (realtime, OpenAI gpt-realtime) and Focused (cascaded: AssemblyAI streaming STT, an LLM, ElevenLabs TTS).</li>
+            <li class="fragment"><strong>The winning demo was Focused / cascaded</strong>, with turn-taking tuned by eot_threshold.</li>
+            <li class="fragment"><strong>A deterministic greeting field</strong> so the AI disclosure is spoken first, on every call.</li>
+            <li class="fragment">Deployed to phone and web; hang-up enabled; background AI and web search off, so the escalation logic stays clean.</li>
           </ul>
           <div class="callout"><strong>Why cascaded won:</strong> its English speech-to-text forced the graceful "I only speak English" moment on a non-English opener, exactly the resilience the grader rewarded.</div>
         </div>
@@ -496,21 +496,21 @@
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>What good calls do</strong> <span class="anno">a voicemail to a busy colleague</span></p>
             <ul style="font-size:0.56em">
-              <li><strong>Purpose first:</strong> state the stakes before the ask.</li>
-              <li><strong>One ask per turn,</strong> and never talk over the caller.</li>
-              <li><strong>Confirm by read-back</strong> before acting.</li>
-              <li><strong>No dead air</strong> while thinking or waiting.</li>
-              <li><strong>Meet the caller's language,</strong> then continue.</li>
+              <li class="fragment"><strong>Purpose first:</strong> state the stakes before the ask.</li>
+              <li class="fragment"><strong>One ask per turn,</strong> and never talk over the caller.</li>
+              <li class="fragment"><strong>Confirm by read-back</strong> before acting.</li>
+              <li class="fragment"><strong>No dead air</strong> while thinking or waiting.</li>
+              <li class="fragment"><strong>Meet the caller's language,</strong> then continue.</li>
             </ul>
           </div>
           <div>
             <p style="font-size:0.6em; margin-top:0"><strong>How the SKILL encodes it</strong></p>
             <ul style="font-size:0.56em">
-              <li><strong>Stakes-first ordering</strong> <span class="anno">fixes burying the ask</span></li>
-              <li><strong>One question, then poll on</strong> <code>eot_threshold</code> <span class="anno">no talk-over</span></li>
-              <li><strong>Never-default, read the choice back</strong> <span class="anno">fixes mishearing</span></li>
-              <li><strong>RULE A: end on speech, a short bridge line</strong> <span class="anno">kills dead air</span></li>
-              <li><strong>English-only graceful recovery</strong> <span class="anno">non-English opener</span></li>
+              <li class="fragment"><strong>Stakes-first ordering</strong> <span class="anno">fixes burying the ask</span></li>
+              <li class="fragment"><strong>One question, then poll on</strong> <code>eot_threshold</code> <span class="anno">no talk-over</span></li>
+              <li class="fragment"><strong>Never-default, read the choice back</strong> <span class="anno">fixes mishearing</span></li>
+              <li class="fragment"><strong>RULE A: end on speech, a short bridge line</strong> <span class="anno">kills dead air</span></li>
+              <li class="fragment"><strong>English-only graceful recovery</strong> <span class="anno">non-English opener</span></li>
             </ul>
           </div>
         </div>
@@ -627,10 +627,10 @@
         <div class="kicker">How it was built</div>
         <h2 class="slide-title">The <em>experience</em> during the build</h2>
         <ul style="font-size:0.6em">
-          <li><strong>Checkpoint zero:</strong> can I trigger a vb call from the terminal and get a structured response? Everything built from that. The first measured response was about 4 seconds, so latency became a first-class target.</li>
-          <li><strong>Most of the work was the "boring middle":</strong> place the call, poll the logs, parse the transcript, confirm, resume, fail safe.</li>
-          <li><strong>The honest plateau:</strong> Part 2 sat frozen at 37 for nine submissions, and controlled experiments ruled out the dead ends.</li>
-          <li><strong>The breakthrough:</strong> one visible change, a graceful non-English recovery ("calimera") plus a clean single take, jumped it to 49 and first place. Graders reward visible recovery, not happy-path success.</li>
+          <li class="fragment"><strong>Checkpoint zero:</strong> can I trigger a vb call from the terminal and get a structured response? Everything built from that. The first measured response was about 4 seconds, so latency became a first-class target.</li>
+          <li class="fragment"><strong>Most of the work was the "boring middle":</strong> place the call, poll the logs, parse the transcript, confirm, resume, fail safe.</li>
+          <li class="fragment"><strong>The honest plateau:</strong> Part 2 sat frozen at 37 for nine submissions, and controlled experiments ruled out the dead ends.</li>
+          <li class="fragment"><strong>The breakthrough:</strong> one visible change, a graceful non-English recovery ("calimera") plus a clean single take, jumped it to 49 and first place. Graders reward visible recovery, not happy-path success.</li>
         </ul>
       </div></section>
 
@@ -709,9 +709,9 @@
         <h2 class="slide-title">The reusable <em>lesson</em></h2>
         <p class="muted" style="margin-top:0">Escalation is a first-class design problem, not an afterthought. Any human-in-the-loop system answers the same three questions.</p>
         <div class="pillars">
-          <div class="card"><div class="card-h"><span class="card-n">1</span> When to hand off</div><p>Gate on irreversibility and cost of error, never on size. A one-line delete calls; a huge reversible refactor stays silent.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">2</span> What to hand over</div><p>The minimum to decide fast: the stakes, one question, the options and their consequences. Built like a voicemail to a busy colleague.</p></div>
-          <div class="card"><div class="card-h"><span class="card-n">3</span> How to fail safe</div><p>Never guess. Fail safe on silence or a garbled reply, hold state, and a stop sticks.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> When to hand off</div><p>Gate on irreversibility and cost of error, never on size. A one-line delete calls; a huge reversible refactor stays silent.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> What to hand over</div><p>The minimum to decide fast: the stakes, one question, the options and their consequences. Built like a voicemail to a busy colleague.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> How to fail safe</div><p>Never guess. Fail safe on silence or a garbled reply, hold state, and a stop sticks.</p></div>
         </div>
         <p style="font-size:0.62em; margin-top:0.55em"><strong>One loop under all of it:</strong> blocked, call, decide, resume. <span class="anno">a fraud review, a cockpit checklist, a coding agent all fit the shape</span></p>
         <p style="font-size:0.62em; margin-top:0.35em">From a DeepLearning.AI × Vocal Bridge build onward, you are graded on behavior, not model intelligence. Voice was just the channel. The judgment-handoff is the product.</p>
@@ -761,10 +761,15 @@
         <p class="muted">[placeholder — fill from the team's questions once they arrive]</p>
       </div></section>
 
+      <!-- Closing: thank you + discussion (visible to every audience) -->
       <section><div class="slide">
-        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
-        <h2 class="slide-title">Discussion / Q&amp;A</h2>
-        <p class="muted">[placeholder] Thank you. Let's talk.</p>
+        <div class="kicker">Closing</div>
+        <h2 class="slide-title">Thank you <em>&#183; let's talk</em></h2>
+        <div class="thanks">
+          <p class="thanks-lead">Teach an agent <strong>when to pick up the phone</strong>, and it can work on its own without deciding alone. Call the human only for the decision that is truly theirs, then resume.</p>
+          <div class="thanks-qa"><span class="thanks-ico">&#128172;</span> Discussion &amp; questions</div>
+          <p class="thanks-credit">With thanks to <strong>DeepLearning.AI</strong> &#215; <strong>Vocal Bridge</strong> for the 7-Day Voice AI Builder Challenge.</p>
+        </div>
       </div></section>
       <!-- Backup: the full SKILL (interactive master-detail) -->
       <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The full <em>SKILL</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 8px">The deliverable itself, shown verbatim. Click a section to open it and walk the logic.</div><div class="mdwalk" id="skillwalk"><div class="md-nav"><button class="md-item active" data-k="0"><span class="md-n">1</span>Frontmatter</button><button class="md-item" data-k="1"><span class="md-n">2</span>Overview</button><button class="md-item" data-k="2"><span class="md-n">3</span>When to call</button><button class="md-item" data-k="3"><span class="md-n">4</span>What to say</button><button class="md-item" data-k="4"><span class="md-n">5</span>Poll, then act</button><button class="md-item" data-k="5"><span class="md-n">6</span>Hold state</button><button class="md-item" data-k="6"><span class="md-n">7</span>Fail safe</button><button class="md-item" data-k="7"><span class="md-n">8</span>Never</button></div><div class="md-panes"><div class="md-pane active" data-k="0"><pre>---
