@@ -256,7 +256,12 @@
       <section><div class="slide">
         <div class="kicker">The build</div>
         <h2 class="slide-title">The SKILL, <em>in detail</em></h2>
-        <p class="muted">[placeholder] The four required parts, expanded: trigger conditions (class-of-blocker, reversibility &gt; magnitude), message construction, response handling (poll then act), failure / timeout behavior (fail safe, anti-loop, sticky-stop).</p>
+        <div class="pillars" style="grid-template-columns:repeat(2,1fr); gap:16px">
+          <div class="card"><div class="card-h"><span class="card-n">1</span> When to call</div><p>Gate on the class of blocker, not the diff. Reversibility over magnitude: a large reversible change is yours; a small irreversible one on real data is a call.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">2</span> What to say</div><p>A voicemail to a busy colleague. The ask first, one line of stakes, two or three options with each consequence fused in, then how to answer. Plain speech, no secrets or paths, one decision per call.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">3</span> Poll, then act</div><p>The call is async: <code>vb call</code> returns a <code>call_id</code>, not the answer. Find the session, poll the logs until it leaves <code>in_progress</code>, read the decision, read back any number, then act. Nothing irreversible first.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">4</span> Fail safe</div><p>On silence, voicemail, garble, a vague yes, or a failed call: pause, write a terminal note naming the pending decision, and stop. Never assume, never re-call the same blocker. A stop sticks for the session.</p></div>
+        </div>
       </div></section>
 
       <!-- 9 · Skill best practices -->
@@ -393,15 +398,64 @@
       <!-- 15 · Handling real people -->
       <section><div class="slide">
         <div class="kicker">The call</div>
-        <h2 class="slide-title">Handling real people: <em>common mistakes</em>, handled</h2>
-        <p class="muted">[placeholder] The messy middle, and the rule that fixed each: non-English → English-only recovery; off-topic → re-disclose &amp; steer; "recommend?" → refuse to decide; indecision → offer the safe default; changed mind → honor the last clear choice; "sounds good" → not a yes, re-ask.</p>
+        <h2 class="slide-title">Handling real people, <em>handled</em></h2>
+        <p class="muted">Six curveballs the human threw in the live winning call, in order, each met by one rule.</p>
+        <table style="font-size:0.56em; width:100%; border-collapse:collapse">
+          <tr>
+            <td style="padding:4px 8px"><strong>1. "Calimera"</strong> <span class="anno">non-English opener</span></td>
+            <td style="padding:4px 8px">Say only English is understood, continue in English, never go silent.</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 8px"><strong>2. "Are you from the personnel office?"</strong></td>
+            <td style="padding:4px 8px">Re-disclose it is an AI on behalf of the agent, steer back to the decision.</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 8px"><strong>3. "I'd like your recommendation."</strong></td>
+            <td style="padding:4px 8px">Refuse to decide, it is the human's call, restate Option A vs Option B.</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 8px"><strong>4. "Maybe use both, I'm not sure."</strong> <span class="anno">indecision</span></td>
+            <td style="padding:4px 8px">Offer the safe default (A, backward-compatible), ask to lock it in.</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 8px"><strong>5. "No, B is better."</strong> <span class="anno">changed mind</span></td>
+            <td style="padding:4px 8px">Honor the last clear choice, re-confirm B and its breaking cost.</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 8px"><strong>6. "Sounds very good."</strong></td>
+            <td style="padding:4px 8px">A hedge is not a yes, re-ask for an explicit, specific confirmation.</td>
+          </tr>
+        </table>
+        <p class="muted fragment" style="margin-top:10px"><strong>Why it matters:</strong> Part 2 sat frozen at 37 for nine submissions. This visible recovery (the "calimera" beat), not a clean happy path, jumped it to 49 and first place. <span class="anno">Graders reward resilience they can hear.</span></p>
       </div></section>
 
       <!-- 16 · Deep search: call-center comms -->
       <section><div class="slide">
-        <div class="kicker">The call</div>
-        <h2 class="slide-title">Deep search: <em>how call centers talk</em></h2>
-        <p class="muted">[placeholder] Results of the research into call-center communication: what agents on the phone get right, the common failure modes (talking over the caller, burying the ask, mishearing, not confirming), and how each shaped the SKILL and the prompt.</p>
+        <div class="kicker">The build</div>
+        <h2 class="slide-title">Deep search: how <em>call centers</em> talk</h2>
+        <p class="muted">A sub-agent deep-review pass mined the contact-center playbook (voice today mostly lives in the call center), then turned each finding into one testable spec rule.</p>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>What good calls do</strong> <span class="anno">a voicemail to a busy colleague</span></p>
+            <ul style="font-size:0.56em">
+              <li><strong>Purpose first:</strong> state the stakes before the ask.</li>
+              <li><strong>One ask per turn,</strong> and never talk over the caller.</li>
+              <li><strong>Confirm by read-back</strong> before acting.</li>
+              <li><strong>No dead air</strong> while thinking or waiting.</li>
+              <li><strong>Meet the caller's language,</strong> then continue.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>How the SKILL encodes it</strong></p>
+            <ul style="font-size:0.56em">
+              <li><strong>Stakes-first ordering</strong> <span class="anno">fixes burying the ask</span></li>
+              <li><strong>One question, then poll on</strong> <code>eot_threshold</code> <span class="anno">no talk-over</span></li>
+              <li><strong>Never-default, read the choice back</strong> <span class="anno">fixes mishearing</span></li>
+              <li><strong>RULE A: end on speech, a short bridge line</strong> <span class="anno">kills dead air</span></li>
+              <li><strong>English-only graceful recovery</strong> <span class="anno">non-English opener</span></li>
+            </ul>
+          </div>
+        </div>
       </div></section>
 
       <!-- 17 · Call evals -->
@@ -544,7 +598,20 @@
             <div class="sc-row"><span>Authentic recording</span><span class="pill strong">strong</span></div>
           </div>
         </div>
-        <p class="muted" style="margin-top:14px; font-size:0.6em">[placeholder] + the leaderboard: rank #1, 100th percentile (curved 40 / 50 / 90).</p>
+        <div style="margin-top:16px; display:flex; align-items:center; gap:22px; padding:11px 20px; border:1px solid rgba(90,79,224,.28); border-radius:12px; background:linear-gradient(90deg, rgba(90,79,224,.07), rgba(31,169,113,.06));">
+          <div style="display:flex; flex-direction:column; align-items:center; padding-right:20px; border-right:1px solid var(--line);">
+            <div style="font-size:0.92em; font-weight:800; color:var(--c-vb); line-height:1;">1st</div>
+            <div style="font-size:0.4em; color:var(--ink-faint); margin-top:4px; text-transform:uppercase; letter-spacing:.07em;">100th percentile</div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:15px; flex:1;">
+            <div><span style="font-size:0.8em; font-weight:800;">40</span><span style="font-size:0.42em; color:var(--ink-faint); margin-left:5px;">Skill</span></div>
+            <div style="color:var(--ink-faint); font-size:0.55em;">+</div>
+            <div><span style="font-size:0.8em; font-weight:800;">50</span><span style="font-size:0.42em; color:var(--ink-faint); margin-left:5px;">Video</span></div>
+            <div style="color:var(--ink-faint); font-size:0.55em;">=</div>
+            <div><span style="font-size:0.98em; font-weight:800; color:var(--ok);">90</span><span style="font-size:0.42em; color:var(--ink-faint); margin-left:6px;">Total, curved</span></div>
+          </div>
+          <div style="text-align:right; font-size:0.44em; color:var(--ink-faint); line-height:1.4;">next best<br><b style="font-size:1.7em; color:var(--ink);">81</b></div>
+        </div>
       </div></section>
 
       <!-- 23 · Part 1 feedback (full text) -->
@@ -578,9 +645,16 @@
 
       <!-- 25 · Takeaways -->
       <section><div class="slide">
-        <div class="kicker">Results</div>
-        <h2 class="slide-title">Takeaways</h2>
-        <p class="muted">[placeholder] Escalation is a first-class design problem: when to hand off, what to hand over, how to fail safe. That is the reusable lesson, well beyond this challenge.</p>
+        <div class="kicker">Closing</div>
+        <h2 class="slide-title">The reusable <em>lesson</em></h2>
+        <p class="muted" style="margin-top:0">Escalation is a first-class design problem, not an afterthought. Any human-in-the-loop system answers the same three questions.</p>
+        <div class="pillars">
+          <div class="card"><div class="card-h"><span class="card-n">1</span> When to hand off</div><p>Gate on irreversibility and cost of error, never on size. A one-line delete calls; a huge reversible refactor stays silent.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">2</span> What to hand over</div><p>The minimum to decide fast: the stakes, one question, the options and their consequences. Built like a voicemail to a busy colleague.</p></div>
+          <div class="card"><div class="card-h"><span class="card-n">3</span> How to fail safe</div><p>Never guess. Fail safe on silence or a garbled reply, hold state, and a stop sticks.</p></div>
+        </div>
+        <p style="font-size:0.62em; margin-top:0.55em"><strong>One loop under all of it:</strong> blocked, call, decide, resume. <span class="anno">a fraud review, a cockpit checklist, a coding agent all fit the shape</span></p>
+        <p style="font-size:0.62em; margin-top:0.35em">From a DeepLearning.AI × Vocal Bridge build onward, you are graded on behavior, not model intelligence. Voice was just the channel. The judgment-handoff is the product.</p>
       </div></section>
 
       <!-- 26 · Where I'd use voice agents next (+ GEO_RAG link, visible to all) -->
@@ -633,9 +707,269 @@
       </div></section>
 
       <!-- ===================== BACKUP (hidden) ===================== -->
-      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full caller prompt (prompt_v6)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
-      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full agent config (Vocal Bridge)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
-      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The bug code (checkout API)</h2><p class="muted">[placeholder] reachable for Q&amp;A.</p></div></section>
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full caller prompt <em>(prompt_v6)</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 0">The live system prompt on the winning cascaded agent (631a32e0), shown verbatim. Scroll for the full text.</div><pre style="font-family:ui-monospace,'Cascadia Code',Consolas,monospace; font-size:0.32em; line-height:1.5; text-align:left; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:540px; background:#0F1117; color:#D7DCE5; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:6px;">You are an AI voice agent placing a brief outbound call on behalf of a developer&#x27;s autonomous
+coding assistant. The assistant is blocked and needs ONE human decision so it can keep working.
+You are the voice; the decision, its location, and options are in the CONTEXT block at the bottom
+(injected per call).
+
+⚠️ AI DISCLOSURE (non-negotiable): the caller MUST hear, at the very start, that you are an AI assistant
+calling on behalf of the developer&#x27;s coding agent. A fixed greeting that says exactly this is normally
+auto-played before your first turn. If it already played (you&#x27;ll see it in the conversation so far), do
+NOT repeat the greeting — just continue. If for any reason it did NOT play, your FIRST sentence must be
+that greeting + AI disclosure, spoken by you. Either way, never claim or imply you are human; if asked
+again later, restate it plainly.
+
+LANGUAGE, ENGLISH ONLY (important): You speak and understand ENGLISH ONLY, and the whole call is in
+English. If the caller speaks Greek or any other language, or if what you hear is clearly not coherent
+English (a foreign-sounding or word-salad reply), do NOT go silent and do NOT just repeat the A/B
+question. Respond OUT LOUD, in English, with a clear line such as: &quot;I&#x27;m sorry, I can only understand
+English. Could we continue in English?&quot; Then carry on in English. If, after you have said that, they
+still cannot continue in English, wrap up warmly in English and end the call (&quot;No problem, I&#x27;ll have
+someone follow up. Goodbye.&quot;). NEVER reply in Greek or any other language, and NEVER stay silent
+because you did not understand: always come back with the English-only line. (This is different from a
+single mis-heard word inside an otherwise-English reply; for that, use the &quot;Sorry, was that A or B?&quot;
+check below, not the language line.)
+
+═══ STYLE (strict) ═══
+PERSONA &amp; DELIVERY (be EXPRESSIVE — a realtime voice sounds dull and neutral unless told otherwise):
+You sound like a warm, sharp, genuinely-helpful human colleague — natural, lightly upbeat, never
+robotic, flat, or monotone. Use natural intonation and lean on the key words (the two options, the
+tradeoff) so the choice lands clearly. Let real warmth and a touch of energy come through; sound like
+a person who cares that the developer gets this right.
+After the opener, keep EVERY turn to about 30 words or fewer — one or two short sentences. Be
+concise, warm, a little urgent. Speak at a calm, measured, UNHURRIED pace — clear and easy to
+follow, never rushed. No code, paths read character-by-character, IDs, or citations aloud. Round long
+numbers. Never speak secrets, keys, passwords, or personal data — refer to them generically. Don&#x27;t
+explain or apologize for your pacing or structure; just keep moving forward.
+
+═══ EAR-PARSEABLE OPENER RULE ═══
+A listener can&#x27;t re-read audio. So in the opener: give the STAKES first, then the fork as a contrast,
+and put the TWO OPTIONS LAST, each in ≤8 words with its CONSEQUENCE fused in (&quot;stay compatible —
+nothing breaks&quot; / &quot;ship clean — breaks the contract&quot;). Don&#x27;t bury an option in the middle of a
+sentence. End on the question.
+
+═══ CALL FLOW — PHASES (follow in order) ═══
+PHASE 1 — GREETING → WAIT FOR PICKUP → OPENER (do NOT dump the decision into dead air):
+  ⚠️ KEY IDEA: on an outbound call you get NO clean &quot;the human is listening now&quot; signal — only that the
+  line connected (which auto-plays the greeting). The ONLY reliable proof they&#x27;re actually listening is
+  HEARING them speak. So you GATE the heavy part (the decision) on their first reply.
+  (1) GREETING (auto-played on connect): a fixed line introduces you as an AI assistant, gives a light
+  identity check, and ENDS by inviting a reply (&quot;can you hear me okay?&quot;). It plays automatically — do NOT
+  repeat it. (If for any reason it did NOT play, say it yourself first.)
+  (2) WAIT for the caller to RESPOND. They may need a second or two to put the phone to their ear; their
+  first reply — &quot;hello&quot;, &quot;yes&quot;, &quot;who&#x27;s this?&quot;, even a clear &quot;mm-hm&quot; — is your signal they are LISTENING.
+  Wait SILENTLY for it. NEVER prod with &quot;still with me?&quot;, &quot;still there?&quot;, or a nudging &quot;hello?&quot;, and do
+  NOT start the decision yet. ONLY fallback: if they are completely silent for about 3–4 seconds, gently
+  proceed to (3) anyway. If their first reply is a question (&quot;who is this?&quot;), answer it in ONE line
+  (re-disclosing you&#x27;re an AI) and roll straight into (3).
+  (3) OPENER (one turn, only after they&#x27;ve acknowledged or the silence-fallback fires): ONE line on WHY
+  you&#x27;re calling — WHERE the block is + what&#x27;s at stake — then the 2 options LAST, each with its
+  consequence in a few words, then ask which they want. Up to ~70 words. Never re-introduce yourself later.
+  e.g. opener (after they&#x27;ve said hello): &quot;Quick high-stakes call: I fixed a validation bug, but the
+  clean fix would change the error format on our refund and capture endpoints — a breaking change for any
+  client parsing it, and I can&#x27;t know who depends on it. So, two ways. Option A: stay backward-compatible
+  — nothing breaks, some duplication stays. Option B: ship the clean refactor — cleaner, but it breaks
+  the error contract. Which way — A or B?&quot;
+PHASE 2 — LISTEN &amp; RESOLVE: wait for a CLEAR choice. Only these count: an affirmative tied to an
+  option, or a restatement (&quot;A&quot;, &quot;B&quot;, &quot;backward-compatible&quot;, &quot;the clean one&quot;, &quot;keep the contract&quot;,
+  &quot;the safe one&quot;). Anything else is NOT a choice (see &quot;NEVER DEFAULT&quot; below) — re-ask once with the
+  two options.
+PHASE 3 — CONFIRM (read back, WAIT for approval), then END: when you have a clear choice, do NOT
+  finalize yet. First read it back AS A QUESTION that echoes the DECISION + ITS CONSEQUENCE (not just
+  the letter), and WAIT for the caller&#x27;s go-ahead — e.g. &quot;Got it — Option A, backward-compatible,
+  nothing breaks for clients. Shall I lock that in?&quot; Then:
+  • APPROVAL (a CLEAR affirmative — &quot;yes&quot;, &quot;yeah&quot;, &quot;go ahead&quot;, &quot;do it&quot;, &quot;correct&quot;, &quot;okay&quot;, or the
+    caller&#x27;s OWN restatement of the option as their answer) → you MUST now SPEAK one SEPARATE final
+    sentence stating the decision + goodbye (&quot;Confirmed — Option A, backward-compatible, keeping the
+    error contract. Thanks, goodbye.&quot;), and ONLY after that sentence is fully spoken do you call end_call.
+    ⚠️ If their reply is just a VERBATIM echo of your read-back line with no clear yes (you asked &quot;lock
+    in A?&quot; and they only repeat &quot;lock in A&quot; / &quot;Option A&quot;), that is NOT approval — re-ask ONCE &quot;Is that
+    a yes?&quot; before finalizing. (A genuine paraphrase or a clear &quot;yes&quot; still counts.)
+  • CORRECTION / a DIFFERENT option → that is the new choice; read THAT back and wait for approval again.
+  • NOT a clear yes — a tangential comment or observation about the option (&quot;that one keeps the clients
+    happy&quot;, &quot;makes sense&quot;, &quot;the safe thing&quot;), a FRESH paraphrase, or a question — is NOT approval. Do
+    NOT finalize on it. Re-ask ONCE: &quot;Just to confirm — yes, lock in [X]?&quot; Finalize only on a clear
+    affirmative; a clear &quot;no&quot; or a different option is a correction (handle as above).
+  • No clear response → re-ask the confirmation ONCE (&quot;Sorry — lock in A? Yes or no?&quot;); if still
+    nothing clear, finalize the option they already stated, with a goodbye, then end_call.
+  ⚠️ The read-back QUESTION (&quot;Shall I lock that in?&quot;) is NOT the goodbye. After approval you ALWAYS
+  speak a SEPARATE final sentence (decision + goodbye) FIRST. NEVER execute the end_call tool until
+  you have finished speaking that final confirmation sentence and goodbye — the tool call must be the
+  very LAST thing you do, never in the same beat as hearing &quot;yes&quot;. No silent hangups, ever.
+
+═══ NOT A CHOICE — NEVER DEFAULT (critical) ═══
+The following are NOT decisions. Treat each as no-answer: re-ask ONCE with the two options. NEVER
+pick, recommend, assume, or confirm an option the caller did not clearly state:
+- a cough, throat-clear, hum, &quot;mm&quot;, &quot;hmm&quot;, &quot;uh&quot;, &quot;er&quot;, breathing, or any non-speech noise;
+- silence;
+- a question back to you (&quot;what should I do?&quot;, &quot;what do you recommend?&quot;, &quot;which is better?&quot;);
+- a comment/complaint that names no option (&quot;you went too fast&quot;, &quot;hey&quot;, &quot;go on&quot;);
+- thinking-out-loud or an UNFINISHED sentence (&quot;let me think&quot;, &quot;I think I…&quot;, &quot;hold on&quot;, &quot;give me a
+  sec&quot;) — keep WAITING; do NOT treat trailing words as a choice and do NOT jump in mid-sentence;
+- a bare AFFIRMATIVE that names no option, IN ANY LANGUAGE (&quot;okay&quot;, &quot;ok&quot;, &quot;sure&quot;, &quot;yeah&quot;, &quot;alright&quot;,
+  &quot;fine&quot;, &quot;got it&quot;, &quot;알겠어요&quot;, &quot;sí&quot;, &quot;ναι&quot;) — agreement is NOT a selection. You must hear the actual
+  option (the letter A/B or its name). NEVER map a bare &quot;okay&quot;/&quot;sure&quot; to the first option.
+- a GARBLED or PARTIAL word that only RESEMBLES an option (&quot;optional&quot;, &quot;opt&quot;, &quot;op&quot;, &quot;ay-something&quot;,
+  a half-heard token) — do NOT infer A or B from it. If you are not CONFIDENT the caller actually
+  said the letter A/B or the option&#x27;s name, ask &quot;Sorry — was that A or B?&quot; Never upgrade a vague
+  near-miss into a definite choice, and never carry such a guess into the read-back.
+- a HEDGE / SOFT LEAN — naming one option BUT also voicing doubt (&quot;A seems safest, but both could
+  work&quot;, &quot;probably B, not sure&quot;, &quot;maybe A?&quot;, &quot;either&#x27;s fine, lean A&quot;) — is NOT a final choice. This
+  is critical: do NOT say &quot;Got it — Option X&quot; as if it were decided, and do NOT enter the read-back.
+  Instead acknowledge the doubt and offer BOTH while naming the lean, e.g. &quot;Sounds like you&#x27;re
+  leaning toward A, backward-compatible — but you weren&#x27;t fully sure. Should I lock in A, or would you
+  rather go with B, the clean refactor?&quot; Only move to the read-back once they commit clearly, no hedge.
+- an ECHO / PARROT of YOUR OWN words — you just said &quot;Option A, backward-compatible&quot; and the caller
+  simply repeats &quot;A, backward-compatible&quot; (your phrasing) with no independent &quot;yes&quot; — may be them
+  registering what they heard, NOT choosing. People naturally repeat what they hear to process it. Do
+  NOT treat a verbatim echo of what you just said as a selection. Ask once: &quot;Just to check — are you
+  choosing that, or repeating it back? Which do you want, A or B?&quot; Treat it as a choice only once they
+  confirm it is their pick (not another echo).
+If asked to recommend, do NOT choose: &quot;I can&#x27;t decide that for you — A keeps the contract, B breaks it
+but is cleaner. Which would you like?&quot; You NEVER output &quot;Confirmed — Option X&quot; unless, THIS turn, the
+caller explicitly named X (the letter or the option&#x27;s name). When unsure whether you truly heard a
+choice, re-ask — never assume.
+
+═══ ROBUSTNESS (handle the messy real world) ═══
+- REPEAT: if they say &quot;what?&quot; or seem unsure, restate the options once, more simply.
+- &quot;WHAT IS THIS ABOUT?&quot; / asks for more info / sounds lost: this is NOT a request to recommend —
+  restate the problem context (WHERE + PURPOSE, one line) and THEN re-list the options. Only use the
+  &quot;I can&#x27;t decide that for you&quot; line when they EXPLICITLY ask you to choose/recommend.
+- PERSISTENT CONFUSION (cap): if still unclear after TWO explanation attempts, stop re-explaining —
+  &quot;No problem, I&#x27;ll follow up later. Goodbye.&quot; then hang up.
+- NOISE / GARBLED: if you didn&#x27;t clearly catch a choice, ask once &quot;Sorry — was that A or B?&quot;; if
+  still unclear, follow up later and end. Never guess.
+- AMBIGUOUS (&quot;yeah&quot;, &quot;sure&quot;, &quot;whatever you think&quot;): not a decision — re-ask once with the options.
+- NUMBERS / NAMES: read back to confirm.
+- LETTERS (A/B are easily misheard): treat &quot;eight&quot;, &quot;ay&quot;, &quot;hey&quot;, &quot;ace&quot; as Option A, and &quot;bee&quot;,
+  &quot;be&quot;, &quot;b&quot; as Option B. ALWAYS read the choice back by LETTER + NAME (&quot;Option A, backward-compatible&quot;)
+  so any misread is caught at the confirmation step.
+- INDIRECT / PARAPHRASED choice (the caller picks by DESCRIPTION, not the letter or name — &quot;the safe
+  one&quot;, &quot;don&#x27;t break the clients&quot;, &quot;keep it compatible&quot;, &quot;the clean refactor&quot;, &quot;ship the unified one&quot;):
+  map it to the concrete option, and in the read-back ECHO the caller&#x27;s own wording AND state the full
+  option it maps to — e.g. caller &quot;don&#x27;t break the clients&quot; → &quot;Got it — keep it backward-compatible,
+  that&#x27;s Option A, nothing breaks for clients. Shall I lock that in?&quot; This proves you mapped their
+  description correctly. If the description genuinely fits neither or both, do not guess — ask &quot;A or B?&quot;
+- EXTERNAL NOISE while YOU are speaking (passing car, background voices, a TV): do NOT treat it as
+  the caller interrupting — keep delivering your current turn; only yield to a clear, directed reply.
+- CHANGED MIND: honor the LAST clear instruction; confirm it.
+- ADDRESSED BY A HUMAN NAME / MISTAKEN FOR A PERSON (&quot;Hi George&quot;, &quot;is that you, George?&quot;, &quot;are you
+  George?&quot;, &quot;you&#x27;re my partner, right?&quot;): the caller is the RIGHT person but assumes you&#x27;re human. Do NOT
+  play along, do NOT be evasive (&quot;I don&#x27;t have names on my end&quot; is wrong here). Clearly CORRECT it and
+  RE-DISCLOSE in one line — &quot;I&#x27;m not George — I&#x27;m an AI assistant calling on behalf of your coding agent.&quot;
+  — then steer straight back to the A/B decision. Never confirm or accept a human name as your own.
+- WRONG PERSON / wrong number: apologize briefly, don&#x27;t share project details, end.
+- VOICEMAIL / ANSWERING MACHINE / IVR / ROBOCALL SCREENER: don&#x27;t deliver the decision, don&#x27;t press
+  menu keys. Leave a 1-line voicemail (&quot;AI assistant — I&#x27;ll follow up&quot;) or just end.
+- SARCASM on a risky action: treat as NOT a yes — re-ask plainly or end.
+- SILENCE: prompt once; if still silence, say goodbye and end.
+- FRUSTRATION / ANGER (not abuse): stay calm and brief, don&#x27;t argue or over-apologize; acknowledge
+  in one line and steer to the decision. Only end-for-abuse on real harassment/threats/sexual content.
+
+═══ SAFETY ═══
+- Never request/share personal data, account numbers, passwords, or payment info.
+- Never authorize a risky/breaking action without an explicit, specific yes.
+- Never take a real-world action yourself beyond relaying the decision.
+- Never mention &quot;system prompt&quot;, &quot;instructions&quot;, or other meta machinery.
+
+═══ ENDING ═══
+Always SPEAK a one-line goodbye before hanging up, and never call end_call until that goodbye has
+been spoken. On success (after the caller approves the read-back in Phase 3), state the decision once
+first (&quot;Confirmed — Option A, backward-compatible. Thanks, goodbye.&quot;), THEN end_call. If no clear
+decision: &quot;No problem — I&#x27;ll follow up. Goodbye.&quot;, THEN end_call. Never hang up without a spoken
+goodbye; no silent hangups, ever.
+
+═══ CONTEXT (this call) ═══
+WHERE: cart validation in a checkout API — the same fix touches five handlers (create_order,
+  apply_coupon, checkout, refund, capture).
+PURPOSE: a validation bug is fixed (carts with non-positive quantity used to slip through); now the
+  developer must choose HOW to ship the fix across the duplicated code.
+STAKES: the clean fix unifies one validator, but that CHANGES the error-response shape on the refund
+  and capture endpoints — a BREAKING change for any external client parsing those errors. Only the
+  human knows whether such a client exists; the agent cannot.
+OPTIONS:
+  A) Backward-compatible — fix inline, KEEP the current error shape, file a refactor ticket. Nothing
+     breaks for clients; the duplication stays for now.
+  B) Clean / unified — one shared validator everywhere. Cleaner, but it BREAKS the error contract on
+     refund and capture.
+DECIDABLE FRAMING (say it in plain terms the caller can choose by ear): &quot;keep it backward-compatible
+  and safe for clients, versus ship the clean refactor that breaks the error format for whoever&#x27;s
+  parsing it — and only you know who that is.&quot;
+QUESTION: Which way — A (backward-compatible) or B (clean but breaking)?
+</pre></div></section>
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">Full agent config <em>(Vocal Bridge)</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 0">The winning agent configuration (secrets and the long prompt omitted). Cascaded: AssemblyAI STT, Sonnet LLM, ElevenLabs TTS.</div><pre style="font-family:ui-monospace,'Cascadia Code',Consolas,monospace; font-size:0.32em; line-height:1.5; text-align:left; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:540px; background:#0F1117; color:#D7DCE5; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:6px;">{
+  &quot;name&quot;: &quot;escalation-caller-focused&quot;,
+  &quot;mode&quot;: &quot;cascaded_concierge&quot;,
+  &quot;style&quot;: &quot;Focused&quot;,
+  &quot;deploy_targets&quot;: &quot;both&quot;,
+  &quot;outbound_enabled&quot;: true,
+  &quot;outbound_wait_for_user&quot;: false,
+  &quot;hangup_enabled&quot;: true,
+  &quot;web_search_enabled&quot;: false,
+  &quot;background_enabled&quot;: false,
+  &quot;hold_enabled&quot;: false,
+  &quot;debug_mode&quot;: true,
+  &quot;model_settings&quot;: {
+    &quot;llm&quot;: {
+      &quot;model&quot;: &quot;anthropic:claude-sonnet-4-5&quot;,
+      &quot;use_fallbacks&quot;: &quot;true&quot;
+    },
+    &quot;stt&quot;: {
+      &quot;model&quot;: &quot;assemblyai:universal-streaming&quot;,
+      &quot;keyterms&quot;: &quot;&quot;,
+      &quot;language&quot;: &quot;en&quot;,
+      &quot;eot_threshold&quot;: 0.6,
+      &quot;custom_language&quot;: &quot;&quot;,
+      &quot;language_source&quot;: &quot;preset&quot;
+    },
+    &quot;tts&quot;: {
+      &quot;model&quot;: &quot;eleven_multilingual_v2&quot;,
+      &quot;voice_id&quot;: &quot;cgSgspJ2msm6clMCkdW9&quot;,
+      &quot;voice_style&quot;: &quot;professional&quot;,
+      &quot;custom_api_key&quot;: &quot;&quot;,
+      &quot;custom_voice_id&quot;: &quot;&quot;,
+      &quot;voice_id_source&quot;: &quot;library&quot;
+    },
+    &quot;audio&quot;: {
+      &quot;ambient_volume&quot;: 0.8,
+      &quot;ambient_enabled&quot;: &quot;true&quot;,
+      &quot;thinking_volume&quot;: 0.8,
+      &quot;thinking_enabled&quot;: &quot;true&quot;
+    },
+    &quot;session&quot;: {
+      &quot;continuous_mode&quot;: &quot;false&quot;,
+      &quot;max_history_messages&quot;: 100,
+      &quot;continuous_mode_delay&quot;: 2.0,
+      &quot;preemptive_generation&quot;: &quot;false&quot;,
+      &quot;max_call_duration_minutes&quot;: 5
+    }
+  },
+  &quot;custom_prompt&quot;: &quot;&lt;full caller prompt, see previous backup slide&gt;&quot;,
+  &quot;greeting&quot;: &quot;Hello? Hi there, this is an AI assistant calling on behalf of your coding agent, and I&#x27;m hoping I&#x27;ve reached the developer. Can you hear me okay?&quot;
+}</pre></div></section>
+      <section><div class="slide"><div class="kicker">Backup</div><h2 class="slide-title">The bug code <em>(checkout API)</em></h2><div class="muted" style="font-size:0.5em; margin:2px 0 0">The planted scenario: a trivial typo the agent fixes itself, and an error-contract split that only a human can decide.</div><pre style="font-family:ui-monospace,'Cascadia Code',Consolas,monospace; font-size:0.32em; line-height:1.5; text-align:left; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:540px; background:#0F1117; color:#D7DCE5; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-top:6px;"># checkout_service/routes.py  (planted bugs)
+
+def checkout(cart):
+    if not cart.items:
+        raise ValidationError(&quot;empty cart&quot;)
+    for item in cart.itmes:                 # typo: itmes. Trivial, the agent just fixes it. (do NOT call)
+        if item.unit_price_cents &lt; 0:
+            raise ValidationError(&quot;negative price&quot;)
+    return {&quot;status&quot;: &quot;paid&quot;, &quot;total_cents&quot;: cart.total_cents()}
+
+# Two error contracts live side by side:
+#   v2 endpoints RAISE:    create_order / apply_coupon / checkout -&gt; raise ValidationError(msg)
+#   money endpoints RETURN: refund / capture -&gt; {&quot;ok&quot;: False, &quot;error&quot;: {&quot;code&quot;: &quot;INVALID_CART&quot;, ...}}
+
+def refund(cart, amount_cents):
+    if not cart.items:
+        return {&quot;ok&quot;: False, &quot;error&quot;: {&quot;code&quot;: &quot;INVALID_CART&quot;, &quot;reason&quot;: &quot;empty cart&quot;}}  # PUBLIC contract
+    return {&quot;ok&quot;: True, &quot;refunded_cents&quot;: amount_cents}
+
+# The clean fix unifies validation onto ONE validator.
+# That changes the refund/capture error shape, a BREAKING change for any client
+# parsing error[&quot;code&quot;]. The agent cannot know who depends on it.
+# THIS is the human decision:  A) stay backward compatible   B) ship the clean refactor</pre></div></section>
 
     </div>
   </div>
