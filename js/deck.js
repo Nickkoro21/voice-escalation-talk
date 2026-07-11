@@ -355,10 +355,60 @@
     });
   }
 
+  /* Colour palette switcher, including colour-blind-safe options. Overrides the theme's
+     accent CSS variables live and remembers the choice in localStorage. */
+  function setupPalette() {
+    var PALETTES = [
+      { id:'indigo',   name:'Indigo (default)', cb:false, vb:'#5A4FE0', dl:'#E4405F', ok:'#1FA971' },
+      { id:'okabe',    name:'Colour-safe',      cb:true,  vb:'#0072B2', dl:'#D55E00', ok:'#009E73' },
+      { id:'tol',      name:'Tol bright',       cb:true,  vb:'#4477AA', dl:'#EE6677', ok:'#228833' },
+      { id:'contrast', name:'High contrast',    cb:false, vb:'#003A8C', dl:'#B00020', ok:'#1B5E20' },
+      { id:'teal',     name:'Teal',             cb:false, vb:'#0E7C86', dl:'#E76F51', ok:'#2A9D8F' }
+    ];
+    function rgba(hex, a) { var n = parseInt(hex.replace('#',''), 16); return 'rgba(' + ((n>>16)&255) + ',' + ((n>>8)&255) + ',' + (n&255) + ',' + a + ')'; }
+    var rows = [];
+    function apply(p) {
+      var r = document.documentElement.style;
+      r.setProperty('--c-vb', p.vb);   r.setProperty('--c-vb-soft', rgba(p.vb, 0.10));
+      r.setProperty('--c-dl', p.dl);   r.setProperty('--c-dl-soft', rgba(p.dl, 0.10));
+      r.setProperty('--ok', p.ok);     r.setProperty('--ok-soft', rgba(p.ok, 0.12));
+      r.setProperty('--warn', p.dl);   r.setProperty('--warn-soft', rgba(p.dl, 0.10));
+      try { localStorage.setItem('deckPalette', p.id); } catch (e) {}
+      rows.forEach(function (row) { row.classList.toggle('active', row.getAttribute('data-p') === p.id); });
+    }
+    var btn = document.createElement('button');
+    btn.id = 'paletteToggle'; btn.type = 'button';
+    btn.title = 'Colour palette (accessible options)'; btn.setAttribute('aria-label', 'Colour palette');
+    btn.innerHTML = '&#127912;';
+    document.body.appendChild(btn);
+    var pop = document.createElement('div'); pop.id = 'palettePop'; pop.hidden = true;
+    var h = '<div class="pp-title">Colour palette</div>';
+    PALETTES.forEach(function (p) {
+      h += '<button class="pp-row" type="button" data-p="' + p.id + '">' +
+        '<span class="pp-sw"><i style="background:' + p.vb + '"></i><i style="background:' + p.dl + '"></i><i style="background:' + p.ok + '"></i></span>' +
+        '<span class="pp-name">' + p.name + '</span>' + (p.cb ? '<span class="pp-cb">CB safe</span>' : '') + '</button>';
+    });
+    pop.innerHTML = h; document.body.appendChild(pop);
+    rows = Array.prototype.slice.call(pop.querySelectorAll('.pp-row'));
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () {
+        var p = PALETTES.filter(function (x) { return x.id === row.getAttribute('data-p'); })[0];
+        if (p) apply(p);
+        pop.hidden = true;
+      });
+    });
+    btn.addEventListener('click', function (e) { e.stopPropagation(); pop.hidden = !pop.hidden; });
+    document.addEventListener('click', function (e) { if (!pop.hidden && e.target !== btn && !pop.contains(e.target)) pop.hidden = true; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) pop.hidden = true; });
+    var saved = null; try { saved = localStorage.getItem('deckPalette'); } catch (e) {}
+    apply(PALETTES.filter(function (x) { return x.id === saved; })[0] || PALETTES[0]);
+  }
+
   deck.initialize().then(function () {
     setupNav();
     setupTranscript();
     setupMasterDetail();
+    setupPalette();
     applyPreset('core');   // default the run-through to the VB / DeepLearning.AI audience
   });
 

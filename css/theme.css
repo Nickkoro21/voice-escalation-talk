@@ -541,3 +541,25 @@
 .pipe-step.ps-brain b{ color:var(--c-dl); }
 .pipe-arrow{ text-align:center; color:var(--ink-faint); font-size:0.6em; line-height:1; margin:1px 0; }
 .cfgnotes{ margin:12px 0 0; padding-left:18px; font-size:0.5em; color:var(--ink-soft); line-height:1.5; }
+
+
+/* ===== Colour palette switcher (with colour-blind-safe options) ===== */
+#paletteToggle{ position:fixed; top:15px; right:68px; z-index:40; width:40px; height:40px;
+  border-radius:11px; border:1px solid var(--line); background:rgba(255,255,255,0.9);
+  color:var(--ink); font-size:17px; cursor:pointer; box-shadow:var(--shadow-soft); line-height:1; }
+#paletteToggle:hover{ border-color:var(--c-vb); color:var(--c-vb); }
+#palettePop{ position:fixed; top:62px; right:20px; z-index:50; background:var(--paper);
+  border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); padding:8px; min-width:214px; }
+#palettePop[hidden]{ display:none; }
+#palettePop .pp-title{ font-size:11px; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--ink-faint); font-weight:800; padding:4px 8px 7px; }
+.pp-row{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; margin:0;
+  padding:7px 8px; border:1px solid transparent; border-radius:9px; background:none; cursor:pointer;
+  font-family:inherit; font-size:13px; color:var(--ink); transition:background .1s,border-color .1s; }
+.pp-row:hover{ background:var(--c-vb-soft); }
+.pp-row.active{ border-color:var(--c-vb); background:var(--c-vb-soft); }
+.pp-sw{ display:inline-flex; gap:3px; flex:0 0 auto; }
+.pp-sw i{ width:13px; height:13px; border-radius:4px; display:block; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
+.pp-name{ flex:1; }
+.pp-cb{ font-size:9px; font-weight:800; color:#fff; background:var(--ink-soft); border-radius:5px;
+  padding:1px 5px; letter-spacing:.04em; }
