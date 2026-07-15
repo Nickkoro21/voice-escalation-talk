@@ -592,11 +592,13 @@
       <section><div class="slide">
         <div class="kicker">How it was built</div>
         <h2 class="slide-title">Spec-Driven Development (I): <em>what &amp; why</em></h2>
-        <ul style="font-size:0.72em">
-          <li><strong>The spec is the brain, the agent is the muscle.</strong> You steer with the spec, not by hand-writing every line.</li>
-          <li><strong>Three benefits:</strong> <em>Amplification</em> (a small spec change drives a large code change), <em>Context Preservation</em> (no context decay across a long build), <em>Intent Fidelity</em> (code that lands closer to your goals).</li>
-          <li><strong>Vibe coding vs SDD:</strong> the spec is a compiler for intent. You review the spec, the agent compiles it to code.</li>
-        </ul>
+        <p class="muted" style="font-size:0.6em; margin-top:0"><strong>Vibe coding</strong> is fast, one shot, and does not scale: no spec means no memory between sessions. <strong>SDD</strong> splits the WHAT and WHY (the spec) from the HOW (the agent), so it scales to an ongoing build.</p>
+        <div class="pillars">
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Amplification</div><p>A small spec edit drives a large, consistent code change. Swap "SQLite with Prisma" for "MongoDB" and the blast radius stays the same size either way, tiny edit.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Context preservation</div><p>Specs persist across sessions, and across agents. No re-explaining, no context decay on a long build.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Intent fidelity</div><p>Problem, success criteria, and constraints are defined before the agent generates a line, so the result lands closer to what you actually meant.</p></div>
+        </div>
+        <p class="muted fragment" style="font-size:0.6em; margin-top:10px"><strong>The spec is a compiler for intent:</strong> you review the spec, the agent compiles it to code. Agent is the muscle, the SPEC is the brain.</p>
         <p class="slide-fn">Source: DeepLearning.AI Spec-Driven Development course reference.</p>
       </div></section>
 
@@ -604,22 +606,40 @@
       <section><div class="slide">
         <div class="kicker">How it was built</div>
         <h2 class="slide-title">Spec-Driven Development (II): <em>the workflow</em></h2>
-        <ul style="font-size:0.72em">
-          <li><strong>Constitution → Feature Loop → Replanning.</strong> The Constitution (mission, tech stack, roadmap) is the standing law of the project.</li>
-          <li><strong>Feature loop:</strong> Specification → Plan (requirements + a validation scorecard) → Implementation → Validation (human-in-the-loop) → Merge.</li>
-          <li><strong>Guardrails:</strong> deep review with sub-agents; watch for spec drift and cognitive debt; clear context between features.</li>
+        <p class="muted" style="font-size:0.6em; margin-top:0"><strong>Constitution &#8594; Feature Loop &#8594; Replanning.</strong> The Constitution is the standing law of the project, written once and referenced by every feature after.</p>
+        <table style="font-size:0.56em; width:100%; border-collapse:collapse; margin-top:6px">
+          <tr class="fragment"><td style="padding:5px 10px; width:24%"><code>mission.md</code></td><td style="padding:5px 10px">the WHY: vision, audience, scope. For everyone on the team.</td></tr>
+          <tr class="fragment"><td style="padding:5px 10px"><code>tech-stack.md</code></td><td style="padding:5px 10px">the engineering: stack, schema decided early, hard constraints.</td></tr>
+          <tr class="fragment"><td style="padding:5px 10px"><code>roadmap.md</code></td><td style="padding:5px 10px">the phases, each one sized to a single feature loop.</td></tr>
+        </table>
+        <ul style="font-size:0.6em; margin-top:10px">
+          <li class="fragment"><strong>The feature loop:</strong> Specification &#8594; Plan (requirements + a validation scorecard) &#8594; Implementation &#8594; Validation (human-in-the-loop) &#8594; Merge.</li>
+          <li class="fragment"><strong>The scorecard IS an eval suite:</strong> write it before you build, exactly like the vb eval harness every call was graded against. A regression is not fixed until a fresh run scores higher.</li>
         </ul>
+        <p class="muted fragment" style="font-size:0.6em; margin-top:8px">Same shape as <strong>the loop</strong> on the earlier slide, one label swapped: Plan &#8594; Implement &#8594; Validate &#8594; Replan. <span class="anno">the feature loop and the voice eval loop are the same loop, with a microphone</span></p>
       </div></section>
 
       <!-- 20 · SDD (III) applied -->
       <section><div class="slide">
         <div class="kicker">How it was built</div>
         <h2 class="slide-title">Spec-Driven Development (III): <em>applied here</em></h2>
-        <ul style="font-size:0.72em">
-          <li><strong>A Constitution for this project:</strong> mission (win the challenge), tech (the vb CLI, Claude), hard constraints, all written down first.</li>
-          <li><strong>The SKILL.md is itself the spec</strong> the coding agent follows; validation is <em>eval-driven</em> (vb eval) plus human-in-the-loop.</li>
-          <li><strong>Deep review with agents:</strong> multi-agent workflows designed and red-teamed the SKILL; a controlled A/B proved which changes actually moved the score.</li>
-        </ul>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>A Constitution for this project</strong></p>
+            <ul style="font-size:0.56em">
+              <li class="fragment">Mission: win the challenge. Tech: the vb CLI, Claude. Hard constraints, all written down before the first prompt line.</li>
+              <li class="fragment"><strong>The SKILL.md is not just built with SDD, it IS an SDD artifact:</strong> SDD says package repeatable workflows as agent skills; the challenge asked for exactly a SKILL.md. I did not just apply the method, I shipped the method's own output.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Guardrails that held it together</strong></p>
+            <ul style="font-size:0.56em">
+              <li class="fragment"><strong>Deep review with sub-agents:</strong> a fresh agent with its own context takes a full second look. It surfaced the planted bugs and powered the deep search; review intent and spec-fidelity, not variable names.</li>
+              <li class="fragment"><strong>Spec drift and cognitive debt:</strong> move a file by hand and the specs start lying; write faster than you review and the debt piles up silently. One rule stops both: the agent edits the spec, never me by hand.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted fragment" style="font-size:0.6em; margin-top:10px">Validation was eval-driven (<code>vb eval</code>) plus human-in-the-loop; a controlled A/B proved which changes actually moved the score.</p>
       </div></section>
 
       <!-- 21 · Experience during the build -->
