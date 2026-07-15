@@ -737,22 +737,277 @@
       </div></section>
 
       <!-- ===================== ASURION EXTENSION (hidden by default) ===================== -->
+      <!-- Asurion · asurion-map -->
       <section><div class="slide">
         <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
-        <h2 class="slide-title">Escalation <em>is</em> your fraud pipeline</h2>
-        <p class="muted">[placeholder] A model flags a claim, then what? Auto-decide vs route to a human investigator. Same three questions: when, what context, how to fail safe.</p>
+        <h2 class="slide-title">What you asked for, <em>mapped</em></h2>
+        <p class="muted" style="font-size:0.6em; margin-top:0">Seven questions from your team shape this block. One slide each, with the winning build as the evidence behind them.</p>
+        <div class="cols" style="margin-top:10px">
+          <div>
+            <ul style="font-size:0.56em; list-style:none; margin-left:0">
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">1</span><strong>Production-grade design principles</strong><span class="anno" style="display:block; margin-left:33px">what to get right early, and the classic mistakes</span></li>
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">2</span><strong>Agent, or a simpler pipeline?</strong><span class="anno" style="display:block; margin-left:33px">a usable decision test</span></li>
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">3</span><strong>Reliability &amp; guardrails</strong><span class="anno" style="display:block; margin-left:33px">predictability, failure catching, sensitive data</span></li>
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">4</span><strong>Human-in-the-loop escalation</strong><span class="anno" style="display:block; margin-left:33px">your world; the whole talk is the evidence</span></li>
+            </ul>
+          </div>
+          <div>
+            <ul style="font-size:0.56em; list-style:none; margin-left:0">
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">5</span><strong>Evaluation, before and after ship</strong><span class="anno" style="display:block; margin-left:33px">the loop that actually moved my score</span></li>
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">6</span><strong>Latency &amp; serving speed</strong><span class="anno" style="display:block; margin-left:33px">when speed becomes an architecture decision</span></li>
+              <li style="margin:0.55em 0"><span class="card-n" style="display:inline-grid; place-items:center; width:24px; height:24px; border-radius:7px; margin-right:9px">7</span><strong>Voice-specific patterns</strong><span class="anno" style="display:block; margin-left:33px">interruptions, mishearing, confirmations</span></li>
+              <li style="margin:0.9em 0 0"><span class="anno">Plus: where a voice layer could fit alongside your fraud models, and your own questions to close.</span></li>
+            </ul>
+          </div>
+        </div>
       </div></section>
 
+      <!-- Asurion · fraud-pipeline -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Escalation is your <em>fraud pipeline</em></h2>
+        <p class="muted" style="font-size:0.62em; margin-top:0">The loop I shipped and the loop between a model score and an investigator have the same four stages. Different transport (a phone call vs. a review queue), same design problem.</p>
+        <table style="font-size:0.58em; width:100%; border-collapse:collapse; margin-top:4px">
+          <thead>
+            <tr>
+              <th style="padding:5px 10px; width:11%; border-bottom:1px solid var(--line)"></th>
+              <th style="padding:5px 10px; text-align:left; font-size:0.82em; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); border-bottom:1px solid var(--line)">1 · Stop</th>
+              <th style="padding:5px 10px; text-align:left; font-size:0.82em; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); border-bottom:1px solid var(--line)">2 · Hand off</th>
+              <th style="padding:5px 10px; text-align:left; font-size:0.82em; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); border-bottom:1px solid var(--line)">3 · Decide</th>
+              <th style="padding:5px 10px; text-align:left; font-size:0.82em; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); border-bottom:1px solid var(--line)">4 · Act</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)"><strong>My loop</strong></td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">agent hits a blocker</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">calls the human</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">spoken decision</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">resumes safely</td>
+            </tr>
+            <tr class="fragment">
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)"><strong>Your loop</strong></td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">model flags a claim</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">routes it to review</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">reviewer decides</td>
+              <td style="padding:7px 10px; border-bottom:1px solid var(--paper-3)">resolve and act</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul style="font-size:0.6em; margin-top:6px">
+          <li class="fragment"><strong>When to hand off:</strong> my gate was three conditions (genuinely a human decision, unresolvable by the agent, not already settled), with reversibility over magnitude as the tiebreak. A score threshold answers the same question: which cases actually earn a reviewer. <span class="anno" style="color:var(--ink-faint); font-style:italic; font-size:0.85em">team test: name the class of case that always escalates</span></li>
+          <li class="fragment"><strong>What to hand over:</strong> my message rule was a voicemail to a busy colleague: the ask first, one line of stakes, options with consequences fused in, how to answer. No PII spoken. Worth asking of any flag: does the reviewer see the why, or just a score? <span class="anno" style="color:var(--ink-faint); font-style:italic; font-size:0.85em">team test: decidable in one read, no digging</span></li>
+          <li class="fragment"><strong>How to act on the answer:</strong> only an explicit yes naming the action approved anything irreversible; "yeah sure, you decide" was not approval, and a stop stuck. A verdict deserves the same contract: unambiguous, logged, written back so the case is not re-flagged. <span class="anno" style="color:var(--ink-faint); font-style:italic; font-size:0.85em">team test: can a vague yes ever trigger an action?</span></li>
+        </ul>
+        <p class="fragment" style="font-size:0.62em; margin-top:8px"><strong>The point:</strong> everything the challenge graded is the design problem you already own between a score and an investigator. Escalation is not an afterthought of the model. It <strong>is</strong> the product surface where the model meets the human.</p>
+      </div></section>
+
+      <!-- Asurion · pillars-fraud -->
       <section><div class="slide">
         <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
         <h2 class="slide-title">The three pillars, mapped to <em>fraud DS</em></h2>
-        <p class="muted">[placeholder] Discriminate = routing / thresholds / cost-of-error. Contextualize = the case summary a reviewer needs to decide fast. Execute safely = no blind auto-deny, no alert loops, hold state on settled cases.</p>
+        <p class="muted" style="font-size:0.6em; margin-top:0">Same shape, new domain: a model flags a claim, a reviewer decides. Each pillar becomes a rule a team can write down and test, not a claim about your stack.</p>
+        <div class="pillars">
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Discriminate</div><p>My gate: call only when the decision is genuinely the human's. The queue analog: three named buckets, auto-clear, auto-hold, needs a person. Route by cost of error, not score alone: a missed fraud costs money, a false accusation costs a customer, and the two are not symmetric.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Contextualize</div><p>My rule: a voicemail to a busy colleague. For the queue: the ask first (clear, hold, request docs), one line of stakes, each piece of evidence with its consequence fused in. Team test: can the reviewer decide without opening another tab? If not, the summary failed, not the reviewer.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Execute safely</div><p>Act on the reviewer's decision, never on a guess. An adverse action needs an explicit decision naming that claim; "looks bad" is not one. A settled case stays settled, my "a stop sticks" rule: never re-flag it. No reviewer available? Hold. Holding is cheap, a wrong denial is not.</p></div>
+        </div>
+        <p class="fragment" style="text-align:center; margin-top:10px; font-size:0.62em"><strong>The line to keep: reversibility over magnitude.</strong> A large reversible hold is the system's call; a small irreversible denial is a person's. <span class="anno">only the domain changed, the failure modes did not</span></p>
       </div></section>
 
+      <!-- Asurion · agent-vs-pipeline -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Agent, or just a <em>pipeline</em>?</h2>
+        <p class="muted" style="font-size:0.6em; margin-top:0">Not philosophy, a routing test: an agent charges latency, dollars, and an eval burden a pipeline never has.</p>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin:0 0 4px"><strong>Default: prompt or pipeline.</strong> Ship it when ALL hold:</p>
+            <ul style="font-size:0.58em">
+              <li class="fragment"><strong>Steps known in advance:</strong> you can write the control flow yourself, so write it.</li>
+              <li class="fragment"><strong>Inputs bounded:</strong> nothing at runtime has to pick a tool or a branch.</li>
+              <li class="fragment"><strong>Errors cheap:</strong> a bad output gets caught downstream, not in front of a customer.</li>
+            </ul>
+            <p style="font-size:0.6em; margin:10px 0 4px"><strong>Promote to an agent</strong> only when ALL hold:</p>
+            <ul style="font-size:0.58em">
+              <li class="fragment"><strong>Open trajectory:</strong> tools and steps get chosen at runtime; recovery means trying a different way, not rerunning the script.</li>
+              <li class="fragment"><strong>Value covers the bill:</strong> the latency, the cost, and the grading you now owe on every change.</li>
+              <li class="fragment"><strong>Then constrain it:</strong> one decision per call, an explicit tool contract (<code>{call_id, status}</code> only), hard rules it cannot vote on.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin:0 0 4px"><strong>Worked example</strong> <span class="anno">a generic fraud flow</span></p>
+            <table style="font-size:0.56em; width:100%; border-collapse:collapse">
+              <tr class="fragment"><td style="padding:4px 8px">Score the claim</td><td style="padding:4px 8px"><strong>model</strong> <span class="anno">classification, not agency</span></td></tr>
+              <tr class="fragment"><td style="padding:4px 8px">Assemble the case file</td><td style="padding:4px 8px"><strong>pipeline</strong> <span class="anno">known steps, cheap to verify</span></td></tr>
+              <tr class="fragment"><td style="padding:4px 8px">Ambiguous borderline, needs context lookup</td><td style="padding:4px 8px"><strong>maybe an agent</strong> <span class="anno">the one open trajectory</span></td></tr>
+              <tr class="fragment"><td style="padding:4px 8px">The denial itself</td><td style="padding:4px 8px"><strong>a human</strong> <span class="anno">irreversible, on a person</span></td></tr>
+            </table>
+          </div>
+        </div>
+        <p class="muted fragment" style="margin-top:8px; font-size:0.58em"><strong>Honest note from my build:</strong> the winning deliverable is mostly guidance plus plumbing around ONE tool call, not model intelligence. <span class="anno">Team rule: nothing is born an agent; everything starts as a script and earns its promotion.</span></p>
+      </div></section>
+
+      <!-- Asurion · production-principles -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Production-grade <em>from day one</em></h2>
+        <p class="muted" style="font-size:0.6em">The gap between a prototype that demos and an agent that ships, as rules a team can adopt. Each one was paid for in this build.</p>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Get right early</strong></p>
+            <ul style="font-size:0.56em">
+              <li class="fragment"><strong>Spec and scorecard before the agent:</strong> my SDD workflow. The agent is the muscle, the spec is the brain; I wrote the grading rubric before the first prompt line.</li>
+              <li class="fragment"><strong>Tool contract first:</strong> my <code>vb call</code> is async and returns only <code>{call_id, status}</code>; the agent polls for the result. The interface outlived every prompt.</li>
+              <li class="fragment"><strong>State explicit from day one:</strong> settled decisions stay settled, a stop sticks, one call per blocker. Never re-ask.</li>
+              <li class="fragment"><strong>Guardrails in the spec, not a wrapper:</strong> identity and safety in the base prompt, per-call purpose injected as context, tool results sanitized.</li>
+              <li class="fragment"><strong>Latency is a requirement,</strong> not an optimization. Budget it per turn up front <span class="anno">voice bar: under ~600 ms or the caller assumes the line died</span></li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>The classic mistakes</strong></p>
+            <ul style="font-size:0.56em">
+              <li class="fragment"><strong>Polishing the happy path:</strong> nine polished submissions did not move my score one point; visible recovery from adversarial input did.</li>
+              <li class="fragment"><strong>No eval harness:</strong> then every change is a guess, and regressions are silent.</li>
+              <li class="fragment"><strong>Underestimating the boring middle:</strong> polling, parsing, confirming, failing safe. Most of my actual work lived there.</li>
+              <li class="fragment"><strong>Prompt sprawl with no versioning:</strong> my caller prompt shipped at version six, every earlier version kept, diffable, and scored.</li>
+              <li class="fragment"><strong>Hand-edits that drift from the spec:</strong> the agent edits the spec, never me by hand, or the spec soon describes an agent that no longer exists.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted fragment" style="font-size:0.56em; margin-top:10px"><strong>The rule that enforces all of it:</strong> a fix counts only when a fresh call scores higher, not when the patch looks right.</p>
+      </div></section>
+
+      <!-- Asurion · reliability-guardrails -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Reliability & <em>guardrails</em></h2>
+        <p class="muted" style="font-size:0.6em; margin-top:0">The mechanisms that scored in my build, each phrased as a rule a team can adopt on Monday. Mechanical, testable, none of them need the model to be clever.</p>
+        <div class="cols">
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Rules of refusal</strong> <span class="anno">the agent refuses ambiguity, not work</span></p>
+            <ul style="font-size:0.58em">
+              <li class="fragment"><strong>Never-default:</strong> a bare "okay / sure / yes" in any language is not a decision. The agent acts only after hearing the actual choice, named.</li>
+              <li class="fragment"><strong>Explicit-yes for the irreversible:</strong> an adverse or breaking action needs a specific yes naming that action. "You decide" is not approval.</li>
+              <li class="fragment"><strong>Fail-safe default:</strong> on silence, garble, or a vague reply: stop, write a note naming the pending decision, never guess, never re-call the same blocker.</li>
+              <li class="fragment"><strong>Sticky stop:</strong> one stop holds for the whole session. No retry logic gets to renegotiate it two turns later.</li>
+            </ul>
+          </div>
+          <div>
+            <p style="font-size:0.6em; margin-top:0"><strong>Sensitive data stays out of the loop</strong> <span class="anno">the agent never needs the secret to do its job</span></p>
+            <ul style="font-size:0.58em">
+              <li class="fragment"><strong>Speak generically:</strong> "the production key", "the claim in question". The call needs the decision, never the value. If the job seems to require the secret, the design is wrong.</li>
+              <li class="fragment"><strong>Sanitize tool results:</strong> the call returns only <code>{call_id, status}</code>; the transcript is read separately from the logs. Transport internals never ride into the context.</li>
+              <li class="fragment"><strong>Split the prompt:</strong> identity, style, and safety live in a base prompt with no reason to call; each task arrives as an injected context block. Safety survives every task swap.</li>
+              <li class="fragment"><strong>Pin before you touch:</strong> resolve and pin the agent id before any edit or call, so you never modify, or dial, the wrong agent.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted fragment" style="font-size:0.62em; margin-top:10px"><strong>The mindset:</strong> reliability is not the model being smart. It is the system refusing to act on ambiguity.</p>
+      </div></section>
+
+      <!-- Asurion · evaluation -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Evaluating agents, <em>before and after</em></h2>
+        <p class="muted" style="font-size:0.6em">Same discipline as your fraud models: fix the metric first, then optimize against it. What I ran on this build, and what transfers.</p>
+        <div class="pillars" style="grid-template-columns:repeat(2,1fr); gap:16px">
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Before: scorecard before code</div><p style="font-size:0.6em">I wrote the grading scorecard before building, then built to it, grading <strong>end-to-end runs</strong>, not unit prompts. A fix counts only when a fresh run scores higher; the patch looking right is train-set evidence.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Two layers, one rubric</div><p style="font-size:0.6em">Hard metrics (task completion, tool-call accuracy, latency, turn duration, transcript fidelity) plus an LLM-as-judge on the full artifact. For voice the judge must <strong>hear</strong> the call: transcripts hide robotic prosody, talk-over, dead air.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> After: same rubric, live traffic</div><p style="font-size:0.6em">Quality regresses <strong>silently</strong>: no exception, no alert, just a worse run. Keep sampling real traffic and grading it against the shipped scorecard, and grade every change, however small it looks.</p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">4</span> Know what your grader rewards</div><p style="font-size:0.6em">My score froze at <strong>37/50</strong> through nine polished happy-path submissions, then jumped to <strong>49</strong> on demonstrated recovery from adversarial input. If the rubric rewards recovery, test recovery, not polish.</p></div>
+        </div>
+        <p class="muted fragment" style="font-size:0.52em; margin-top:10px">An eval you run once is a demo. An eval you run on every change, and on live traffic, is a team practice.</p>
+      </div></section>
+
+      <!-- Asurion · latency -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Latency is an <em>architecture</em> decision</h2>
+        <p class="muted" style="font-size:0.62em">"A correct answer 4 seconds late is a wrong answer." Live voice gives you about 600 ms per turn before the caller assumes the line died. That budget picks your architecture before any model choice does.</p>
+        <div class="cols">
+          <div>
+            <table style="font-size:0.56em; width:100%; border-collapse:collapse">
+              <tr>
+                <td style="padding:4px 8px"><span class="anno">path</span></td>
+                <td style="padding:4px 8px"><span class="anno">per turn</span></td>
+                <td style="padding:4px 8px"><span class="anno">the trade</span></td>
+              </tr>
+              <tr>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)"><strong>Cascaded</strong><br>STT → LLM → TTS</td>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)"><strong>1-3 s</strong></td>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)">Full LLM stack, RAG, tools, debuggable stage by stage. Discards tone at the STT boundary.</td>
+              </tr>
+              <tr>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)"><strong>Realtime</strong><br>voice-to-voice</td>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)"><strong>200-500 ms</strong></td>
+                <td style="padding:4px 8px; border-top:1px solid rgba(0,0,0,.08)">Hears prosody, natural turn-taking. Harder to steer, harder to wire to RAG and tools.</td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <ul style="font-size:0.56em">
+              <li class="fragment"><strong>Set the budget first:</strong> a human waiting live (voice, chat, agent-assist) sets a hard millisecond budget and forces this split. Batch and async scoring can let intelligence win. <span class="anno">where in your review flow does a human wait live?</span></li>
+              <li class="fragment"><strong>Concierge pattern breaks the trade-off:</strong> a fast foreground voice brain (turn-taking, acknowledgements) at 200-500 ms delegates to a background LLM only for deep reasoning.</li>
+              <li class="fragment"><strong>RULE A:</strong> never end a turn with a silent tool call. Speak a short bridge line while the slow path runs; the budget is perceptual, not computational.</li>
+              <li class="fragment"><strong>My call in this build:</strong> I shipped the slower cascaded stack deliberately, tuned turn-taking and bridged every gap. Control and English STT were worth more to me than 500 ms.</li>
+            </ul>
+          </div>
+        </div>
+      </div></section>
+
+      <!-- Asurion · voice-patterns -->
+      <section><div class="slide">
+        <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
+        <h2 class="slide-title">Voice: patterns that survive <em>real callers</em></h2>
+        <p class="muted" style="font-size:0.6em; margin-top:0">Latency, interruptions, mishearing, confirmation, language: five failure modes, five rules, each earned in my graded call.</p>
+        <table style="font-size:0.56em; width:100%; border-collapse:collapse; line-height:1.35">
+          <tr>
+            <td style="padding:3px 8px; width:15%"><span class="anno">Failure mode</span></td>
+            <td style="padding:3px 8px; width:45%"><span class="anno">The rule</span></td>
+            <td style="padding:3px 8px"><span class="anno">Where it bit in my call</span></td>
+          </tr>
+          <tr class="fragment">
+            <td style="padding:4px 8px"><strong>Dead air</strong></td>
+            <td style="padding:4px 8px">RULE A: every turn ends with speech, never a bare tool call; bridge the gap ("hang on, checking that").</td>
+            <td style="padding:4px 8px">No turn ever ended in silence; past ~600ms of dead air a caller assumes the line died.</td>
+          </tr>
+          <tr class="fragment">
+            <td style="padding:4px 8px"><strong>Interruptions</strong></td>
+            <td style="padding:4px 8px">Yield only to speech directed at the agent; background noise or a passing remark is not a barge-in.</td>
+            <td style="padding:4px 8px">Off-topic asides never derailed the pending question: acknowledge, then re-ask it.</td>
+          </tr>
+          <tr class="fragment">
+            <td style="padding:4px 8px"><strong>Misheard input</strong></td>
+            <td style="padding:4px 8px">"Ay", "bee", "eight" collide acoustically; read choices back LETTER + NAME. A garbled fragment is never upgraded to a choice.</td>
+            <td style="padding:4px 8px">Read-backs paired letter with name ("Option A, backward-compatible"); an STT slip surfaces at confirmation, not after.</td>
+          </tr>
+          <tr class="fragment">
+            <td style="padding:4px 8px"><strong>Confirmation</strong></td>
+            <td style="padding:4px 8px">Read back as a question with the consequence attached; an echo of my own words is not a yes, a hedge is not a yes. Separate spoken goodbye before hangup, never a silent drop.</td>
+            <td style="padding:4px 8px">"Sounds very good" was not a yes; the agent re-asked until an explicit "yes, Option B" landed.</td>
+          </tr>
+          <tr class="fragment">
+            <td style="padding:4px 8px"><strong>Language</strong></td>
+            <td style="padding:4px 8px">On non-English input, say plainly you only speak English and keep going; never go silent.</td>
+            <td style="padding:4px 8px">The "calimera" opener, recovered in one turn; the visible beat behind 37 to 49.</td>
+          </tr>
+        </table>
+        <p class="muted fragment" style="font-size:0.62em; margin-top:10px"><strong>The point:</strong> none of this is exotic, it is contact-center table stakes translated into prompt-enforceable rules. And a rule a prompt can enforce is a rule an eval can hear.</p>
+      </div></section>
+
+      <!-- Asurion · voice-layer-fits -->
       <section><div class="slide">
         <div class="kicker" style="color:var(--c-dl)">For Asurion</div>
         <h2 class="slide-title">Where a <em>voice layer</em> could fit</h2>
-        <p class="muted">[placeholder] Customer dispute calls, agent-assist, IVR triage, always with a human in the loop for the judgment calls.</p>
+        <p class="muted" style="font-size:0.6em; margin-top:0">Your systems are yours to judge, so read these as patterns and open questions, not prescriptions.</p>
+        <div class="pillars" style="grid-template-columns:repeat(2,1fr); gap:16px">
+          <div class="card fragment"><div class="card-h"><span class="card-n">1</span> Investigator escalation</div><p style="font-size:0.6em">The pattern I built, retargeted. A model flags a high-stakes borderline; a voice agent calls the on-call reviewer with a 30-second summary: the ask first, options with consequences fused in, no PII spoken. <span class="anno" style="font-style:italic; color:var(--ink-faint)">Discriminate + Contextualize</span></p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">2</span> Customer dispute callbacks</div><p style="font-size:0.6em">Automate the routine layer (status, evidence requests, read-back confirms) behind hard hand-off rules: any judgment call on the claim goes to a person, a vague yes is not approval, and a stop sticks. <span class="anno" style="font-style:italic; color:var(--ink-faint)">Execute safely</span></p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">3</span> Agent-assist on live calls</div><p style="font-size:0.6em">Context whispered to the human agent, not a replacement for them. It has to land in time to matter: a correct answer 4 seconds late is a wrong answer. <span class="anno" style="font-style:italic; color:var(--ink-faint)">Contextualize</span></p></div>
+          <div class="card fragment"><div class="card-h"><span class="card-n">4</span> IVR that knows when not to be one</div><p style="font-size:0.6em">Detect "this needs a person" early and hand off carrying the context gathered so far, instead of trapping the caller in menus. Is escalation an outcome you measure, or a failure you hide? <span class="anno" style="font-style:italic; color:var(--ink-faint)">Discriminate</span></p></div>
+        </div>
+        <p class="muted fragment" style="font-size:0.62em; margin-top:10px"><strong>In all four, the human stays the decision-maker.</strong> The agent's job is to make the hand-off fast, contextual, and safe.</p>
       </div></section>
 
       <section><div class="slide">
