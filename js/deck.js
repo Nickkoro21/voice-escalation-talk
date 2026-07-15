@@ -19,6 +19,7 @@
     { s:'Intro',       t:'Who I am' },
     { s:'Intro',       t:'Where I am' },
     { s:'Intro',       t:'The winning call (play the video)' },
+    { s:'Intro',       t:'Your agent got stuck, so it called you' },
     { s:'Intro',       t:'The loop: blocked, call, decide, resume' },
     { s:'Intro',       t:'The challenge and how it was scored' },
     { s:'Context',     t:'The voice agent universe' },
