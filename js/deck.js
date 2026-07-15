@@ -56,7 +56,7 @@
     { s:'Asurion',     t:'Latency is an architecture decision', hide:true },
     { s:'Asurion',     t:'Voice: patterns that survive real callers', hide:true },
     { s:'Asurion',     t:'Where a voice layer could fit', hide:true },
-    { s:'Asurion',     t:'Your questions (placeholder)', hide:true },
+    { s:'Asurion',     t:'Over to you (discussion prompts)', hide:true },
     { s:'Closing',     t:'Thank you · Discussion & questions' },
     { s:'Backup',      t:'The full SKILL', hide:true },
     { s:'Backup',      t:'The caller prompt', hide:true },
